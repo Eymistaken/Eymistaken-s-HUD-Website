@@ -35,6 +35,23 @@
                 dependent mods.</p>
         </section>
 
+        <section id="dependency" class="glass" style="padding: 2rem; margin-top: 2rem;">
+            <h3>Adding the Dependency</h3>
+            <p>To access the API classes and compile your mod against Eymistaken's HUD, you can easily use
+                <strong>JitPack</strong>. Just add the following lines to your <code>build.gradle</code> file:</p>
+
+            <pre><code>repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    // com.github.Username:Repo:Tag
+    modImplementation 'com.github.Eymistaken:SimpleCPS:v1.0.9-1' 
+}</code></pre>
+            <p>Once you reload your gradle project, all API classes like <code>HudModule</code> will be available in
+                your development environment.</p>
+        </section>
+
         <section id="implementing-module" class="glass" style="padding: 2rem; margin-top: 2rem;">
             <h3>Creating a Custom Module</h3>
             <p>Every element displayed on the screen is required to inherit from the base <code>HudModule</code> class
