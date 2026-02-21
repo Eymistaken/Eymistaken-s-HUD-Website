@@ -225,4 +225,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 downloadsBadge.title = "Failed to fetch data";
             });
     }
+
+    // GitHub'dan En Son Sürümü Çekme
+    const dynamicVersionSpan = document.getElementById('dynamic-version');
+    if (dynamicVersionSpan) {
+        fetch('https://api.github.com/repos/Eymistaken/Eymistaken-s-HUD/releases/latest')
+            .then(response => {
+                if (!response.ok) throw new Error('GitHub API hatası');
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.tag_name) {
+                    // "v1.0.9-1" gibi olan etiketi doğrudan koda yazdırıyoruz
+                    dynamicVersionSpan.textContent = data.tag_name;
+                }
+            })
+            .catch(error => {
+                console.error('Sürüm bilgisi çekilemedi:', error);
+                // Hata olursa varsayılan sürüm ekranda kalmaya devam eder
+            });
+    }
 });
