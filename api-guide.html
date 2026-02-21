@@ -119,6 +119,56 @@ public class MyCustomModule extends HudModule {
             </div>
         </section>
 
+        <section id="editor-integration" class="glass" style="padding: 2rem; margin-top: 2rem;">
+            <h3>HUD Editor Integration (Drag & Drop)</h3>
+            <p>To allow users to drag, drop, scale, and reset your custom module using the in-game HUD Editor, you must
+                override the optional setter methods. <strong>Crucial:</strong> You must save these provided values to
+                your <em>own mod's configuration file</em>, not to SimpleCPSConfig!</p>
+
+            <pre><code>import com.eymistaken.simplecps.SimpleCPSConfig;
+
+// Inside your MyCustomModule class:
+
+@Override
+public void setPositionType(SimpleCPSConfig.Position pos) {
+    MyAddonConfig.anchor = pos; // Save to YOUR config
+}
+
+@Override
+public void setXOffset(int x) {
+    MyAddonConfig.xOffset = x; 
+}
+
+@Override
+public void setYOffset(int y) {
+    MyAddonConfig.yOffset = y; 
+}
+
+@Override
+public void setScale(int scale) {
+    MyAddonConfig.scale = scale; 
+}
+
+@Override
+public int getScale() {
+    return MyAddonConfig.scale; // Return from YOUR config
+}
+
+@Override
+public void resetToDefaults() {
+    // Called when the user right-clicks your module in the editor
+    MyAddonConfig.anchor = SimpleCPSConfig.Position.TOP_LEFT;
+    MyAddonConfig.xOffset = 0;
+    MyAddonConfig.yOffset = 0;
+    MyAddonConfig.scale = 100;
+}</code></pre>
+
+            <div class="callout warning" style="margin-top: 1rem;">
+                <p><strong>Remember:</strong> If you do not override these methods, your module will still render
+                    perfectly, but players will not be able to move or scale it via the HUD Editor.</p>
+            </div>
+        </section>
+
         <section id="registering-plugin" class="glass" style="padding: 2rem; margin-top: 2rem;">
             <h3>Registering the Plugin</h3>
             <p>To register your modules, you must expose an entrypoint implementing the <code>EymistakenHudPlugin</code>
