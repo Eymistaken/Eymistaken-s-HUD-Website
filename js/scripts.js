@@ -161,9 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (downloadsBadge && downloadsSpan) {
         Promise.all([
-            fetch('https://api.modrinth.com/v2/project/eymistakenshud')
+            fetch('https://api.modrinth.com/v2/project/eymistakenshud', { cache: 'no-store' })
                 .then(res => res.ok ? res.json() : Promise.reject('Modrinth API Error')),
-            fetch('https://api.cfwidget.com/minecraft/mc-mods/eymistakenshud')
+            fetch('https://api.cfwidget.com/minecraft/mc-mods/eymistakenshud', { cache: 'no-store' })
                 .then(res => res.ok ? res.json() : Promise.reject('CurseForge API Error'))
         ])
             .then(([modrinthData, cfData]) => {
