@@ -6,6 +6,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Guide - Eymistaken's HUD</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Prism.js Syntax Highlighting Theme (Okaidia - resembles One Dark) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        /* Developer Ergonomics Theme Override for API Guide */
+        body {
+            background-color: #282c34;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #abb2bf;
+        }
+
+        .glass {
+            background: rgba(33, 37, 43, 0.8);
+            /* Darker, solid-ish background for cards */
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .glass::before {
+            display: none;
+            /* Remove side glow line */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #e06c75;
+            /* Soft red/pink for headings */
+            text-shadow: none;
+            letter-spacing: 1px;
+        }
+
+        h2::after {
+            background: #c678dd;
+            /* Soft purple underline */
+            box-shadow: none;
+        }
+
+        header h1 {
+            color: #61afef;
+            /* Blue header */
+            text-shadow: none;
+        }
+
+        header {
+            background-color: rgba(40, 44, 52, 0.95);
+            background-image: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: #abb2bf;
+            text-shadow: none;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #98c379;
+            /* Soft green */
+            text-shadow: none;
+        }
+
+        nav a.active::after {
+            background: #98c379;
+            box-shadow: none;
+        }
+
+        p {
+            color: #abb2bf;
+        }
+
+        a,
+        a:hover {
+            color: #61afef;
+            text-shadow: none;
+        }
+
+        /* Override callouts */
+        .callout {
+            background-color: rgba(229, 192, 123, 0.1);
+            border-left-color: #e5c07b;
+        }
+
+        .callout::before {
+            color: #e5c07b;
+            border-color: #e5c07b;
+            box-shadow: none;
+            background: #282c34;
+        }
+
+        .callout.warning {
+            background-color: rgba(224, 108, 117, 0.1);
+            border-left-color: #e06c75;
+        }
+
+        .callout.warning::before {
+            color: #e06c75;
+            border-color: #e06c75;
+            box-shadow: none;
+        }
+
+        footer {
+            background: #21252b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,42 +135,46 @@
     </header>
 
     <main>
-        <h2>Developer API Guide</h2>
-        <p>Eymistaken's HUD 1.21.11 was engineered with extensive modularity in mind. Through the
+        <h2 class="stagger-reveal" style="animation-delay: 0.1s;">Developer API Guide</h2>
+        <p class="stagger-reveal" style="animation-delay: 0.2s;">Eymistaken's HUD 1.21.11 was engineered with extensive
+            modularity in mind. Through the
             <code>EymistakenHudPlugin</code> API, developers can inject their own custom modules seamlessly into the HUD
             rendering and ticking engines without modifying the core mod directly.
         </p>
 
-        <section id="architecture" class="glass" style="padding: 2rem; margin-top: 2rem;">
+        <section id="architecture" class="glass stagger-reveal"
+            style="animation-delay: 0.3s; padding: 2rem; margin-top: 2rem;">
             <h3>Modular Architecture</h3>
             <p>The entire HUD system is orchestrated by the <code>HudModuleManager</code>. When the game launches, it
                 registers the core modules. Thanks to Fabric Entrypoints, you can register secondary plugins loaded from
                 dependent mods.</p>
         </section>
 
-        <section id="dependency" class="glass" style="padding: 2rem; margin-top: 2rem;">
+        <section id="dependency" class="glass stagger-reveal"
+            style="animation-delay: 0.4s; padding: 2rem; margin-top: 2rem;">
             <h3>Adding the Dependency</h3>
             <p>To access the API classes and compile your mod against Eymistaken's HUD, you can easily use
                 <strong>JitPack</strong>. Just add the following lines to your <code>build.gradle</code> file:
             </p>
 
-            <pre><code>repositories {
+            <pre class="keep-markup"><code class="language-groovy">repositories {
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color: #1bd96a; font-weight: 600; text-decoration: none;" title="View Latest Release">v1.0.9-1</a>' 
+    modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color: #98c379; font-weight: 700; text-decoration: underline; background: rgba(152, 195, 121, 0.15); padding: 0 4px; border-radius: 4px;" title="View Latest Release">v1.0.9-1</a>' 
 }</code></pre>
             <p>Once you reload your gradle project, all API classes like <code>HudModule</code> will be available in
                 your development environment.</p>
         </section>
 
-        <section id="implementing-module" class="glass" style="padding: 2rem; margin-top: 2rem;">
+        <section id="implementing-module" class="glass stagger-reveal"
+            style="animation-delay: 0.5s; padding: 2rem; margin-top: 2rem;">
             <h3>Creating a Custom Module</h3>
             <p>Every element displayed on the screen is required to inherit from the base <code>HudModule</code> class
                 overriding its methods. Here is everything you need to implement:</p>
 
-            <pre><code>import com.eymistaken.simplecps.api.HudModule;
+            <pre><code class="language-java">import com.eymistaken.simplecps.api.HudModule;
 import com.eymistaken.simplecps.SimpleCPSConfig;
 import net.minecraft.client.gui.DrawContext;
 
@@ -119,13 +236,14 @@ public class MyCustomModule extends HudModule {
             </div>
         </section>
 
-        <section id="editor-integration" class="glass" style="padding: 2rem; margin-top: 2rem;">
+        <section id="editor-integration" class="glass stagger-reveal"
+            style="animation-delay: 0.6s; padding: 2rem; margin-top: 2rem;">
             <h3>HUD Editor Integration (Drag & Drop)</h3>
             <p>To allow users to drag, drop, scale, and reset your custom module using the in-game HUD Editor, you must
                 override the optional setter methods. <strong>Crucial:</strong> You must save these provided values to
                 your <em>own mod's configuration file</em>, not to SimpleCPSConfig!</p>
 
-            <pre><code>import com.eymistaken.simplecps.SimpleCPSConfig;
+            <pre><code class="language-java">import com.eymistaken.simplecps.SimpleCPSConfig;
 
 // Inside your MyCustomModule class:
 
@@ -169,13 +287,14 @@ public void resetToDefaults() {
             </div>
         </section>
 
-        <section id="registering-plugin" class="glass" style="padding: 2rem; margin-top: 2rem;">
+        <section id="registering-plugin" class="glass stagger-reveal"
+            style="animation-delay: 0.7s; padding: 2rem; margin-top: 2rem;">
             <h3>Registering the Plugin</h3>
             <p>To register your modules, you must expose an entrypoint implementing the <code>EymistakenHudPlugin</code>
                 interface inside your fabric.mod.json configuration.</p>
 
             <p>Implementation class:</p>
-            <pre><code>import com.eymistaken.simplecps.api.EymistakenHudPlugin;
+            <pre><code class="language-java">import com.eymistaken.simplecps.api.EymistakenHudPlugin;
 import com.eymistaken.simplecps.HudModuleManager;
 
 public class MyPluginInit implements EymistakenHudPlugin {
@@ -186,7 +305,7 @@ public class MyPluginInit implements EymistakenHudPlugin {
 }</code></pre>
 
             <p><code>fabric.mod.json</code> setup:</p>
-            <pre><code>"entrypoints": {
+            <pre><code class="language-json">"entrypoints": {
   "eymistaken_hud": [
     "com.myname.myaddon.MyPluginInit"
   ]
@@ -204,6 +323,14 @@ public class MyPluginInit implements EymistakenHudPlugin {
     </footer>
 
     <script src="js/scripts.js"></script>
+    <!-- Prism.js Core & Languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-groovy.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <!-- Prism Keep Markup Plugin to preserve custom links inside code blocks -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/keep-markup/prism-keep-markup.min.js"></script>
 </body>
 
 </html>

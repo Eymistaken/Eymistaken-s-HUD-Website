@@ -153,78 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Live Downloads Counter Fetch
-    const downloadsBadge = document.getElementById('downloads-badge');
-    const downloadsSpan = document.getElementById('total-downloads');
-    const modrinthCountSpan = document.getElementById('modrinth-count');
-    const curseforgeCountSpan = document.getElementById('curseforge-count');
-
-    if (downloadsBadge && downloadsSpan) {
-        Promise.all([
-            fetch('https://api.modrinth.com/v2/project/eymistakenshud', { cache: 'no-store' })
-                .then(res => res.ok ? res.json() : Promise.reject('Modrinth API Error')),
-            fetch('https://api.cfwidget.com/minecraft/mc-mods/eymistakenshud', { cache: 'no-store' })
-                .then(res => res.ok ? res.json() : Promise.reject('CurseForge API Error'))
-        ])
-            .then(([modrinthData, cfData]) => {
-                const modrinthDownloads = modrinthData.downloads || 0;
-                const cfDownloads = cfData.downloads?.total || 0;
-                const total = modrinthDownloads + cfDownloads;
-
-                // Format to nearest 1000+ or 100+
-                let displayTotal = total;
-                if (total >= 1000) {
-                    displayTotal = `${Math.floor(total / 1000) * 1000}+`;
-                } else if (total >= 100) {
-                    displayTotal = `${Math.floor(total / 100) * 100}+`;
-                }
-
-                const exactTotalStr = total.toLocaleString();
-
-                downloadsSpan.textContent = displayTotal;
-                downloadsBadge.removeAttribute('title');
-
-                // Hover Event to show exact total
-                downloadsBadge.addEventListener('mouseenter', () => {
-                    if (!downloadsBadge.classList.contains('expanded')) {
-                        downloadsSpan.textContent = exactTotalStr;
-                    }
-                });
-
-                downloadsBadge.addEventListener('mouseleave', () => {
-                    if (!downloadsBadge.classList.contains('expanded')) {
-                        downloadsSpan.textContent = displayTotal;
-                    }
-                });
-
-                // Set exact numbers in the popup card
-                if (modrinthCountSpan) modrinthCountSpan.textContent = modrinthDownloads.toLocaleString();
-                if (curseforgeCountSpan) curseforgeCountSpan.textContent = cfDownloads.toLocaleString();
-
-                // Click Event to toggle inline expansion
-                downloadsBadge.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevents click outside listener immediately closing it
-                    const isExpanded = downloadsBadge.classList.toggle('expanded');
-
-                    if (!isExpanded) {
-                        downloadsSpan.textContent = displayTotal;
-                    }
-                });
-
-                // Close expansion when clicking anywhere else
-                document.addEventListener('click', (e) => {
-                    if (!downloadsBadge.contains(e.target) && downloadsBadge.classList.contains('expanded')) {
-                        downloadsBadge.classList.remove('expanded');
-                        downloadsSpan.textContent = displayTotal;
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Failed to fetch downloads:', error);
-                downloadsSpan.textContent = "Data unavailable";
-                downloadsBadge.title = "Failed to fetch data";
-            });
-    }
+    // Live Downloads Tracking removed as per user request.
 
     // GitHub'dan En Son Sürümü Çekme
     const dynamicVersionSpan = document.getElementById('dynamic-version');
