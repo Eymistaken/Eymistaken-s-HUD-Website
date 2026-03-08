@@ -287,6 +287,111 @@ public void resetToDefaults() {
             </div>
         </section>
 
+        <section id="context-menu-settings" class="glass stagger-reveal"
+            style="animation-delay: 0.65s; padding: 2rem; margin-top: 2rem;">
+            <h3>Context Menu Settings</h3>
+            <p>When a player right-clicks your module in the HUD Editor, a context menu appears. By default, it contains
+                <strong>Reset Position</strong> and <strong>Reset Settings</strong> actions. You can extend this menu
+                with
+                your own settings by overriding <code>getContextMenuSettings()</code> in your module class.
+            </p>
+
+            <p>Five setting types are available under <code>com.eymistaken.simplecps.api</code>:</p>
+
+            <ul style="margin: 0 0 1.5rem 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 2;">
+                <li><code>BooleanSetting</code> — displays an <strong style="color: #98c379;">[ON]</strong> / <strong
+                        style="color: #e06c75;">[OFF]</strong> toggle</li>
+                <li><code>ColorSetting</code> — displays a color swatch, opens the Color Picker on click</li>
+                <li><code>TextSetting</code> — displays the current value, opens an inline text input on click</li>
+                <li><code>CycleSetting</code> — cycles through a predefined list of options on click</li>
+                <li><code>ActionSetting</code> — a plain clickable action with no value display</li>
+            </ul>
+
+            <p>Override <code>getContextMenuSettings()</code> and return a list of settings. Each setting takes a
+                <strong>label</strong> shown in the menu and getter/setter/action lambdas tied to your own config:
+            </p>
+
+            <pre><code class="language-java">import com.eymistaken.simplecps.api.HudModuleSetting;
+import com.eymistaken.simplecps.api.BooleanSetting;
+import com.eymistaken.simplecps.api.ColorSetting;
+import com.eymistaken.simplecps.api.TextSetting;
+import com.eymistaken.simplecps.api.CycleSetting;
+import com.eymistaken.simplecps.api.ActionSetting;
+
+import java.util.List;
+import java.util.Arrays;
+
+// Inside your MyCustomModule class:
+
+@Override
+public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
+    List&lt;HudModuleSetting&gt; settings = new java.util.ArrayList&lt;&gt;(super.getContextMenuSettings());
+
+    // Toggle — shown as [ON] / [OFF]
+    settings.add(new BooleanSetting("Enable My Module",
+        () -&gt; MyAddonConfig.enabled,
+        val -&gt; { MyAddonConfig.enabled = val; MyAddonConfig.save(); }
+    ));
+
+    // Color — opens Color Picker on click
+    settings.add(new ColorSetting("Text Color",
+        () -&gt; MyAddonConfig.textColor,
+        color -&gt; { MyAddonConfig.textColor = color; MyAddonConfig.save(); }
+    ));
+
+    // Text — opens inline input on click
+    settings.add(new TextSetting("Suffix Text",
+        () -&gt; MyAddonConfig.suffix,
+        val -&gt; { MyAddonConfig.suffix = val; MyAddonConfig.save(); }
+    ));
+
+    // Cycle — clicks through options
+    settings.add(new CycleSetting("Display Mode",
+        Arrays.asList("Compact", "Full", "Minimal"),
+        () -&gt; MyAddonConfig.displayModeIndex,
+        idx -&gt; { MyAddonConfig.displayModeIndex = idx; MyAddonConfig.save(); }
+    ));
+
+    // Action — plain button, no value
+    settings.add(new ActionSetting("Reset My Settings", () -&gt; {
+        MyAddonConfig.resetVisuals();
+        MyAddonConfig.save();
+    }));
+
+    return settings;
+}</code></pre>
+
+            <div class="callout" style="margin-top: 1.5rem;">
+                <p><strong>Tip:</strong> Call <code>super.getContextMenuSettings()</code> and wrap it in a new
+                    <code>ArrayList</code> to preserve the default <strong>Reset Position</strong> and
+                    <strong>Reset Settings</strong> actions at the top of the menu. Skip the <code>super</code> call
+                    only if you intentionally want to replace the defaults entirely.
+                </p>
+            </div>
+
+            <p style="margin-top: 1.5rem;">You can also override <code>resetVisualDefaults()</code> to define what
+                <strong>Reset Settings</strong> actually does for your module. This method is called by the default
+                <code>ActionSetting</code> provided by the base class. It should reset all visual and behavioral config
+                fields — but <strong>never</strong> the module's enabled state or its position/offset values:
+            </p>
+
+            <pre><code class="language-java">@Override
+public void resetVisualDefaults() {
+    MyAddonConfig.textColor = 0xFFFFFF;
+    MyAddonConfig.suffix = "";
+    MyAddonConfig.displayModeIndex = 0;
+    MyAddonConfig.save();
+}</code></pre>
+
+            <div class="callout warning" style="margin-top: 1rem;">
+                <p><strong>Remember:</strong> Never reset <code>enabled</code>, position, offsets, or scale inside
+                    <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset
+                        Position</strong>,
+                    and toggling the module on or off should always remain the player's choice.
+                </p>
+            </div>
+        </section>
+
         <section id="registering-plugin" class="glass stagger-reveal"
             style="animation-delay: 0.7s; padding: 2rem; margin-top: 2rem;">
             <h3>Registering the Plugin</h3>
