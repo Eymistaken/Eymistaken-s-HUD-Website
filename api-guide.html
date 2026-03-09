@@ -305,6 +305,8 @@ public void resetToDefaults() {
                 <li><code>TextSetting</code> — displays the current value, opens an inline text input on click</li>
                 <li><code>CycleSetting</code> — cycles through a predefined list of options on click</li>
                 <li><code>ActionSetting</code> — a plain clickable action with no value display</li>
+                <li><code>SliderSetting</code> — displays a draggable slider bar with a live value label and a Reset
+                    button; accepts <code>min</code>, <code>max</code>, and <code>defaultValue</code></li>
             </ul>
 
             <p>Override <code>getContextMenuSettings()</code> and return a list of settings. Each setting takes a
@@ -317,6 +319,7 @@ import com.eymistaken.simplecps.api.ColorSetting;
 import com.eymistaken.simplecps.api.TextSetting;
 import com.eymistaken.simplecps.api.CycleSetting;
 import com.eymistaken.simplecps.api.ActionSetting;
+import com.eymistaken.simplecps.api.SliderSetting;
 
 import java.util.List;
 import java.util.Arrays;
@@ -357,6 +360,13 @@ public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
         MyAddonConfig.resetVisuals();
         MyAddonConfig.save();
     }));
+
+    // Slider — drag to adjust int values; Reset button restores defaultValue
+    settings.add(new SliderSetting("Scale %",
+        50, 300, 100,
+        () -&gt; MyAddonConfig.scale,
+        val -&gt; { MyAddonConfig.scale = val; MyAddonConfig.save(); }
+    ));
 
     return settings;
 }</code></pre>
