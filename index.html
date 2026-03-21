@@ -111,14 +111,14 @@
                          style="image-rendering:pixelated;filter:drop-shadow(0 0 14px rgba(85,255,85,0.3));"
                          onerror="this.style.display='none'">
                 </div>
-                <div class="font-head text-[9px] uppercase tracking-[0.2em] text-muted mb-3">// HUD PREVIEW — click to interact</div>
+                <div class="font-head text-[9px] uppercase tracking-[0.2em] text-muted mb-3">// HUD PREVIEW</div>
 
                 <!-- CPS live -->
                 <div id="cps-row" class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-1">
                     <span class="font-head text-[10px] uppercase tracking-widest text-muted">CPS</span>
                     <span id="cps-display" class="font-head text-green font-bold text-base">0 | 0</span>
                 </div>
-                <div class="font-head text-[8px] text-muted/40 text-right mb-2 pr-1">L | R — click anywhere to test</div>
+
 
                 <!-- FPS / PING static -->
                 <div class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-1">
@@ -133,9 +133,7 @@
                 <!-- COMBO interactive -->
                 <div id="combo-parent" class="bg-surf-high px-3 py-2.5 mb-1 cursor-default">
                     <div id="combo-row" class="flex justify-between items-center">
-                        <span class="font-head text-[10px] uppercase tracking-widest text-muted">
-                            COMBO <span class="opacity-40 normal-case" style="font-size:7px;">hover for targets</span>
-                        </span>
+                        <span class="font-head text-[10px] uppercase tracking-widest text-muted">COMBO</span>
                         <span id="combo-display" class="font-head font-bold text-base" style="color:#e5e2e1;transition:color 0.2s">0 Combo</span>
                     </div>
                     <div id="combo-area" style="position:relative;height:0;overflow:hidden;transition:height 0.2s ease, margin-top 0.2s ease;margin-top:0;"></div>
@@ -148,7 +146,6 @@
                 </div>
 
                 <!-- KEYSTROKES functional -->
-                <div class="font-head text-[8px] uppercase tracking-widest text-muted/50 mb-2">// KEYSTROKES — press keys</div>
                 <div>
                     <div style="display:flex;gap:2px;margin-bottom:2px;padding-left:22px;">
                         <div id="key-W"     class="key-btn" style="width:20px;height:20px;font-size:8px;">W</div>
@@ -292,9 +289,8 @@
 <script src="js/scripts.js"></script>
 <script>
 (function(){
-    // ── Prevent right-click context menu on preview card ──────
-    document.getElementById('hud-preview')
-        .addEventListener('contextmenu', e => e.preventDefault());
+    // ── Prevent right-click context menu on entire page ──────
+    document.addEventListener('contextmenu', e => e.preventDefault());
 
     // ── Live CPS ─────────────────────────────────────────────
     const lArr = [], rArr = [];
