@@ -1,180 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Guide - Eymistaken's HUD</title>
+    <title>API Guide — Eymistaken's HUD</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- Prism.js Syntax Highlighting Theme (Okaidia - resembles One Dark) -->
+    <!-- Prism.js -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'bg':        '#131313', 'bg-low':    '#0e0e0e',
+                        'surf':      '#1c1b1b', 'surf-high': '#2a2a2a', 'surf-top': '#353534',
+                        'green':     '#55FF55', 'green-dim': '#33e43d',
+                        'teal':      '#49f6f6', 'teal-dim':  '#0edcdd',
+                        'muted':     '#bbcbb3', 'on-surf':   '#e5e2e1', 'outline': '#3c4b38',
+                    },
+                    fontFamily: { head: ['Space Grotesk','sans-serif'], body: ['Inter','sans-serif'] },
+                    borderRadius: { DEFAULT:'0px', lg:'0px', xl:'0px', full:'9999px' },
+                }
+            }
+        };
+    </script>
     <style>
-        /* Developer Ergonomics Theme Override for API Guide */
-        body {
-            background-color: #282c34;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: #abb2bf;
+        body { font-family: 'Inter', sans-serif; }
+        .font-head { font-family: 'Space Grotesk', sans-serif; }
+
+        /* Section card */
+        .api-section {
+            background: #1c1b1b;
+            border: 1px solid rgba(60,75,56,0.4);
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .glass {
-            background: rgba(33, 37, 43, 0.8);
-            /* Darker, solid-ish background for cards */
-            border-color: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        .api-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #49f6f6;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(60,75,56,0.5);
         }
 
-        .glass::before {
-            display: none;
-            /* Remove side glow line */
-        }
+        .api-section p { color: #bbcbb3; margin-bottom: 1rem; line-height: 1.7; }
+        .api-section ul { color: #bbcbb3; margin: 0 0 1.5rem 1.5rem; line-height: 2.2; font-size: 1rem; }
+        .api-section li code { color: #49f6f6; }
 
-        h1,
-        h2,
-        h3,
-        h4 {
-            color: #e06c75;
-            /* Soft red/pink for headings */
-            text-shadow: none;
-            letter-spacing: 1px;
-        }
-
-        h2::after {
-            background: #c678dd;
-            /* Soft purple underline */
-            box-shadow: none;
-        }
-
-        header h1 {
-            color: #61afef;
-            /* Blue header */
-            text-shadow: none;
-        }
-
-        header {
-            background-color: rgba(40, 44, 52, 0.95);
-            background-image: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        nav a {
-            color: #abb2bf;
-            text-shadow: none;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #98c379;
-            /* Soft green */
-            text-shadow: none;
-        }
-
-        nav a.active::after {
-            background: #98c379;
-            box-shadow: none;
-        }
-
-        p {
-            color: #abb2bf;
-        }
-
-        a,
-        a:hover {
-            color: #61afef;
-            text-shadow: none;
-        }
-
-        /* Override callouts */
-        .callout {
-            background-color: rgba(229, 192, 123, 0.1);
-            border-left-color: #e5c07b;
-        }
-
-        .callout::before {
-            color: #e5c07b;
-            border-color: #e5c07b;
-            box-shadow: none;
-            background: #282c34;
-        }
-
-        .callout.warning {
-            background-color: rgba(224, 108, 117, 0.1);
-            border-left-color: #e06c75;
-        }
-
-        .callout.warning::before {
-            color: #e06c75;
-            border-color: #e06c75;
-            box-shadow: none;
-        }
-
-        footer {
-            background: #21252b;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: none;
-        }
+        strong { color: #e5e2e1; }
+        em     { color: #55FF55; font-style: normal; }
     </style>
 </head>
+<body class="bg-bg text-on-surf min-h-screen">
 
-<body>
-    <header class="glass">
-        <h1>Eymistaken's HUD</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="user-guide.html">User Guide</a></li>
-                <li><a href="api-guide.html" class="active">API Guide</a></li>
-                <li><a href="downloads.html">Downloads</a></li>
-            </ul>
-        </nav>
-    </header>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-bg-low border-b border-outline/30 flex items-center justify-between px-8 py-4">
+    <a href="index.html" class="font-head text-teal font-bold text-xl tracking-tighter uppercase">Eymistaken's HUD</a>
+    <div class="hidden md:flex items-center gap-8">
+        <a href="index.html"      data-page="index.html"      class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Home</a>
+        <a href="user-guide.html" data-page="user-guide.html" class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">User Guide</a>
+        <a href="api-guide.html"  data-page="api-guide.html"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">API Guide</a>
+        <a href="downloads.html"  data-page="downloads.html"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Downloads</a>
+    </div>
+    <a href="downloads.html" class="bg-green text-bg-low px-6 py-2 font-head font-bold text-xs uppercase tracking-widest hover:bg-green-dim transition-colors">GET STARTED</a>
+</nav>
 
-    <main>
-        <h2 class="stagger-reveal" style="animation-delay: 0.1s;">Developer API Guide</h2>
-        <p class="stagger-reveal" style="animation-delay: 0.2s;">Eymistaken's HUD 1.21.11 was engineered with extensive
-            modularity in mind. Through the
-            <code>EymistakenHudPlugin</code> API, developers can inject their own custom modules seamlessly into the HUD
-            rendering and ticking engines without modifying the core mod directly.
-        </p>
+<!-- PAGE HEADER -->
+<div class="bg-bg-low border-b border-outline/20 dot-grid py-16 px-8 md:px-24">
+    <div class="max-w-7xl mx-auto">
+        <div class="font-head text-[10px] uppercase tracking-[0.25em] text-teal mb-4">// FOR DEVELOPERS</div>
+        <h1 class="font-head text-5xl md:text-6xl font-bold tracking-tighter uppercase text-on-surf mb-4">API Guide</h1>
+        <p class="text-muted max-w-xl">Eymistaken's HUD was engineered with extensibility at its core. Use the <code>EymistakenHudPlugin</code> API to inject custom modules seamlessly into the HUD rendering and ticking engines — no core modification required.</p>
+    </div>
+</div>
 
-        <section id="architecture" class="glass stagger-reveal"
-            style="animation-delay: 0.3s; padding: 2rem; margin-top: 2rem;">
-            <h3>Modular Architecture</h3>
-            <p>The entire HUD system is orchestrated by the <code>HudModuleManager</code>. When the game launches, it
-                registers the core modules. Thanks to Fabric Entrypoints, you can register secondary plugins loaded from
-                dependent mods.</p>
-        </section>
+<main class="max-w-5xl mx-auto px-8 py-16">
 
-        <section id="dependency" class="glass stagger-reveal"
-            style="animation-delay: 0.4s; padding: 2rem; margin-top: 2rem;">
-            <h3>Adding the Dependency</h3>
-            <p>To access the API classes and compile your mod against Eymistaken's HUD, you can easily use
-                <strong>JitPack</strong>. Just add the following lines to your <code>build.gradle</code> file:
-            </p>
+    <!-- ── Horizontal section nav (visible at top) ── -->
+    <div id="jump-bar" class="bg-surf-high border border-outline/30 p-5 mb-10 flex flex-wrap gap-x-8 gap-y-2">
+        <span class="font-head text-[10px] uppercase tracking-widest text-teal self-center shrink-0">JUMP TO:</span>
+        <a href="#architecture"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Architecture</a>
+        <a href="#dependency"          class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Dependency</a>
+        <a href="#implementing-module" class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Creating a Module</a>
+        <a href="#editor-integration"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">HUD Editor</a>
+        <a href="#context-menu"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Context Menu</a>
+        <a href="#registering"         class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Registering</a>
+    </div>
 
-            <pre class="keep-markup"><code class="language-groovy">repositories {
+    <!-- ── Sticky vertical sidebar ── -->
+    <nav id="side-nav" style="
+        position:fixed; top:50%; left:0; transform:translateY(-50%);
+        z-index:40; opacity:0; pointer-events:none;
+        transition:opacity 0.3s ease;
+        background:#0e0e0e; border-right:2px solid #3c4b38;
+        padding:12px 0;
+    ">
+        <!-- teal indicator strip -->
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#49f6f6;pointer-events:none;"></div>
+
+        <div id="side-nav-inner" style="width:36px;overflow:hidden;transition:width 0.22s cubic-bezier(0.2,0.8,0.2,1);">
+            <div style="padding:6px 0 6px 10px;min-width:160px;">
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:0.2em;color:#49f6f6;white-space:nowrap;opacity:0;transition:opacity 0.15s;" class="side-label">JUMP TO</span>
+            </div>
+            <a href="#architecture"        class="side-link side-label">Architecture</a>
+            <a href="#dependency"          class="side-link side-label">Dependency</a>
+            <a href="#implementing-module" class="side-link side-label">Creating a Module</a>
+            <a href="#editor-integration"  class="side-link side-label">HUD Editor</a>
+            <a href="#context-menu"        class="side-link side-label">Context Menu</a>
+            <a href="#registering"         class="side-link side-label">Registering</a>
+        </div>
+    </nav>
+
+    <style>
+        .side-link {
+            display:block; padding:7px 10px 7px 12px; min-width:160px;
+            font-family:'Space Grotesk',sans-serif;
+            font-size:9px; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.12em;
+            color:#bbcbb3; text-decoration:none;
+            white-space:nowrap; border-left:0px solid transparent;
+            transition:color 0.15s, background 0.15s;
+            opacity:0; transition:color 0.15s, background 0.15s, opacity 0.15s;
+        }
+        .side-link:hover  { color:#55FF55; background:rgba(85,255,85,0.05); }
+        .side-link.active { color:#49f6f6; }
+        .side-label.visible { opacity:1 !important; }
+    </style>
+    <script>
+    (function(){
+        const jumpBar = document.getElementById('jump-bar');
+        const sideNav = document.getElementById('side-nav');
+        const inner   = document.getElementById('side-nav-inner');
+        const labels  = document.querySelectorAll('.side-label');
+        const sections= ['architecture','dependency','implementing-module','editor-integration','context-menu','registering'];
+
+        // Show/hide sidebar when jump-bar leaves viewport
+        new IntersectionObserver(entries => {
+            const visible = entries[0].isIntersecting;
+            sideNav.style.opacity       = visible ? '0' : '1';
+            sideNav.style.pointerEvents = visible ? 'none' : 'auto';
+        }, { threshold:0.1 }).observe(jumpBar);
+
+        // Expand on hover via JS (CSS hover breaks with overflow:hidden transition)
+        sideNav.addEventListener('mouseenter', () => {
+            inner.style.width = '164px';
+            labels.forEach(l => l.classList.add('visible'));
+        });
+        sideNav.addEventListener('mouseleave', () => {
+            inner.style.width = '36px';
+            labels.forEach(l => l.classList.remove('visible'));
+        });
+
+        // Active section highlight
+        new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                const link = sideNav.querySelector('a[href="#'+e.target.id+'"]');
+                if (link) link.classList.toggle('active', e.isIntersecting);
+            });
+        }, { rootMargin:'-20% 0px -60% 0px' }).observe;
+
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            new IntersectionObserver(entries => {
+                const link = sideNav.querySelector('a[href="#'+id+'"]');
+                if (link) link.classList.toggle('active', entries[0].isIntersecting);
+            }, { rootMargin:'-20% 0px -60% 0px' }).observe(el);
+        });
+    })();
+    </script>
+
+    <!-- ── Architecture ── -->
+    <div id="architecture" class="api-section">
+        <h3>Modular Architecture</h3>
+        <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On game launch it registers the 7 core modules. Thanks to Fabric Entrypoints, third-party mods can register additional modules that are loaded and managed alongside the built-in ones.</p>
+        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color, and the context menu settings contract. The manager calls <code>tickAll()</code> and <code>renderAll()</code> every frame, with automatic stacking layout per screen quadrant.</p>
+    </div>
+
+    <!-- ── Dependency ── -->
+    <div id="dependency" class="api-section">
+        <h3>Adding the Dependency</h3>
+        <p>Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD. Add the following to your <code>build.gradle</code>:</p>
+
+        <pre class="keep-markup"><code class="language-groovy">repositories {
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color: #98c379; font-weight: 700; text-decoration: underline; background: rgba(152, 195, 121, 0.15); padding: 0 4px; border-radius: 4px;" title="View Latest Release">v1.0.9-1</a>' 
+    modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color:#55FF55;font-weight:700;text-decoration:underline;background:rgba(85,255,85,0.1);padding:0 4px;" title="View Latest Release">-SNAPSHOT</a>'
 }</code></pre>
-            <p>Once you reload your gradle project, all API classes like <code>HudModule</code> will be available in
-                your development environment.</p>
-        </section>
 
-        <section id="implementing-module" class="glass stagger-reveal"
-            style="animation-delay: 0.5s; padding: 2rem; margin-top: 2rem;">
-            <h3>Creating a Custom Module</h3>
-            <p>Every element displayed on the screen is required to inherit from the base <code>HudModule</code> class
-                overriding its methods. Here is everything you need to implement:</p>
+        <p>After reloading your Gradle project, all API classes such as <code>HudModule</code>, <code>HudModuleSetting</code>, and all setting types will be available in your development environment.</p>
+    </div>
 
-            <pre><code class="language-java">import com.eymistaken.simplecps.api.HudModule;
+    <!-- ── Creating a Module ── -->
+    <div id="implementing-module" class="api-section">
+        <h3>Creating a Custom Module</h3>
+        <p>Every HUD element must extend <code>HudModule</code> and implement its abstract methods. Below is the minimum required implementation:</p>
+
+<pre><code class="language-java">import com.eymistaken.simplecps.api.HudModule;
 import com.eymistaken.simplecps.SimpleCPSConfig;
 import net.minecraft.client.gui.DrawContext;
 
@@ -191,61 +222,50 @@ public class MyCustomModule extends HudModule {
     }
 
     @Override
-    public int getXOffset() {
-        return 0; // Relative pixel offset (X)
-    }
+    public int getXOffset() { return 0; }
 
     @Override
-    public int getYOffset() {
-        return 0; // Relative pixel offset (Y)
-    }
+    public int getYOffset() { return 0; }
 
     @Override
     public boolean isEnabled() {
-        // Tie this to your config integration
-        return true; 
+        return true; // Tie to your own config
     }
 
     @Override
     public int getWidth() {
-        return 100; // Provide dimensions securely for the staking layout
+        return 100; // Required for stacking layout
     }
 
     @Override
     public int getHeight() {
-        return 20; 
+        return 20;
     }
 
     @Override
     public void render(DrawContext context, float tickDelta) {
-        // The context is automatically correctly positioned (using this.x and this.y variables set via the manager).
+        // this.x and this.y are set by HudModuleManager before render() is called.
         context.drawTextWithShadow(this.client.textRenderer, "Hello World", this.x, this.y, 0xFFFFFF);
     }
-    
+
     @Override
-    public void tick(MinecraftClient client) {
-        // Optional logic executed every client tick (e.g. calculation timers).
+    public void tick(net.minecraft.client.MinecraftClient client) {
+        // Optional: runs every client tick (timers, click tracking, etc.)
         super.tick(client);
     }
 }</code></pre>
 
-            <div class="callout warning">
-                <p><strong>Note:</strong> Ensure you accurately report <code>getWidth()</code> and
-                    <code>getHeight()</code>. Returning 0 bypasses layout integration calculations, hiding your module.
-                </p>
-            </div>
-        </section>
+        <div class="callout warning">
+            <p><strong>Important:</strong> Always return accurate values from <code>getWidth()</code> and <code>getHeight()</code>. Returning <code>0</code> removes your module from the stacking layout and makes it invisible.</p>
+        </div>
+    </div>
 
-        <section id="editor-integration" class="glass stagger-reveal"
-            style="animation-delay: 0.6s; padding: 2rem; margin-top: 2rem;">
-            <h3>HUD Editor Integration (Drag & Drop)</h3>
-            <p>To allow users to drag, drop, scale, and reset your custom module using the in-game HUD Editor, you must
-                override the optional setter methods. <strong>Crucial:</strong> You must save these provided values to
-                your <em>own mod's configuration file</em>, not to SimpleCPSConfig!</p>
+    <!-- ── HUD Editor Integration ── -->
+    <div id="editor-integration" class="api-section">
+        <h3>HUD Editor Integration (Drag &amp; Drop)</h3>
+        <p>Override the optional setter methods to allow players to move, scale, and reset your module in the HUD Editor. <strong>Important:</strong> save all values to <em>your own mod's config</em> — never to <code>SimpleCPSConfig</code>.</p>
 
-            <pre><code class="language-java">import com.eymistaken.simplecps.SimpleCPSConfig;
-
-// Inside your MyCustomModule class:
+<pre><code class="language-java">// Inside your MyCustomModule class:
 
 @Override
 public void setPositionType(SimpleCPSConfig.Position pos) {
@@ -253,76 +273,50 @@ public void setPositionType(SimpleCPSConfig.Position pos) {
 }
 
 @Override
-public void setXOffset(int x) {
-    MyAddonConfig.xOffset = x; 
-}
+public void setXOffset(int x) { MyAddonConfig.xOffset = x; }
 
 @Override
-public void setYOffset(int y) {
-    MyAddonConfig.yOffset = y; 
-}
+public void setYOffset(int y) { MyAddonConfig.yOffset = y; }
 
 @Override
-public void setScale(int scale) {
-    MyAddonConfig.scale = scale; 
-}
+public void setScale(int scale) { MyAddonConfig.scale = scale; }
 
 @Override
-public int getScale() {
-    return MyAddonConfig.scale; // Return from YOUR config
-}
+public int getScale() { return MyAddonConfig.scale; }
 
 @Override
 public void resetToDefaults() {
-    // Called when the user right-clicks your module in the editor
-    MyAddonConfig.anchor = SimpleCPSConfig.Position.TOP_LEFT;
+    // Called by "Reset Position" in the context menu
+    MyAddonConfig.anchor  = SimpleCPSConfig.Position.TOP_LEFT;
     MyAddonConfig.xOffset = 0;
     MyAddonConfig.yOffset = 0;
-    MyAddonConfig.scale = 100;
+    MyAddonConfig.scale   = 100;
 }</code></pre>
 
-            <div class="callout warning" style="margin-top: 1rem;">
-                <p><strong>Remember:</strong> If you do not override these methods, your module will still render
-                    perfectly, but players will not be able to move or scale it via the HUD Editor.</p>
-            </div>
-        </section>
+        <div class="callout">
+            <p>If you skip these overrides, your module will still render correctly — but players will not be able to move or scale it via the HUD Editor.</p>
+        </div>
+    </div>
 
-        <section id="context-menu-settings" class="glass stagger-reveal"
-            style="animation-delay: 0.65s; padding: 2rem; margin-top: 2rem;">
-            <h3>Context Menu Settings</h3>
-            <p>When a player right-clicks your module in the HUD Editor, a context menu appears. By default, it contains
-                <strong>Reset Position</strong> and <strong>Reset Settings</strong> actions. You can extend this menu
-                with
-                your own settings by overriding <code>getContextMenuSettings()</code> in your module class.
-            </p>
+    <!-- ── Context Menu Settings ── -->
+    <div id="context-menu" class="api-section">
+        <h3>Context Menu Settings</h3>
+        <p>When a player right-clicks your module in the HUD Editor, a context menu appears. By default it contains <strong>Reset Position</strong> and <strong>Reset Settings</strong>. Extend it by overriding <code>getContextMenuSettings()</code>.</p>
 
-            <p>Six setting types are available under <code>com.eymistaken.simplecps.api</code>:</p>
+        <p>Six setting types are available under <code>com.eymistaken.simplecps.api</code>:</p>
 
-            <ul style="margin: 0 0 1.5rem 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 2;">
-                <li><code>BooleanSetting</code> — displays an <strong style="color: #98c379;">[ON]</strong> / <strong
-                        style="color: #e06c75;">[OFF]</strong> toggle</li>
-                <li><code>ColorSetting</code> — displays a color swatch, opens the Color Picker on click</li>
-                <li><code>TextSetting</code> — displays the current value, opens an inline text input on click</li>
-                <li><code>CycleSetting</code> — cycles through a predefined list of options on click</li>
-                <li><code>ActionSetting</code> — a plain clickable action with no value display</li>
-                <li><code>SliderSetting</code> — displays a draggable slider bar with a live value label and a Reset
-                    button; accepts <code>min</code>, <code>max</code>, and <code>defaultValue</code></li>
-            </ul>
+        <ul>
+            <li><code>BooleanSetting</code> — <strong>[ON]</strong> / <strong>[OFF]</strong> toggle</li>
+            <li><code>ColorSetting</code> — color swatch that opens the Color Picker on click</li>
+            <li><code>TextSetting</code> — shows current value, opens an inline text input on click</li>
+            <li><code>CycleSetting</code> — cycles through a predefined list of string options on click</li>
+            <li><code>ActionSetting</code> — plain clickable button with no value display</li>
+            <li><code>SliderSetting</code> — draggable integer slider with a live value label and Reset button; takes <code>min</code>, <code>max</code>, and <code>defaultValue</code></li>
+        </ul>
 
-            <p>Override <code>getContextMenuSettings()</code> and return a list of settings. Each setting takes a
-                <strong>label</strong> shown in the menu and getter/setter/action lambdas tied to your own config:
-            </p>
-
-            <pre><code class="language-java">import com.eymistaken.simplecps.api.HudModuleSetting;
-import com.eymistaken.simplecps.api.BooleanSetting;
-import com.eymistaken.simplecps.api.ColorSetting;
-import com.eymistaken.simplecps.api.TextSetting;
-import com.eymistaken.simplecps.api.CycleSetting;
-import com.eymistaken.simplecps.api.ActionSetting;
-import com.eymistaken.simplecps.api.SliderSetting;
-
-import java.util.List;
+<pre><code class="language-java">import com.eymistaken.simplecps.api.*;
 import java.util.Arrays;
+import java.util.List;
 
 // Inside your MyCustomModule class:
 
@@ -348,7 +342,7 @@ public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
         val -&gt; { MyAddonConfig.suffix = val; MyAddonConfig.save(); }
     ));
 
-    // Cycle — clicks through options
+    // Cycle — click through options
     settings.add(new CycleSetting("Display Mode",
         Arrays.asList("Compact", "Full", "Minimal"),
         () -&gt; MyAddonConfig.displayModeIndex,
@@ -361,7 +355,7 @@ public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
         MyAddonConfig.save();
     }));
 
-    // Slider — drag to adjust int values; Reset button restores defaultValue
+    // Slider — integer range with Reset button
     settings.add(new SliderSetting("Scale %",
         50, 300, 100,
         () -&gt; MyAddonConfig.scale,
@@ -371,45 +365,32 @@ public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
     return settings;
 }</code></pre>
 
-            <div class="callout" style="margin-top: 1.5rem;">
-                <p><strong>Tip:</strong> Call <code>super.getContextMenuSettings()</code> and wrap it in a new
-                    <code>ArrayList</code> to preserve the default <strong>Reset Position</strong> and
-                    <strong>Reset Settings</strong> actions at the top of the menu. Skip the <code>super</code> call
-                    only if you intentionally want to replace the defaults entirely.
-                </p>
-            </div>
+        <div class="callout">
+            <p><strong>Tip:</strong> Always call <code>super.getContextMenuSettings()</code> and wrap it in a new <code>ArrayList</code> to preserve the default <strong>Reset Settings</strong> action at the top of the menu. Skip the <code>super</code> call only if you intentionally want to replace it entirely. Note: <strong>Reset Position</strong> is always present regardless — it is added directly by the HUD Editor, not by <code>getContextMenuSettings()</code>.</p>
+        </div>
 
-            <p style="margin-top: 1.5rem;">You can also override <code>resetVisualDefaults()</code> to define what
-                <strong>Reset Settings</strong> actually does for your module. This method is called by the default
-                <code>ActionSetting</code> provided by the base class. It should reset all visual and behavioral config
-                fields — but <strong>never</strong> the module's enabled state or its position/offset values:
-            </p>
+        <p style="margin-top:1.5rem;">Override <code>resetVisualDefaults()</code> to define what <strong>Reset Settings</strong> does for your module. Reset all visual and behavioral fields — but <strong>never</strong> the enabled state, position, offsets, or scale:</p>
 
-            <pre><code class="language-java">@Override
+<pre><code class="language-java">@Override
 public void resetVisualDefaults() {
-    MyAddonConfig.textColor = 0xFFFFFF;
-    MyAddonConfig.suffix = "";
+    MyAddonConfig.textColor        = 0xFFFFFF;
+    MyAddonConfig.suffix           = "";
     MyAddonConfig.displayModeIndex = 0;
     MyAddonConfig.save();
 }</code></pre>
 
-            <div class="callout warning" style="margin-top: 1rem;">
-                <p><strong>Remember:</strong> Never reset <code>enabled</code>, position, offsets, or scale inside
-                    <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset
-                        Position</strong>,
-                    and toggling the module on or off should always remain the player's choice.
-                </p>
-            </div>
-        </section>
+        <div class="callout warning">
+            <p><strong>Rule:</strong> Never reset <code>enabled</code>, position, offsets, or scale inside <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset Position</strong>, and whether the module is on or off is always the player's choice.</p>
+        </div>
+    </div>
 
-        <section id="registering-plugin" class="glass stagger-reveal"
-            style="animation-delay: 0.7s; padding: 2rem; margin-top: 2rem;">
-            <h3>Registering the Plugin</h3>
-            <p>To register your modules, you must expose an entrypoint implementing the <code>EymistakenHudPlugin</code>
-                interface inside your fabric.mod.json configuration.</p>
+    <!-- ── Registering ── -->
+    <div id="registering" class="api-section">
+        <h3>Registering the Plugin</h3>
+        <p>Expose an entrypoint implementing <code>EymistakenHudPlugin</code> in your <code>fabric.mod.json</code>. Your modules will be registered and managed alongside the core modules automatically.</p>
 
-            <p>Implementation class:</p>
-            <pre><code class="language-java">import com.eymistaken.simplecps.api.EymistakenHudPlugin;
+        <p><strong>Implementation class:</strong></p>
+<pre><code class="language-java">import com.eymistaken.simplecps.api.EymistakenHudPlugin;
 import com.eymistaken.simplecps.HudModuleManager;
 
 public class MyPluginInit implements EymistakenHudPlugin {
@@ -419,33 +400,35 @@ public class MyPluginInit implements EymistakenHudPlugin {
     }
 }</code></pre>
 
-            <p><code>fabric.mod.json</code> setup:</p>
-            <pre><code class="language-json">"entrypoints": {
+        <p><strong>fabric.mod.json:</strong></p>
+<pre><code class="language-json">"entrypoints": {
   "eymistaken_hud": [
     "com.myname.myaddon.MyPluginInit"
   ]
 }</code></pre>
-            <p>By using the `eymistaken_hud` entrypoint key, your modules will safely initialize alongside the core
-                system inside <code>SimpleCPSClient</code> automatically.</p>
-        </section>
 
-    </main>
+        <p>Using the <code>eymistaken_hud</code> entrypoint key ensures your modules initialize at the correct time inside <code>SimpleCPSClient</code>, with full access to the HudModuleManager.</p>
+    </div>
 
-    <footer class="glass">
-        <p>&copy; 2026 <a href="https://linktr.ee/Eymistaken" target="_blank"
-                style="color: var(--accent); text-decoration: none; font-weight: 600; text-shadow: none;">Eymistaken</a>.
-            Documentation for Version 1.21.11.</p>
-    </footer>
+</main>
 
-    <script src="js/scripts.js"></script>
-    <!-- Prism.js Core & Languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-groovy.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
-    <!-- Prism Keep Markup Plugin to preserve custom links inside code blocks -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/keep-markup/prism-keep-markup.min.js"></script>
+<!-- FOOTER -->
+<footer class="bg-bg-low border-t border-outline/20 py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+    <a href="index.html" class="font-head text-teal font-bold uppercase tracking-tighter text-xl">Eymistaken's HUD</a>
+    <div class="flex gap-8">
+        <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
+        <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Modrinth</a>
+        <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">CurseForge</a>
+        <a href="https://linktr.ee/Eymistaken"                     target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Linktree</a>
+    </div>
+    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — v1.21.11</span>
+</footer>
+
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/keep-markup/prism-keep-markup.min.js"></script>
 </body>
-
 </html>
