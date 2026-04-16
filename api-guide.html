@@ -180,14 +180,14 @@
     <!-- ── Architecture ── -->
     <div id="architecture" class="api-section">
         <h3>Modular Architecture</h3>
-        <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On game launch it registers the 7 core modules. Thanks to Fabric Entrypoints, third-party mods can register additional modules that are loaded and managed alongside the built-in ones.</p>
-        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color, and the context menu settings contract. The manager calls <code>tickAll()</code> and <code>renderAll()</code> every frame, with automatic stacking layout per screen quadrant.</p>
+        <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically.</p>
+        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the context menu settings contract. Every frame, <code>HudModuleManager</code> calls <code>tickAll(Minecraft)</code> and <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking layout per screen quadrant (TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER) is handled entirely by the manager before calling each module.</p>
     </div>
 
     <!-- ── Dependency ── -->
     <div id="dependency" class="api-section">
         <h3>Adding the Dependency</h3>
-        <p>Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD. Add the following to your <code>build.gradle</code>:</p>
+        <p>Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD 26.1. Add the following to your <code>build.gradle</code>:</p>
 
         <pre class="keep-markup"><code class="language-groovy">repositories {
     maven { url 'https://jitpack.io' }
@@ -197,7 +197,7 @@ dependencies {
     modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color:#55FF55;font-weight:700;text-decoration:underline;background:rgba(85,255,85,0.1);padding:0 4px;" title="View Latest Release">-SNAPSHOT</a>'
 }</code></pre>
 
-        <p>After reloading your Gradle project, all API classes such as <code>HudModule</code>, <code>HudModuleSetting</code>, and all setting types will be available in your development environment.</p>
+        <p>After reloading your Gradle project, all 26.1 API classes — including <code>HudModule</code>, <code>HudModuleSetting</code>, and all six setting types — will be available in your development environment.</p>
     </div>
 
     <!-- ── Creating a Module ── -->
@@ -207,7 +207,7 @@ dependencies {
 
 <pre><code class="language-java">import com.eymistaken.simplecps.api.HudModule;
 import com.eymistaken.simplecps.SimpleCPSConfig;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class MyCustomModule extends HudModule {
 
@@ -243,13 +243,13 @@ public class MyCustomModule extends HudModule {
     }
 
     @Override
-    public void render(DrawContext context, float tickDelta) {
-        // this.x and this.y are set by HudModuleManager before render() is called.
-        context.drawTextWithShadow(this.client.textRenderer, "Hello World", this.x, this.y, 0xFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor context, float tickDelta) {
+        // this.x and this.y are injected by HudModuleManager before extractRenderState() is called.
+        context.drawString(this.client.font, "Hello World", this.x, this.y, 0xFFFFFF, true);
     }
 
     @Override
-    public void tick(net.minecraft.client.MinecraftClient client) {
+    public void tick(net.minecraft.client.Minecraft client) {
         // Optional: runs every client tick (timers, click tracking, etc.)
         super.tick(client);
     }
@@ -387,7 +387,7 @@ public void resetVisualDefaults() {
     <!-- ── Registering ── -->
     <div id="registering" class="api-section">
         <h3>Registering the Plugin</h3>
-        <p>Expose an entrypoint implementing <code>EymistakenHudPlugin</code> in your <code>fabric.mod.json</code>. Your modules will be registered and managed alongside the core modules automatically.</p>
+        <p>Declare an entrypoint implementing <code>EymistakenHudPlugin</code> in your <code>fabric.mod.json</code>. Your modules will be passed to <code>HudModuleManager#registerModule()</code> and managed alongside the built-in ones from that point forward — no core modification required.</p>
 
         <p><strong>Implementation class:</strong></p>
 <pre><code class="language-java">import com.eymistaken.simplecps.api.EymistakenHudPlugin;
@@ -407,7 +407,7 @@ public class MyPluginInit implements EymistakenHudPlugin {
   ]
 }</code></pre>
 
-        <p>Using the <code>eymistaken_hud</code> entrypoint key ensures your modules initialize at the correct time inside <code>SimpleCPSClient</code>, with full access to the HudModuleManager.</p>
+        <p>The <code>eymistaken_hud</code> entrypoint key is processed by <code>SimpleCPSClient</code> during initialization. Every registered module is automatically included in the <code>tickAll()</code> and <code>renderAll()</code> cycles of <code>HudModuleManager</code>, and becomes fully editable in the in-game HUD Editor.</p>
     </div>
 
 </main>
@@ -421,7 +421,7 @@ public class MyPluginInit implements EymistakenHudPlugin {
         <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">CurseForge</a>
         <a href="https://linktr.ee/Eymistaken"                     target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Linktree</a>
     </div>
-    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — v1.21.11</span>
+    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — for Minecraft 26.1</span>
 </footer>
 
 <script src="js/scripts.js"></script>
