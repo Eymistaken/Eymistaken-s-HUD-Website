@@ -89,6 +89,7 @@
         <a href="#architecture"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Architecture</a>
         <a href="#dependency"          class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Dependency</a>
         <a href="#implementing-module" class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Creating a Module</a>
+        <a href="#sub-elements"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Sub-Elements</a>
         <a href="#editor-integration"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">HUD Editor</a>
         <a href="#context-menu"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Context Menu</a>
         <a href="#registering"         class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Registering</a>
@@ -112,6 +113,7 @@
             <a href="#architecture"        class="side-link side-label">Architecture</a>
             <a href="#dependency"          class="side-link side-label">Dependency</a>
             <a href="#implementing-module" class="side-link side-label">Creating a Module</a>
+            <a href="#sub-elements"        class="side-link side-label">Sub-Elements</a>
             <a href="#editor-integration"  class="side-link side-label">HUD Editor</a>
             <a href="#context-menu"        class="side-link side-label">Context Menu</a>
             <a href="#registering"         class="side-link side-label">Registering</a>
@@ -139,7 +141,7 @@
         const sideNav = document.getElementById('side-nav');
         const inner   = document.getElementById('side-nav-inner');
         const labels  = document.querySelectorAll('.side-label');
-        const sections= ['architecture','dependency','implementing-module','editor-integration','context-menu','registering'];
+        const sections= ['architecture','dependency','implementing-module','sub-elements','editor-integration','context-menu','registering'];
 
         // Show/hide sidebar when jump-bar leaves viewport
         new IntersectionObserver(entries => {
@@ -244,8 +246,15 @@ public class MyCustomModule extends HudModule {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor context, float tickDelta) {
-        // this.x and this.y are injected by HudModuleManager before extractRenderState() is called.
-        context.drawString(this.client.font, "Hello World", this.x, this.y, 0xFFFFFF, true);
+        float currentScale = getScale() / 100f;
+        context.pose().pushMatrix();
+        context.pose().translate((float) this.x, (float) this.y);
+        context.pose().scale(currentScale, currentScale);
+        
+        // After translating, drawing should be done relative to 0,0 (the local origin)
+        context.drawString(this.client.font, "Hello World", 0, 0, 0xFFFFFF, true);
+        
+        context.pose().popMatrix();
     }
 
     @Override
@@ -258,6 +267,27 @@ public class MyCustomModule extends HudModule {
         <div class="callout warning">
             <p><strong>Important:</strong> Always return accurate values from <code>getWidth()</code> and <code>getHeight()</code>. Returning <code>0</code> removes your module from the stacking layout and makes it invisible.</p>
         </div>
+
+        <div class="callout">
+            <p><strong>Unique Name Requirement:</strong> The value returned by the <code>getName()</code> method must be strictly unique. The <code>HudModuleManager</code> uses this name as a key to store bounding boxes in a Map. Use specific names, for example: <code>"MyAddon_Tracker"</code>.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>Inherited Variables Note:</strong> When a module extends the <code>HudModule</code> class, the variables <code>this.client</code> (<code>Minecraft.getInstance()</code>), <code>this.x</code>, and <code>this.y</code> are automatically inherited. Developers do not need to define these manually.</p>
+        </div>
+    </div>
+
+    <!-- ── Advanced: Sub-Elements ── -->
+    <div id="sub-elements" class="api-section">
+        <h3>Advanced: Sub-Elements (Complex Modules)</h3>
+        <p>If a module consists of multiple independently draggable parts (such as the ArmorModule), developers can override the <code>getSubElements()</code> method inside <code>HudModule</code>. This method should return a list of objects that implement the <code>IHudElement</code> interface. This allows the HUD Editor to treat these sub-parts as independent draggable elements instead of dragging the entire main module.</p>
+
+<pre><code class="language-java">@Override
+public List&lt;IHudElement&gt; getSubElements() {
+    // Return a list of independent sub-elements (e.g., Helmet, Chestplate, etc.)
+    // If empty, the entire module is treated as a single draggable element.
+    return mySubElementsList;
+}</code></pre>
     </div>
 
     <!-- ── HUD Editor Integration ── -->
@@ -296,6 +326,14 @@ public void resetToDefaults() {
         <div class="callout">
             <p>If you skip these overrides, your module will still render correctly — but players will not be able to move or scale it via the HUD Editor.</p>
         </div>
+
+        <p style="margin-top:1.5rem;">When the user drags and drops a module in the HUD Editor screen, the <code>onPositionUpdated()</code> method inside the module is triggered. Developers can override this method to act as a listener, allowing them to automatically save the module's new position to their own config files.</p>
+
+<pre><code class="language-java">@Override
+public void onPositionUpdated() {
+    // Called when the user releases the mouse after dragging the module in HUD Editor
+    MyAddonConfig.save();
+}</code></pre>
     </div>
 
     <!-- ── Context Menu Settings ── -->
