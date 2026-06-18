@@ -160,14 +160,6 @@
             labels.forEach(l => l.classList.remove('visible'));
         });
 
-        // Active section highlight
-        new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                const link = sideNav.querySelector('a[href="#'+e.target.id+'"]');
-                if (link) link.classList.toggle('active', e.isIntersecting);
-            });
-        }, { rootMargin:'-20% 0px -60% 0px' }).observe;
-
         sections.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -183,23 +175,23 @@
     <div id="architecture" class="api-section">
         <h3>Modular Architecture</h3>
         <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically.</p>
-        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the context menu settings contract. Every frame, <code>HudModuleManager</code> calls <code>tickAll(Minecraft)</code> and <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking layout per screen quadrant (TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER) is handled entirely by the manager before calling each module.</p>
+        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the context menu settings contract. On each client tick, <code>SimpleCPSClient</code> calls <code>HudModuleManager#tickAll(Minecraft)</code>; during HUD rendering, it calls <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking is handled for TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, and BOTTOM_RIGHT; CENTER modules are centered rather than stacked, so multiple centered modules can overlap unless your addon offsets them.</p>
     </div>
 
     <!-- ── Dependency ── -->
     <div id="dependency" class="api-section">
         <h3>Adding the Dependency</h3>
-        <p>Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD 26.1. Add the following to your <code>build.gradle</code>:</p>
+        <p>Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD 26.2. Add the following to your <code>build.gradle</code>:</p>
 
         <pre class="keep-markup"><code class="language-groovy">repositories {
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    modImplementation 'com.github.Eymistaken:Eymistaken-s-HUD:<a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" id="dynamic-version" style="color:#55FF55;font-weight:700;text-decoration:underline;background:rgba(85,255,85,0.1);padding:0 4px;" title="View Latest Release">-SNAPSHOT</a>'
+    modImplementation 'com.github.Eymistaken:Eymistaken-s-hud:<a href="https://github.com/Eymistaken/Eymistaken-s-hud/releases/latest" target="_blank" id="dynamic-version" style="color:#55FF55;font-weight:700;text-decoration:underline;background:rgba(85,255,85,0.1);padding:0 4px;" title="View Latest Release">-SNAPSHOT</a>'
 }</code></pre>
 
-        <p>After reloading your Gradle project, all 26.1 API classes — including <code>HudModule</code>, <code>HudModuleSetting</code>, and all six setting types — will be available in your development environment.</p>
+        <p>After reloading your Gradle project, the current 26.2 API classes — including <code>HudModule</code>, <code>IHudElement</code>, <code>HudModuleSetting</code>, and all six setting types — will be available in your development environment.</p>
     </div>
 
     <!-- ── Creating a Module ── -->
@@ -252,7 +244,7 @@ public class MyCustomModule extends HudModule {
         context.pose().scale(currentScale, currentScale);
         
         // After translating, drawing should be done relative to 0,0 (the local origin)
-        context.drawString(this.client.font, "Hello World", 0, 0, 0xFFFFFF, true);
+        context.text(this.client.font, "Hello World", 0, 0, 0xFFFFFFFF, true);
         
         context.pose().popMatrix();
     }
@@ -407,18 +399,19 @@ public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
             <p><strong>Tip:</strong> Always call <code>super.getContextMenuSettings()</code> and wrap it in a new <code>ArrayList</code> to preserve the default <strong>Reset Settings</strong> action at the top of the menu. Skip the <code>super</code> call only if you intentionally want to replace it entirely. Note: <strong>Reset Position</strong> is always present regardless — it is added directly by the HUD Editor, not by <code>getContextMenuSettings()</code>.</p>
         </div>
 
-        <p style="margin-top:1.5rem;">Override <code>resetVisualDefaults()</code> to define what <strong>Reset Settings</strong> does for your module. Reset all visual and behavioral fields — but <strong>never</strong> the enabled state, position, offsets, or scale:</p>
+        <p style="margin-top:1.5rem;">Override <code>resetVisualDefaults()</code> to define what <strong>Reset Settings</strong> does for your module. Reset visual and behavioral fields, but keep the enabled state and anchor offsets under the player's control. If your module treats scale as a visual preference, it is safe to reset it here, just like the built-in modules do:</p>
 
 <pre><code class="language-java">@Override
 public void resetVisualDefaults() {
     MyAddonConfig.textColor        = 0xFFFFFF;
     MyAddonConfig.suffix           = "";
     MyAddonConfig.displayModeIndex = 0;
+    MyAddonConfig.scale            = 100;
     MyAddonConfig.save();
 }</code></pre>
 
         <div class="callout warning">
-            <p><strong>Rule:</strong> Never reset <code>enabled</code>, position, offsets, or scale inside <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset Position</strong>, and whether the module is on or off is always the player's choice.</p>
+            <p><strong>Rule:</strong> Never reset <code>enabled</code>, position, or offsets inside <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset Position</strong>, and whether the module is on or off is always the player's choice.</p>
         </div>
     </div>
 
@@ -454,12 +447,12 @@ public class MyPluginInit implements EymistakenHudPlugin {
 <footer class="bg-bg-low border-t border-outline/20 py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
     <a href="index.html" class="font-head text-teal font-bold uppercase tracking-tighter text-xl">Eymistaken's HUD</a>
     <div class="flex gap-8">
-        <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
+        <a href="https://github.com/Eymistaken/Eymistaken-s-hud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
         <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Modrinth</a>
         <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">CurseForge</a>
         <a href="https://linktr.ee/Eymistaken"                     target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Linktree</a>
     </div>
-    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — for Minecraft 26.1</span>
+    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — for Minecraft 26.2</span>
 </footer>
 
 <script src="js/scripts.js"></script>

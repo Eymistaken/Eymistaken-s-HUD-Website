@@ -24,7 +24,17 @@
             }
         };
     </script>
-    <style>body { font-family: 'Inter', sans-serif; } .font-head { font-family: 'Space Grotesk', sans-serif; }</style>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-head { font-family: 'Space Grotesk', sans-serif; }
+        .platform-card { transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
+        .platform-card.curseforge .platform-action { color: #f16436; }
+        .platform-card.curseforge:hover { border-top-color: #f16436; box-shadow: 0 0 24px rgba(241,100,54,0.16); }
+        .platform-card.curseforge:hover h3 { color: #f16436; }
+        .platform-card.github .platform-action { color: #e5e2e1; }
+        .platform-card.github:hover { border-top-color: #e5e2e1; box-shadow: 0 0 26px rgba(229,226,225,0.18); }
+        .platform-card.github:hover h3 { color: #e5e2e1; }
+    </style>
 </head>
 <body class="bg-bg text-on-surf min-h-screen">
 
@@ -45,7 +55,7 @@
     <div class="max-w-7xl mx-auto">
         <div class="font-head text-[10px] uppercase tracking-[0.25em] text-teal mb-4">// RELEASES</div>
         <h1 class="font-head text-5xl md:text-6xl font-bold tracking-tighter uppercase text-on-surf mb-4">Downloads</h1>
-        <p class="text-muted max-w-xl">Get Eymistaken's HUD from your preferred platform. Requires <strong class="text-on-surf">Fabric Loader</strong> and <strong class="text-on-surf">Fabric API</strong> for Minecraft 26.1.x.</p>
+        <p class="text-muted max-w-xl">Get Eymistaken's HUD from your preferred platform. Requires <strong class="text-on-surf">Fabric Loader</strong> and <strong class="text-on-surf">Fabric API</strong> for Minecraft 26.2.</p>
     </div>
 </div>
 
@@ -53,7 +63,7 @@
 
     <!-- Requirements callout -->
     <div class="callout mb-12">
-        <p><strong class="text-green">Requirements:</strong> Minecraft 26.1.x · Fabric Loader · Fabric API · Cloth Config v17+</p>
+        <p><strong class="text-green">Requirements:</strong> Minecraft 26.2 · Java 25 · Fabric Loader · Fabric API. Mod Menu and Cloth Config are recommended for the full settings menu.</p>
     </div>
 
     <!-- Download cards -->
@@ -61,7 +71,7 @@
 
         <!-- Modrinth -->
         <a href="https://modrinth.com/mod/eymistakenshud" target="_blank"
-           class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent hover:border-green no-underline">
+           class="platform-card bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent hover:border-green no-underline">
             <div class="w-20 h-20 flex items-center justify-center mb-6">
                 <img src="assets/modrinth-logo.png" alt="Modrinth"
                      class="w-full h-full object-contain"
@@ -78,34 +88,34 @@
 
         <!-- CurseForge -->
         <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank"
-           class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent hover:border-teal no-underline">
+           class="platform-card curseforge bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent no-underline">
             <div class="w-20 h-20 flex items-center justify-center mb-6">
                 <img src="assets/curseforge-logo.png" alt="CurseForge"
                      class="w-full h-full object-contain"
-                     style="filter: drop-shadow(0 0 8px rgba(73,246,246,0.3));"
+                     style="filter: drop-shadow(0 0 10px rgba(241,100,54,0.42));"
                      onerror="this.style.display='none'">
             </div>
             <div class="font-head text-[10px] uppercase tracking-widest text-muted mb-2">ALTERNATIVE</div>
-            <h3 class="font-head text-2xl font-bold uppercase text-on-surf mb-3 group-hover:text-teal transition-colors">CurseForge</h3>
+            <h3 class="font-head text-2xl font-bold uppercase text-on-surf mb-3 transition-colors">CurseForge</h3>
             <p class="text-muted text-sm leading-relaxed flex-1">Available on the largest Minecraft modding community. Compatible with CurseForge App and Overwolf launcher.</p>
-            <div class="mt-8 flex items-center gap-2 font-head text-xs uppercase tracking-widest text-teal group-hover:gap-4 transition-all">
+            <div class="platform-action mt-8 flex items-center gap-2 font-head text-xs uppercase tracking-widest group-hover:gap-4 transition-all">
                 DOWNLOAD <span>→</span>
             </div>
         </a>
 
         <!-- GitHub -->
-        <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank"
-           class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent hover:border-green no-underline">
+        <a href="https://github.com/Eymistaken/Eymistaken-s-hud" target="_blank"
+           class="platform-card github bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group border-t-2 border-transparent no-underline">
             <div class="w-20 h-20 flex items-center justify-center mb-6">
                 <img src="assets/github-logo.png" alt="GitHub"
                      class="w-full h-full object-contain"
-                     style="filter: drop-shadow(0 0 8px rgba(85,255,85,0.3));"
+                     style="filter: drop-shadow(0 0 12px rgba(229,226,225,0.42));"
                      onerror="this.style.display='none'">
             </div>
             <div class="font-head text-[10px] uppercase tracking-widest text-muted mb-2">SOURCE</div>
-            <h3 class="font-head text-2xl font-bold uppercase text-on-surf mb-3 group-hover:text-green transition-colors">GitHub</h3>
+            <h3 class="font-head text-2xl font-bold uppercase text-on-surf mb-3 transition-colors">GitHub</h3>
             <p class="text-muted text-sm leading-relaxed flex-1">Access the full source code, early experimental builds, issue tracker, and contribution guidelines.</p>
-            <div class="mt-8 flex items-center gap-2 font-head text-xs uppercase tracking-widest text-green group-hover:gap-4 transition-all">
+            <div class="platform-action mt-8 flex items-center gap-2 font-head text-xs uppercase tracking-widest group-hover:gap-4 transition-all">
                 VIEW REPO <span>→</span>
             </div>
         </a>
@@ -118,11 +128,11 @@
         <ol class="space-y-4">
             <li class="flex gap-4 items-start">
                 <span class="font-head font-bold text-teal text-sm shrink-0 w-6">01</span>
-                <span class="text-muted text-sm">Install <strong class="text-on-surf">Fabric Loader</strong> for Minecraft 26.1.x from <a href="https://fabricmc.net" target="_blank" class="text-teal hover:text-teal-dim">fabricmc.net</a>.</span>
+                <span class="text-muted text-sm">Install <strong class="text-on-surf">Fabric Loader</strong> for Minecraft 26.2 from <a href="https://fabricmc.net" target="_blank" class="text-teal hover:text-teal-dim">fabricmc.net</a>.</span>
             </li>
             <li class="flex gap-4 items-start">
                 <span class="font-head font-bold text-teal text-sm shrink-0 w-6">02</span>
-                <span class="text-muted text-sm">Download <strong class="text-on-surf">Fabric API</strong> and <strong class="text-on-surf">Cloth Config v17+</strong> — both are required dependencies.</span>
+                <span class="text-muted text-sm">Download <strong class="text-on-surf">Fabric API</strong>. For the in-game settings panel, also install <strong class="text-on-surf">Mod Menu</strong> and <strong class="text-on-surf">Cloth Config</strong>.</span>
             </li>
             <li class="flex gap-4 items-start">
                 <span class="font-head font-bold text-teal text-sm shrink-0 w-6">03</span>
@@ -166,12 +176,12 @@
 <footer class="bg-bg-low border-t border-outline/20 py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
     <a href="index.html" class="font-head text-teal font-bold uppercase tracking-tighter text-xl">Eymistaken's HUD</a>
     <div class="flex gap-8">
-        <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
+        <a href="https://github.com/Eymistaken/Eymistaken-s-hud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
         <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Modrinth</a>
         <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">CurseForge</a>
         <a href="https://linktr.ee/Eymistaken"                     target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Linktree</a>
     </div>
-    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — v26.1.x</span>
+    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — for Minecraft 26.2</span>
 </footer>
 
 <script src="js/scripts.js"></script>
