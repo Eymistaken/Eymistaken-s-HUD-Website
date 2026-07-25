@@ -110,7 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (versionEl) {
         fetch('https://api.github.com/repos/Eymistaken/Eymistaken-s-HUD/releases/latest')
             .then(r => r.ok ? r.json() : null)
-            .then(d => { if (d?.tag_name) versionEl.textContent = d.tag_name; })
+            .then(d => {
+                if (!d?.tag_name) return;
+                // JitPack strips the leading "v" from a tag, so a Gradle coordinate has
+                // to read 1.1.1-6 — asking for v1.1.1-6 does not resolve, it just hangs
+                // while JitPack tries to build a ref that has no artifact. Places where
+                // the version is only a label, like the download button, keep the "v".
+                versionEl.textContent = versionEl.hasAttribute('data-strip-v')
+                    ? d.tag_name.replace(/^v/i, '')
+                    : d.tag_name;
+            })
             .catch(() => {});
     }
 });
