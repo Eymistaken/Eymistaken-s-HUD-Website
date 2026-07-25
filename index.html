@@ -93,7 +93,7 @@
                 EYMISTAKEN'S<br><span class="text-green">HUD.</span>
             </h1>
             <p class="text-muted text-lg max-w-md mb-12 leading-relaxed fade-up" style="animation-delay:0.2s">
-                A highly customizable, modular HUD mod with a pixel-perfect drag-and-drop editor, a full developer plugin API, and zero performance overhead.
+                A highly customizable, modular HUD mod with a pixel-perfect drag-and-drop editor, shareable setups, a HUD that follows you from server to server, a full developer plugin API, and zero performance overhead.
             </p>
             <div class="flex flex-wrap gap-4 fade-up" style="animation-delay:0.3s">
                 <a href="downloads.html" class="bg-green text-bg-low px-10 py-4 font-head font-bold text-sm uppercase tracking-widest hover:bg-green-dim transition-colors">DOWNLOAD NOW</a>
@@ -217,8 +217,32 @@
                     <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                 </div>
                 <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Plugin API</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Built for developers. Inject custom modules via <code>EymistakenHudPlugin</code> using Fabric Entrypoints. Full context menu settings API included.</p>
+                <p class="text-muted leading-relaxed text-sm flex-1">Built for developers. Inject custom modules via <code>EymistakenHudPlugin</code> using Fabric Entrypoints. Context menu settings, an event bus, and settings that travel with every preset and share code.</p>
                 <a href="api-guide.html" class="mt-8 text-green font-head text-xs uppercase tracking-widest hover:text-green-dim flex items-center gap-2 group-hover:gap-3 transition-all">API GUIDE <span>→</span></a>
+            </div>
+            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
+                <div class="w-10 h-10 bg-teal/20 flex items-center justify-center mb-6">
+                    <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+                </div>
+                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Precision Editor</h3>
+                <p class="text-muted leading-relaxed text-sm flex-1">Magnetic snapping that glides into place instead of jumping. Optional grid, box-select, align and distribute tools, and arrow-key nudging down to the pixel.</p>
+                <a href="user-guide.html" class="mt-8 text-teal font-head text-xs uppercase tracking-widest hover:text-teal-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
+            </div>
+            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
+                <div class="w-10 h-10 bg-green/20 flex items-center justify-center mb-6">
+                    <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 13v7h16v-7M12 3v13M8 7l4-4 4 4"/></svg>
+                </div>
+                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Share &amp; Sync</h3>
+                <p class="text-muted leading-relaxed text-sm flex-1">Pack your whole HUD into one line of text and paste it to a friend. Save named configs, and let each server remember its own layout automatically.</p>
+                <a href="user-guide.html#configs" class="mt-8 text-green font-head text-xs uppercase tracking-widest hover:text-green-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
+            </div>
+            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
+                <div class="w-10 h-10 bg-teal/20 flex items-center justify-center mb-6">
+                    <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 20h16M7 16l5-12 5 12M9 11h6"/></svg>
+                </div>
+                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Bundled Fonts</h3>
+                <p class="text-muted leading-relaxed text-sm flex-1">Five fonts ship with the mod — Inter, Rubik, JetBrains Mono, Bebas Neue and Enchanting Table — plus a text outline mode. Applies to the HUD only, never to chat.</p>
+                <a href="user-guide.html#appearance" class="mt-8 text-teal font-head text-xs uppercase tracking-widest hover:text-teal-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
             </div>
         </div>
     </div>
@@ -242,7 +266,7 @@
             Fully customizable&nbsp;&nbsp;·&nbsp;&nbsp;Zero overhead&nbsp;&nbsp;·&nbsp;&nbsp;Open source
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="downloads.html" class="bg-green text-bg-low px-12 py-5 font-head font-black text-sm uppercase tracking-widest hover:bg-green-dim transition-colors">DOWNLOAD v1.1.1-4</a>
+            <a href="downloads.html" class="bg-green text-bg-low px-12 py-5 font-head font-black text-sm uppercase tracking-widest hover:bg-green-dim transition-colors">DOWNLOAD <span id="dynamic-version">LATEST</span></a>
             <a href="user-guide.html" class="bg-surf-high text-on-surf px-12 py-5 font-head font-bold text-sm uppercase tracking-widest border border-outline hover:bg-surf-top transition-colors">USER GUIDE</a>
         </div>
     </div>

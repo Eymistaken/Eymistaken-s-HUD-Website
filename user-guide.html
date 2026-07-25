@@ -61,16 +61,48 @@
             <p><strong class="text-green">Hot Tip:</strong> Press <code>Right Shift (RShift)</code> from anywhere in-game to instantly open the HUD Editor.</p>
         </div>
 
-        <div class="bg-surf p-8">
+        <div class="bg-surf p-8 mb-4">
             <p class="text-muted leading-relaxed mb-4">
-                The HUD Editor gives you a live preview of all active modules rendered on your screen. You can 
-                <strong class="text-on-surf">click and drag</strong> any element to reposition it anywhere — 
+                The HUD Editor gives you a live preview of all active modules rendered on your screen. You can
+                <strong class="text-on-surf">click and drag</strong> any element to reposition it anywhere —
                 modules automatically snap to corners, edges, or the center using a smart stacking algorithm.
+                When a module lines up with another one, a magenta guide appears and it glides smoothly into
+                place rather than jumping.
             </p>
             <ul class="space-y-2 text-muted text-sm">
                 <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Left-click + drag</strong> to move any module</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Drag on empty space</strong> to box-select several modules at once</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Arrow keys</strong> to nudge the selection one pixel at a time</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Hold Shift</strong> while dragging to ignore snapping and place freely</span></li>
                 <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Scroll wheel</strong> to scale a module (50–300%)</span></li>
-                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Right-click</strong> a module to open its settings context menu</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Right-click a module</strong> to open its settings context menu</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Right-click empty space</strong> to open the HUD Settings menu</span></li>
+            </ul>
+        </div>
+
+        <div class="bg-surf p-8 mb-4">
+            <h3 class="font-head text-base font-bold uppercase text-on-surf mb-4 tracking-wider">Align &amp; Distribute</h3>
+            <p class="text-muted leading-relaxed mb-4">
+                Select two or more modules and a toolbar appears at the top of the screen. Hover any button to
+                see what it does.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-muted text-sm">
+                <div><span class="text-teal font-head font-bold">L / CX / R</span> — align left, match centre X, align right</div>
+                <div><span class="text-teal font-head font-bold">T / CY / B</span> — align top, match centre Y, align bottom</div>
+                <div class="sm:col-span-2"><span class="text-teal font-head font-bold">DX / DY</span> — spread the selection out with equal gaps. Needs at least three modules; the outermost two stay put.</div>
+            </div>
+        </div>
+
+        <div class="bg-surf p-8">
+            <h3 class="font-head text-base font-bold uppercase text-on-surf mb-4 tracking-wider">The HUD Settings Menu</h3>
+            <p class="text-muted leading-relaxed mb-4">
+                Right-click anywhere that is not a module to open it.
+            </p>
+            <ul class="space-y-2 text-muted text-sm">
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Prevent Overlap</strong> — keeps modules from being dropped on top of each other</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Grid</strong> — left-click to show the grid and snap to it, right-click to cycle 4 / 8 / 16 / 32&nbsp;px. Lining up with another module still wins over the grid.</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Save Config</strong>, <strong class="text-on-surf">Configs</strong>, <strong class="text-on-surf">Server Configs</strong>, <strong class="text-on-surf">Export / Import Code</strong> — see <a href="#configs" class="text-teal hover:text-teal-dim">Configs &amp; Sharing</a> below</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Reset HUD</strong> — puts every module back to its default position and scale</span></li>
             </ul>
         </div>
     </section>
@@ -140,7 +172,7 @@
             </div>
 
             <div class="module-card" data-module="ping">
-                <div class="card-hover-desc">Reads server latency from the network handler. Shown in milliseconds. Supports custom color and background.</div>
+                <div class="card-hover-desc">Reads server latency from the network handler. Shown in milliseconds. Supports custom color, scale, and background.</div>
                 <div class="play-badge">▶</div>
                 <div class="font-head text-[10px] uppercase tracking-widest text-teal mb-2">NETWORK</div>
                 <h3 class="font-head text-xl font-bold uppercase text-on-surf mb-2">Ping</h3>
@@ -156,7 +188,7 @@
             </div>
 
             <div class="module-card" data-module="armor">
-                <div class="card-hover-desc">Displays all 4 armor slots plus main and off-hand. Vertical or horizontal orientation. Shows durability numbers and flashes red on damage.</div>
+                <div class="card-hover-desc">Displays all 4 armor slots plus main and off-hand. Vertical or horizontal orientation, scalable 50–300%. Shows durability numbers and flashes red on damage. Slots can be ungrouped and placed individually.</div>
                 <div class="play-badge">▶</div>
                 <div class="font-head text-[10px] uppercase tracking-widest text-teal mb-2">EQUIPMENT</div>
                 <h3 class="font-head text-xl font-bold uppercase text-on-surf mb-2">Armor HUD</h3>
@@ -241,23 +273,23 @@
             <ol class="space-y-4">
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">01</span>
-                    <span class="text-muted text-sm">Open the configuration menu and navigate to the <strong class="text-on-surf">Keystrokes</strong> section.</span>
+                    <span class="text-muted text-sm">Right-click <strong class="text-on-surf">Keystrokes</strong> in the HUD Editor and choose <strong class="text-on-surf">Open Designer</strong>. You can also reach it from the settings menu under <strong class="text-on-surf">Keystrokes → Designer</strong>.</span>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">02</span>
-                    <span class="text-muted text-sm">Click the <strong class="text-on-surf">Open Designer</strong> button in the Keystrokes context menu (right-click Keystrokes in the HUD Editor).</span>
+                    <span class="text-muted text-sm"><strong class="text-on-surf">Drag and Drop:</strong> Left-click and drag any key panel to reposition it. Keys snap to their neighbours' edges — and to an even gap between them — then settle smoothly into place.</span>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">03</span>
-                    <span class="text-muted text-sm"><strong class="text-on-surf">Drag and Drop:</strong> Left-click and drag any key panel to reposition it. Keys snap intelligently to alignment grids.</span>
+                    <span class="text-muted text-sm"><strong class="text-on-surf">Context Menu:</strong> Right-click a key to rename it, set its keybind, change colours, toggle bold / italic / underline, duplicate or delete it. Right-click empty space to add new keys or reset the layout.</span>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">04</span>
-                    <span class="text-muted text-sm"><strong class="text-on-surf">Context Menu:</strong> Right-click anywhere to add new keys, duplicate, or delete.</span>
+                    <span class="text-muted text-sm"><strong class="text-on-surf">Edit Labels:</strong> Right-click and drag a key to move its label inside the button — it snaps to the centre. Arrow keys nudge the selection pixel by pixel.</span>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">05</span>
-                    <span class="text-muted text-sm"><strong class="text-on-surf">Edit Labels:</strong> Rename any key and use arrow keys for pixel-by-pixel text nudging.</span>
+                    <span class="text-muted text-sm"><strong class="text-on-surf">Share It:</strong> <strong class="text-on-surf">Export Layout</strong> copies just your keystrokes layout to the clipboard as a share code, and <strong class="text-on-surf">Import Layout</strong> reads one back. See <a href="#configs" class="text-teal hover:text-teal-dim">Configs &amp; Sharing</a>.</span>
                 </li>
                 <li class="flex gap-4">
                     <span class="font-head font-bold text-green text-sm shrink-0 w-6">06</span>
@@ -283,20 +315,165 @@
                     <li>→ Enable CPS <span class="text-teal">[ON/OFF]</span></li>
                     <li>→ Text Color <span class="text-teal">[color picker]</span></li>
                     <li>→ Scale % <span class="text-teal">[slider 50–300]</span></li>
-                    <li>→ Reset Settings</li>
                 </ul>
             </div>
             <div class="bg-surf p-6">
                 <h4 class="font-head font-bold uppercase text-teal text-sm mb-2">Keystrokes Module</h4>
                 <ul class="text-muted text-sm space-y-1">
                     <li>→ Enable Keystrokes <span class="text-green">[ON/OFF]</span></li>
+                    <li>→ Effect <span class="text-green">[None / Squish / Ripple / Both]</span></li>
                     <li>→ Open Designer <span class="text-green">[action]</span></li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-green text-sm mb-2">Ping Module</h4>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ Enable Ping <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ Scale % <span class="text-teal">[slider 50–300]</span></li>
+                    <li>→ Text Color <span class="text-teal">[color picker]</span></li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-teal text-sm mb-2">FPS Module</h4>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ Enable FPS <span class="text-green">[ON/OFF]</span></li>
+                    <li>→ Text Color <span class="text-green">[color picker]</span></li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-green text-sm mb-2">Combo Module</h4>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ Enable Combo <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ Always Show <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ Text Color <span class="text-teal">[color picker]</span></li>
+                    <li>→ Suffix Text <span class="text-teal">[text input]</span></li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-teal text-sm mb-2">Reach Module</h4>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ Enable Reach <span class="text-green">[ON/OFF]</span></li>
+                    <li>→ Always Show <span class="text-green">[ON/OFF]</span></li>
+                    <li>→ Text Color <span class="text-green">[color picker]</span></li>
+                    <li>→ No Hit Text <span class="text-green">[text input]</span></li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6 md:col-span-2">
+                <h4 class="font-head font-bold uppercase text-green text-sm mb-2">Armor HUD Module</h4>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ Enable Armor <span class="text-teal">[ON/OFF]</span> &nbsp;·&nbsp; Scale % <span class="text-teal">[slider 50–300]</span> &nbsp;·&nbsp; Vertical <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ Show Background <span class="text-teal">[ON/OFF]</span> &nbsp;·&nbsp; Durability Text <span class="text-teal">[ON/OFF]</span> &nbsp;·&nbsp; Damage Flash <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ Show Main Hand <span class="text-teal">[ON/OFF]</span> &nbsp;·&nbsp; Show Off Hand <span class="text-teal">[ON/OFF]</span></li>
+                    <li>→ <strong class="text-on-surf">Ungroup</strong> — breaks the stack apart so each slot can be dragged on its own. Right-click a single slot afterwards for <strong class="text-on-surf">Group</strong> to snap them back together.</li>
                 </ul>
             </div>
         </div>
 
         <div class="callout mt-6">
-            <p>All other modules (FPS, Ping, Combo, Reach, Armor) are configurable via the <strong class="text-teal">Cloth Config</strong> settings menu, accessible from Mod Menu → Eymistaken's HUD → Settings.</p>
+            <p>Every menu also starts with <strong class="text-on-surf">Reset Position</strong> and <strong class="text-on-surf">Reset Settings</strong>. Reset Position restores the anchor, offsets and scale; Reset Settings restores colours and visual options but leaves the module's position and whether it is switched on alone.</p>
+        </div>
+
+        <div class="callout mt-4">
+            <p>Everything here — plus options that have no context-menu entry, such as backgrounds, rainbow mode, combo timeout and combat mode — is also available in the <strong class="text-teal">Cloth Config</strong> settings menu, accessible from Mod Menu → Eymistaken's HUD → Settings.</p>
+        </div>
+    </section>
+
+    <!-- ── Appearance ──────────────────────────────────────── -->
+    <section id="appearance" class="mb-16">
+        <h2 class="font-head text-2xl font-bold uppercase text-on-surf mb-6 border-b border-outline/30 pb-3">
+            Fonts &amp; Text Style
+        </h2>
+        <p class="text-muted mb-6">
+            Found under <strong class="text-teal">Settings → General</strong>. Both options apply to every module at once.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-green text-sm mb-3">HUD Font</h4>
+                <p class="text-muted text-sm mb-3">Five bundled fonts alongside the default:</p>
+                <ul class="text-muted text-sm space-y-1">
+                    <li>→ <strong class="text-on-surf">Vanilla</strong> — Minecraft's own font</li>
+                    <li>→ <strong class="text-on-surf">Inter</strong> — clean and neutral</li>
+                    <li>→ <strong class="text-on-surf">Rubik</strong> — rounded, friendly</li>
+                    <li>→ <strong class="text-on-surf">JetBrains Mono</strong> — monospaced, numbers never shift width</li>
+                    <li>→ <strong class="text-on-surf">Bebas Neue</strong> — tall and condensed</li>
+                    <li>→ <strong class="text-on-surf">Enchanting Table</strong> — for fun</li>
+                </ul>
+            </div>
+            <div class="bg-surf p-6">
+                <h4 class="font-head font-bold uppercase text-teal text-sm mb-3">Text Outline</h4>
+                <p class="text-muted text-sm leading-relaxed">
+                    Draws a thin black outline on every side of your HUD text instead of the usual drop shadow.
+                    Much easier to read against bright terrain like snow or sand.
+                </p>
+            </div>
+        </div>
+
+        <div class="callout mt-6">
+            <p><strong class="text-green">Only the HUD.</strong> Your font choice never touches chat, inventories or any other Minecraft menu — just the HUD modules and the editor screens.</p>
+        </div>
+
+        <div class="callout warning mt-4">
+            <p><strong>Stuck on the Enchanting Table font?</strong> It is unreadable by design, so the HUD Editor shows a <strong class="text-on-surf">Restore Font</strong> button in the bottom-right corner whenever it is active. One click puts you back on Vanilla.</p>
+        </div>
+    </section>
+
+    <!-- ── Configs & Sharing ───────────────────────────────── -->
+    <section id="configs" class="mb-16">
+        <h2 class="font-head text-2xl font-bold uppercase text-on-surf mb-6 border-b border-outline/30 pb-3">
+            Configs &amp; Sharing
+        </h2>
+        <p class="text-muted mb-6">
+            Three ways to keep more than one HUD layout around — all reachable by right-clicking empty space in the HUD Editor.
+        </p>
+
+        <div class="bg-surf p-8 mb-4">
+            <h3 class="font-head text-base font-bold uppercase text-on-surf mb-4 tracking-wider">Saved Configs</h3>
+            <p class="text-muted leading-relaxed mb-4">
+                <strong class="text-on-surf">Save Config</strong> takes a snapshot of your entire HUD — every module's
+                position, scale, colours and settings. Hover <strong class="text-on-surf">Configs</strong> to see the list.
+            </p>
+            <ul class="space-y-2 text-muted text-sm">
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Left-click</strong> a name to load it</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Right-click</strong> a name to rename it</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Click the bin icon</strong> to delete it</span></li>
+            </ul>
+        </div>
+
+        <div class="bg-surf p-8 mb-4">
+            <h3 class="font-head text-base font-bold uppercase text-on-surf mb-4 tracking-wider">Share Codes</h3>
+            <p class="text-muted leading-relaxed mb-4">
+                <strong class="text-on-surf">Export Code</strong> packs your whole setup into a single line of text
+                starting with <code>EYMHUD1-</code> and copies it to your clipboard — paste it into Discord, a forum
+                post, wherever. <strong class="text-on-surf">Import Code</strong> reads one back off your clipboard.
+            </p>
+            <p class="text-muted leading-relaxed mb-4">
+                The Keystrokes Designer has its own <strong class="text-on-surf">Export Layout</strong> and
+                <strong class="text-on-surf">Import Layout</strong> for sharing just the key layout without the rest of your HUD.
+            </p>
+            <ul class="space-y-2 text-muted text-sm">
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span>Importing always saves your current setup as a timestamped backup config first, so a code you did not like is one click away from being undone</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span>Codes made with a different version of the mod still work — the status line tells you which version it came from</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span>A code from someone running an addon module you do not have imports fine; their settings for it ride along untouched, and the reverse holds too</span></li>
+            </ul>
+        </div>
+
+        <div class="bg-surf p-8">
+            <h3 class="font-head text-base font-bold uppercase text-on-surf mb-4 tracking-wider">Server Configs</h3>
+            <p class="text-muted leading-relaxed mb-4">
+                A different HUD per server, with nothing to press. While this is switched on, whatever your HUD looks
+                like on a server is quietly remembered for it — join again and it comes back. Single-player worlds
+                share one profile.
+            </p>
+            <ul class="space-y-2 text-muted text-sm mb-4">
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span>Hover <strong class="text-on-surf">Server Configs</strong> to see the list. The server you are on right now is shown in <span class="text-green">green</span>.</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Left-click</strong> any entry to use that server's HUD here — handy for copying your PvP setup onto a new server</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span><strong class="text-on-surf">Right-click</strong> to give a server a friendlier name than its address</span></li>
+                <li class="flex gap-3"><span class="text-green shrink-0">→</span> <span>The <strong class="text-on-surf">[ON] / [OFF]</strong> switch in the fly-out header turns the whole feature on or off. It is also in <strong class="text-teal">Settings → General</strong>.</span></li>
+            </ul>
+            <div class="callout">
+                <p>Whenever a server config replaces what is on screen, the previous setup is written to a config named <strong class="text-on-surf">Auto Backup</strong>. It is a single rolling slot, so only the most recent one is kept.</p>
+            </div>
         </div>
     </section>
 

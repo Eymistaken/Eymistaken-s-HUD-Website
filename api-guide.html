@@ -92,6 +92,8 @@
         <a href="#sub-elements"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Sub-Elements</a>
         <a href="#editor-integration"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">HUD Editor</a>
         <a href="#context-menu"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Context Menu</a>
+        <a href="#plugin-state"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Plugin State</a>
+        <a href="#events"              class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Events</a>
         <a href="#registering"         class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Registering</a>
     </div>
 
@@ -116,6 +118,8 @@
             <a href="#sub-elements"        class="side-link side-label">Sub-Elements</a>
             <a href="#editor-integration"  class="side-link side-label">HUD Editor</a>
             <a href="#context-menu"        class="side-link side-label">Context Menu</a>
+            <a href="#plugin-state"        class="side-link side-label">Plugin State</a>
+            <a href="#events"              class="side-link side-label">Events</a>
             <a href="#registering"         class="side-link side-label">Registering</a>
         </div>
     </nav>
@@ -141,7 +145,7 @@
         const sideNav = document.getElementById('side-nav');
         const inner   = document.getElementById('side-nav-inner');
         const labels  = document.querySelectorAll('.side-label');
-        const sections= ['architecture','dependency','implementing-module','sub-elements','editor-integration','context-menu','registering'];
+        const sections= ['architecture','dependency','implementing-module','sub-elements','editor-integration','context-menu','plugin-state','events','registering'];
 
         // Show/hide sidebar when jump-bar leaves viewport
         new IntersectionObserver(entries => {
@@ -174,7 +178,7 @@
     <!-- ── Architecture ── -->
     <div id="architecture" class="api-section">
         <h3>Modular Architecture</h3>
-        <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically.</p>
+        <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically, and subscribe to <a href="#events" style="color:#55FF55;">HUD events</a>.</p>
         <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the context menu settings contract. On each client tick, <code>SimpleCPSClient</code> calls <code>HudModuleManager#tickAll(Minecraft)</code>; during HUD rendering, it calls <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking is handled for TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, and BOTTOM_RIGHT; CENTER modules are centered rather than stacked, so multiple centered modules can overlap unless your addon offsets them.</p>
     </div>
 
@@ -242,10 +246,12 @@ public class MyCustomModule extends HudModule {
         context.pose().pushMatrix();
         context.pose().translate((float) this.x, (float) this.y);
         context.pose().scale(currentScale, currentScale);
-        
-        // After translating, drawing should be done relative to 0,0 (the local origin)
-        context.text(this.client.font, "Hello World", 0, 0, 0xFFFFFFFF, true);
-        
+
+        // After translating, drawing should be done relative to 0,0 (the local origin).
+        // drawText() applies the player's chosen HUD font, the Text Outline setting
+        // and the current fade alpha for you.
+        drawText(context, "Hello World", 0, 0, 0xFFFFFFFF);
+
         context.pose().popMatrix();
     }
 
@@ -260,13 +266,28 @@ public class MyCustomModule extends HudModule {
             <p><strong>Important:</strong> Always return accurate values from <code>getWidth()</code> and <code>getHeight()</code>. Returning <code>0</code> removes your module from the stacking layout and makes it invisible.</p>
         </div>
 
-        <div class="callout">
-            <p><strong>Unique Name Requirement:</strong> The value returned by the <code>getName()</code> method must be strictly unique. The <code>HudModuleManager</code> uses this name as a key to store bounding boxes in a Map. Use specific names, for example: <code>"MyAddon_Tracker"</code>.</p>
+        <div class="callout warning">
+            <p><strong>Unique Name Requirement:</strong> The value returned by <code>getName()</code> must be strictly unique. It is the key for your module's layout flags <em>and</em> its <a href="#plugin-state" style="color:#55FF55;">saved state</a>, so a collision would silently corrupt both. <code>registerModule()</code> <strong>refuses</strong> a name that is already taken and logs an error instead of registering the module. Prefix yours with your mod id — for example <code>"myaddon:tracker"</code>. Call <code>manager.isNameTaken(String)</code> beforehand if you want to check yourself.</p>
         </div>
 
         <div class="callout">
             <p><strong>Inherited Variables Note:</strong> When a module extends the <code>HudModule</code> class, the variables <code>this.client</code> (<code>Minecraft.getInstance()</code>), <code>this.x</code>, and <code>this.y</code> are automatically inherited. Developers do not need to define these manually.</p>
         </div>
+
+        <p style="margin-top:1.5rem;">Three inherited helpers make your module respect the player's global appearance settings. Use them instead of drawing text directly:</p>
+
+        <ul>
+            <li><code>drawText(context, text, x, y, color)</code> — draws in the active HUD font, honours the <strong>Text Outline</strong> setting and the current fade alpha</li>
+            <li><code>textWidth(text)</code> — measures a string in the active HUD font (raw font widths are wrong once a custom font is selected)</li>
+            <li><code>col(argb)</code> — applies the current fade alpha to any colour, for anything you draw yourself</li>
+        </ul>
+
+        <p>Modules opt into the smooth fade-in / fade-out that plays when they appear or disappear by overriding <code>supportsFade()</code>. It defaults to <code>false</code>, in which case your module pops in and out as before. Only override it to <code>true</code> if every colour you draw goes through <code>col()</code> or <code>drawText()</code> — otherwise your module will stay fully opaque while the rest fades.</p>
+
+<pre><code class="language-java">@Override
+public boolean supportsFade() {
+    return true;
+}</code></pre>
     </div>
 
     <!-- ── Advanced: Sub-Elements ── -->
@@ -319,13 +340,18 @@ public void resetToDefaults() {
             <p>If you skip these overrides, your module will still render correctly — but players will not be able to move or scale it via the HUD Editor.</p>
         </div>
 
-        <p style="margin-top:1.5rem;">When the user drags and drops a module in the HUD Editor screen, the <code>onPositionUpdated()</code> method inside the module is triggered. Developers can override this method to act as a listener, allowing them to automatically save the module's new position to their own config files.</p>
+        <p style="margin-top:1.5rem;">Whenever the HUD Editor finishes moving a module, its <code>onPositionUpdated()</code> method is triggered. Developers can override this method to act as a listener, allowing them to automatically save the module's new position to their own config files.</p>
 
 <pre><code class="language-java">@Override
 public void onPositionUpdated() {
-    // Called when the user releases the mouse after dragging the module in HUD Editor
+    // Called after a drag is released, after an arrow-key nudge,
+    // and after the align / distribute tools move the module
     MyAddonConfig.save();
 }</code></pre>
+
+        <div class="callout">
+            <p><strong>Grid and smooth snapping:</strong> both are applied by the editor before it calls your setters, so there is nothing to implement. Your <code>setXOffset()</code> / <code>setYOffset()</code> are called once per frame with the position the module should be at right now, including while a snap animation is playing — write them straight through and let <code>onPositionUpdated()</code> decide when to persist.</p>
+        </div>
     </div>
 
     <!-- ── Context Menu Settings ── -->
@@ -415,6 +441,118 @@ public void resetVisualDefaults() {
         </div>
     </div>
 
+    <!-- ── Plugin State ── -->
+    <div id="plugin-state" class="api-section">
+        <h3>Plugin State (Presets, Share Codes &amp; Server Configs)</h3>
+        <p>Your settings live in your own config file, and that keeps working exactly as before. What it cannot do on its own is <em>travel</em>: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken's HUD config moves — your module's settings stay behind, and the layout the player carefully built comes back half wrong.</p>
+
+        <p>Override <code>saveState()</code> and <code>loadState()</code> to opt in. Whatever you return is stored under your <code>getName()</code> and carried through <strong>all four</strong> persistence paths for free: <code>simplecps.json</code>, named presets, <code>EYMHUD1-</code> share codes, and per-server configs.</p>
+
+<pre><code class="language-java">import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+// Inside your MyCustomModule class:
+
+@Override
+public JsonElement saveState() {
+    JsonObject state = new JsonObject();
+    state.addProperty("enabled",   MyAddonConfig.enabled);
+    state.addProperty("anchor",    MyAddonConfig.anchor.name());
+    state.addProperty("xOffset",   MyAddonConfig.xOffset);
+    state.addProperty("yOffset",   MyAddonConfig.yOffset);
+    state.addProperty("scale",     MyAddonConfig.scale);
+    state.addProperty("textColor", MyAddonConfig.textColor);
+    return state;
+}
+
+@Override
+public void loadState(JsonElement state) {
+    if (!state.isJsonObject()) return;
+    JsonObject obj = state.getAsJsonObject();
+
+    // Check has() on every key: the blob may come from an older or newer
+    // build of your addon, or from a player who never touched this setting.
+    if (obj.has("enabled"))   MyAddonConfig.enabled   = obj.get("enabled").getAsBoolean();
+    if (obj.has("xOffset"))   MyAddonConfig.xOffset   = obj.get("xOffset").getAsInt();
+    if (obj.has("yOffset"))   MyAddonConfig.yOffset   = obj.get("yOffset").getAsInt();
+    if (obj.has("scale"))     MyAddonConfig.scale     = obj.get("scale").getAsInt();
+    if (obj.has("textColor")) MyAddonConfig.textColor = obj.get("textColor").getAsInt();
+
+    MyAddonConfig.save();
+}</code></pre>
+
+        <p>Both default to a no-op, so plugins written before this existed keep compiling and running unchanged.</p>
+
+        <ul>
+            <li>Return <code>null</code> from <code>saveState()</code> to store nothing — that is what every built-in module does, since their settings are already fields on <code>SimpleCPSConfig</code></li>
+            <li><code>loadState()</code> is <strong>never</strong> called with <code>null</code>. When no blob is stored for your module the call is skipped entirely, so a config written by someone who does not have your addon leaves your settings untouched instead of resetting them</li>
+            <li>It runs once at registration and again on every preset, share code or server config that gets applied — so it can fire at any point after startup, not just during init</li>
+            <li>Do not put JSON nulls anywhere in the tree you return. The serializer drops them at every depth, so they will not survive a round trip — omit the key instead</li>
+            <li><code>saveState()</code> runs on every config save. Keep it cheap</li>
+        </ul>
+
+        <div class="callout">
+            <p><strong>Your blob survives players who do not have your addon.</strong> If someone exports a preset containing your module and hands it to a player who has not installed it, the state rides along inert and lights up the day they do install it. The reverse holds too: importing a config from a player who lacks your module will not wipe your settings.</p>
+        </div>
+
+        <div class="callout warning">
+            <p>Both methods are wrapped in a try/catch by <code>HudModuleManager</code>. A throw is logged and skipped, and your module keeps its current settings — it will not take down the save or the import. Do not rely on that as error handling, but you do not have to defend against every malformed value either.</p>
+        </div>
+    </div>
+
+    <!-- ── Events ── -->
+    <div id="events" class="api-section">
+        <h3>Events</h3>
+        <p>Third-party mods can react to things happening inside the HUD through <code>EymistakenHudEventBus</code> — a static singleton you subscribe to from <code>registerEvents()</code>, which is called once at client init, right after <code>registerHudModules()</code>.</p>
+
+<pre><code class="language-java">import com.eymistaken.simplecps.HudModuleManager;
+import com.eymistaken.simplecps.api.EymistakenHudEventBus;
+import com.eymistaken.simplecps.api.EymistakenHudPlugin;
+import com.eymistaken.simplecps.api.event.ComboStreakEvent;
+
+public class MyPluginInit implements EymistakenHudPlugin {
+
+    @Override
+    public void registerHudModules(HudModuleManager manager) {
+        manager.registerModule(new MyCustomModule());
+    }
+
+    @Override
+    public void registerEvents(EymistakenHudEventBus bus) {
+        bus.subscribe(ComboStreakEvent.class, event -&gt; {
+            if (event.level() &gt;= 2) {
+                playHitSound(event.target());
+            }
+        });
+    }
+}</code></pre>
+
+        <p><strong>Available events</strong> live under <code>com.eymistaken.simplecps.api.event</code>:</p>
+
+        <ul>
+            <li><code>ComboStreakEvent(int combo, int level, int previousLevel, Entity target)</code> — fired when a landed hit pushes the combo into a higher heatmap tier, so <em>once per tier</em> rather than once per hit</li>
+        </ul>
+
+        <p>Levels come from <code>ComboHeatmap</code> and follow the player's chosen heatmap mode, so <code>level()</code> means the same thing to you as it does to the on-screen colour. The event fires whether or not heatmap colouring is switched on — that setting decides how the counter looks, not whether the streak happened.</p>
+
+<pre><code class="language-java">import com.eymistaken.simplecps.api.ComboHeatmap;
+
+// Thresholds behind the levels, if you want to display them yourself
+ComboHeatmap heat = ComboHeatmap.of(SimpleCPSConfig.instance.comboHeatmapMode);
+int tier1 = heat.tier1();       // EASY 3  | MEDIUM 5  | HARD 10
+int tier2 = heat.tier2();       // EASY 5  | MEDIUM 8  | HARD 40
+int tier3 = heat.tier3();       // EASY 7  | MEDIUM 12 | HARD 60
+int level = heat.levelFor(17);  // 0 (cold) through 3 (top tier)</code></pre>
+
+        <div class="callout warning">
+            <p><strong>Handlers run on the client thread, inline with whatever caused the event.</strong> Keep them short — anything slow will stutter the game. A handler that throws is logged and skipped; it never takes the rest of the mod down with it.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>Dispatch is by exact class.</strong> Subscribing to a supertype does not receive its subclasses. Subscribing is safe at any point after client init, not just from <code>registerEvents()</code>.</p>
+        </div>
+    </div>
+
     <!-- ── Registering ── -->
     <div id="registering" class="api-section">
         <h3>Registering the Plugin</h3>
@@ -429,6 +567,11 @@ public class MyPluginInit implements EymistakenHudPlugin {
     public void registerHudModules(HudModuleManager manager) {
         manager.registerModule(new MyCustomModule());
     }
+
+    // Optional — see the Events section. Default no-op, so plugins written
+    // before it existed keep compiling and running unchanged.
+    @Override
+    public void registerEvents(EymistakenHudEventBus bus) { }
 }</code></pre>
 
         <p><strong>fabric.mod.json:</strong></p>
@@ -439,6 +582,10 @@ public class MyPluginInit implements EymistakenHudPlugin {
 }</code></pre>
 
         <p>The <code>eymistaken_hud</code> entrypoint key is processed by <code>SimpleCPSClient</code> during initialization. Every registered module is automatically included in the <code>tickAll()</code> and <code>renderAll()</code> cycles of <code>HudModuleManager</code>, and becomes fully editable in the in-game HUD Editor.</p>
+
+        <div class="callout">
+            <p><strong>Ordering:</strong> plugins are discovered <em>after</em> the config has already been read, so <code>registerModule()</code> replays your <a href="#plugin-state" style="color:#55FF55;">stored state</a> into your module the moment it arrives — you do not have to wait for a reload or defer your own loading.</p>
+        </div>
     </div>
 
 </main>
