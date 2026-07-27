@@ -92,6 +92,7 @@
         <a href="#sub-elements"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Sub-Elements</a>
         <a href="#editor-integration"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">HUD Editor</a>
         <a href="#context-menu"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Context Menu</a>
+        <a href="#settings-screen"     class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Settings Screen</a>
         <a href="#plugin-state"        class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Plugin State</a>
         <a href="#events"              class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Events</a>
         <a href="#registering"         class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Registering</a>
@@ -118,6 +119,7 @@
             <a href="#sub-elements"        class="side-link side-label">Sub-Elements</a>
             <a href="#editor-integration"  class="side-link side-label">HUD Editor</a>
             <a href="#context-menu"        class="side-link side-label">Context Menu</a>
+            <a href="#settings-screen"     class="side-link side-label">Settings Screen</a>
             <a href="#plugin-state"        class="side-link side-label">Plugin State</a>
             <a href="#events"              class="side-link side-label">Events</a>
             <a href="#registering"         class="side-link side-label">Registering</a>
@@ -145,7 +147,7 @@
         const sideNav = document.getElementById('side-nav');
         const inner   = document.getElementById('side-nav-inner');
         const labels  = document.querySelectorAll('.side-label');
-        const sections= ['architecture','dependency','implementing-module','sub-elements','editor-integration','context-menu','plugin-state','events','registering'];
+        const sections= ['architecture','dependency','implementing-module','sub-elements','editor-integration','context-menu','settings-screen','plugin-state','events','registering'];
 
         // Show/hide sidebar when jump-bar leaves viewport
         new IntersectionObserver(entries => {
@@ -179,7 +181,7 @@
     <div id="architecture" class="api-section">
         <h3>Modular Architecture</h3>
         <p>The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically, and subscribe to <a href="#events" style="color:#55FF55;">HUD events</a>.</p>
-        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the context menu settings contract. On each client tick, <code>SimpleCPSClient</code> calls <code>HudModuleManager#tickAll(Minecraft)</code>; during HUD rendering, it calls <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking is handled for TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, and BOTTOM_RIGHT; CENTER modules are centered rather than stacked, so multiple centered modules can overlap unless your addon offsets them.</p>
+        <p>Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the settings contract behind both the editor's context menu and your module's own <a href="#settings-screen" style="color:#55FF55;">settings screen page</a>. On each client tick, <code>SimpleCPSClient</code> calls <code>HudModuleManager#tickAll(Minecraft)</code>; during HUD rendering, it calls <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking is handled for TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, and BOTTOM_RIGHT; CENTER modules are centered rather than stacked, so multiple centered modules can overlap unless your addon offsets them.</p>
     </div>
 
     <!-- ── Dependency ── -->
@@ -357,7 +359,9 @@ public void onPositionUpdated() {
     <!-- ── Context Menu Settings ── -->
     <div id="context-menu" class="api-section">
         <h3>Context Menu Settings</h3>
-        <p>When a player right-clicks your module in the HUD Editor, a context menu appears. By default it contains <strong>Reset Position</strong> and <strong>Reset Settings</strong>. Extend it by overriding <code>getContextMenuSettings()</code>.</p>
+        <p>When a player right-clicks your module in the HUD Editor, a context menu appears. By default it contains <strong>Reset Position</strong>, <strong>Reset Settings</strong> and <strong>Open Settings</strong>. Extend it by overriding <code>getContextMenuSettings()</code>.</p>
+
+        <p>Keep this menu short — it is the quick reach, not the full panel. Everything you put here <em>also</em> shows up on your module's page in the <a href="#settings-screen" style="color:#55FF55;">settings screen</a>, so there is no need to repeat it there.</p>
 
         <p>Six setting types are available under <code>com.eymistaken.simplecps.api</code>:</p>
 
@@ -439,6 +443,56 @@ public void resetVisualDefaults() {
         <div class="callout warning">
             <p><strong>Rule:</strong> Never reset <code>enabled</code>, position, or offsets inside <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset Position</strong>, and whether the module is on or off is always the player's choice.</p>
         </div>
+    </div>
+
+    <!-- ── Settings Screen ── -->
+    <div id="settings-screen" class="api-section">
+        <h3>The Settings Screen</h3>
+        <p>The right-click menu is not the only place your module can be configured. The moment you register it, your module also gets <em>its own page</em> in the mod's settings screen — listed in the sidebar under <strong>PLUGINS</strong>, opened from Mod Menu or from the HUD Editor. You do not have to build it; it is generated from what your module already exposes.</p>
+
+        <p>Two tabs are assembled for you:</p>
+
+        <ul>
+            <li><strong>POSITION</strong> — anchor picker, X / Y offsets and scale, driven by the same <a href="#editor-integration" style="color:#55FF55;">editor setters</a> you already implement. Nothing extra to write.</li>
+            <li><strong>SETTINGS</strong> — your settings, from the two lists below. Skipped entirely if you expose none.</li>
+        </ul>
+
+        <p>Which brings us to the split. <code>getContextMenuSettings()</code> stays exactly as it was and remains the <em>only</em> source for the editor's right-click menu — but everything it returns now appears on your settings page as well. That menu should stay short, so anything that belongs in the full screen and nowhere else goes in <code>getSettingsScreenSettings()</code>:</p>
+
+<pre><code class="language-java">import com.eymistaken.simplecps.api.*;
+import java.util.List;
+
+// Inside your MyCustomModule class:
+
+@Override
+public List&lt;HudModuleSetting&gt; getSettingsScreenSettings() {
+    List&lt;HudModuleSetting&gt; settings = new java.util.ArrayList&lt;&gt;();
+
+    settings.add(new ColorSetting("Background Color",
+        () -&gt; MyAddonConfig.bgColor,
+        color -&gt; { MyAddonConfig.bgColor = color; MyAddonConfig.save(); }
+    ));
+
+    settings.add(new SliderSetting("Background Opacity",
+        0, 255, 128,
+        () -&gt; MyAddonConfig.bgOpacity,
+        val -&gt; { MyAddonConfig.bgOpacity = val; MyAddonConfig.save(); }
+    ));
+
+    return settings;
+}</code></pre>
+
+        <p>The page lists the context-menu settings first, then these — concatenated in order, using the same six setting types. It defaults to an empty list, so addons written before it existed keep working and simply show their context-menu settings on both surfaces.</p>
+
+        <div class="callout warning">
+            <p><strong>Nothing is de-duplicated.</strong> Put each setting in one list or the other — a setting named in both is shown twice, because the two lists are joined as-is. There is no matching by label, and therefore no hidden rule about what you may call things.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>Two things the generated page cannot do for you.</strong> The per-row reset arrow only works for <code>SliderSetting</code>, since that is the one type that carries a <code>defaultValue</code> — for the rest it is drawn inert. And the <strong>ENABLED / DISABLED</strong> badge is read-only for addon modules, because <code>HudModule</code> has no setter for it. Expose a <code>BooleanSetting</code> if you want players to switch your module on and off from here, and an <code>ActionSetting</code> for a reset button that covers everything at once.</p>
+        </div>
+
+        <p style="margin-top:1.5rem;">Players reach your page either from the sidebar, or straight from the editor: right-clicking your module now offers <strong>Open Settings</strong> at the bottom of its menu, which jumps directly to it. Right-clicking one of your <a href="#sub-elements" style="color:#55FF55;">sub-elements</a> lands on the same page — sub-elements do not get pages of their own.</p>
     </div>
 
     <!-- ── Plugin State ── -->
