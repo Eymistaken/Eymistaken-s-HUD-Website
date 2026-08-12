@@ -256,6 +256,11 @@
         // enough to play the next frames, start it anyway after this long.
         var READY_TIMEOUT = 7000;
 
+        // One clip fetches at a time, and it keeps the line until it has this
+        // many seconds buffered ahead of the playhead. See queueLoads().
+        var MAX_CONCURRENT_LOADS = 1;
+        var SAFE_LEAD = 6;
+
         var playing = null;
 
         // Per-video bookkeeping, keyed off the element itself so that
@@ -323,7 +328,8 @@
             function markReady() {
                 if (state.ready) return;
                 state.ready = true;
-                clearTimeout(state.timer);
+                clearInterval(state.timer);
+                state.timer = null;
                 figure.style.setProperty('--load', '1');
                 figure.classList.remove('is-stalled');
                 // The overlay fades out over half a second while the clip
@@ -334,11 +340,21 @@
                 // into the blurred first frame rather than waiting for the
                 // next scroll to notice.
                 else if (autoplay) figure.classList.add('is-paused');
+                // This clip has stopped competing for the line, so the queue
+                // can release the next one. Nothing else would trigger that
+                // for a reader who has stopped scrolling.
+                schedule();
             }
             state.markReady = markReady;
 
             ['progress', 'loadeddata', 'durationchange', 'canplay', 'timeupdate']
                 .forEach(function (type) { video.addEventListener(type, reportProgress); });
+
+            // The buffer fills and the playhead advances without anybody
+            // scrolling, so let those drive the download queue too — nothing
+            // else would ever release the next clip on a still page.
+            video.addEventListener('progress', schedule);
+            video.addEventListener('timeupdate', schedule);
 
             video.addEventListener('canplaythrough', markReady);
             video.addEventListener('playing', function () {
@@ -403,6 +419,61 @@
             return r.bottom > -PRELOAD_MARGIN && r.top < vh + PRELOAD_MARGIN;
         }
 
+        // Seconds of video buffered ahead of the playhead. readyState alone
+        // is too optimistic to gate on: the browser reports HAVE_ENOUGH_DATA
+        // from a download-rate estimate that a second stream immediately
+        // invalidates, which is how four clips came to be fetched at once.
+        function hasSafeLead(video) {
+            var ranges = video.buffered, t = video.currentTime;
+            for (var i = 0; i < ranges.length; i++) {
+                if (ranges.start(i) <= t + 0.1 && ranges.end(i) >= t) {
+                    var lead = ranges.end(i) - t;
+                    // Either a comfortable cushion, or simply all of it.
+                    return lead >= SAFE_LEAD ||
+                           (isFinite(video.duration) && ranges.end(i) >= video.duration - 0.5);
+                }
+            }
+            return false;
+        }
+
+        // Fetching every clip within reach at once splits the line between
+        // clips nobody is looking at: measured on a real connection, four
+        // streams ran together and the one on screen stalled for 15 s while
+        // its neighbours sat at under 2%. So the visible clip gets the pipe
+        // to itself, and exactly one neighbour is allowed to start once that
+        // clip can play through.
+        function queueLoads(best) {
+            if (best) load(best.querySelector('video'));
+
+            // Counted off data-src rather than currentSrc: resource selection
+            // is async, so a clip started on this very tick would otherwise
+            // not be counted and a second one would start alongside it. A
+            // clip that failed is not still fetching, so it must not wedge
+            // the queue shut either.
+            var inFlight = 0;
+            figures.forEach(function (figure) {
+                var video = figure.querySelector('video');
+                if (!video || video.dataset.src || video.error) return;
+                // NETWORK_IDLE means the browser has stopped pulling bytes, so
+                // the clip is not competing for anything. Without this test a
+                // backgrounded clip that paused with a short buffer holds the
+                // queue slot for good and nothing else ever starts.
+                if (video.networkState === video.NETWORK_IDLE) return;
+                if (!hasSafeLead(video)) inFlight++;
+            });
+            if (inFlight >= MAX_CONCURRENT_LOADS) return;
+
+            // Nearest clip not yet started, so the next scroll has a head start.
+            var next = null, nearest = Infinity;
+            figures.forEach(function (figure) {
+                var video = figure.querySelector('video');
+                if (!video || !video.dataset.src || !nearViewport(figure)) return;
+                var distance = Math.abs(figure.getBoundingClientRect().top);
+                if (distance < nearest) { nearest = distance; next = video; }
+            });
+            if (next) load(next);
+        }
+
         // Exactly one clip runs at a time: the one occupying the most screen.
         // Comparing visible area rather than each element's own intersection
         // ratio is what stops a short neighbour from winning over the clip
@@ -412,9 +483,6 @@
 
             figures.forEach(function (figure) {
                 var area = visibleArea(figure);
-
-                if (autoplay && nearViewport(figure)) load(figure.querySelector('video'));
-
                 if (area > bestArea) { bestArea = area; best = figure; }
             });
 
@@ -444,17 +512,23 @@
                     } else if (!state.timer) {
                         // Some browsers hold canplaythrough back indefinitely
                         // on a long file. Once there is enough buffered to
-                        // show the next frames, get going regardless.
-                        state.timer = setTimeout(function () {
-                            state.timer = null;
-                            if (state.wanted && video.readyState >= 3) state.markReady();
+                        // show the next frames, get going regardless. Keeps
+                        // re-arming, because a reader who has stopped
+                        // scrolling produces no further chance to try.
+                        state.timer = setInterval(function () {
+                            if (!state.wanted || state.ready) {
+                                clearInterval(state.timer);
+                                state.timer = null;
+                                return;
+                            }
+                            if (video.readyState >= 3) state.markReady();
                         }, READY_TIMEOUT);
                     }
                     return;
                 }
 
                 state.wanted = false;
-                clearTimeout(state.timer);
+                clearInterval(state.timer);
                 state.timer = null;
 
                 // A clip the reader started by hand keeps running until it
@@ -470,6 +544,8 @@
                 // carries on filling in while it sits off to the side.
                 if (autoplay && state.ready) figure.classList.add('is-paused');
             });
+
+            if (autoplay) queueLoads(best);
         }
 
         var frame = null;
