@@ -120,7 +120,7 @@
 <section aria-labelledby="modules-heading" style="border-bottom:1px solid var(--line)">
     <div class="section-head">
         <h2 class="h2" id="modules-heading">The modules</h2>
-        <span class="section-count">01 — 07</span>
+        <span class="section-count">01 — 08</span>
     </div>
 
     <article class="split module-row rise">
@@ -227,10 +227,10 @@
         <div class="module__copy">
             <div class="module__title">
                 <span class="module__num">06</span>
-                <h3 class="module__name">FPS &amp; Ping</h3>
+                <h3 class="module__name">FPS</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Lightweight performance readouts with custom label text, colour, scale and background — for when you want the numbers without opening F3.</p>
-            <p class="module__meta">Custom label · Colour · Scale · Background</p>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Frames per second, updated every tick, with custom suffix text, colour, scale, rainbow mode and a background — for when you want the number without opening F3.</p>
+            <p class="module__meta">Suffix · Colour · Scale · Rainbow</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -238,7 +238,7 @@
                     <span class="media__label">Loading FPS demo</span>
                     <span class="media__spinner" aria-hidden="true"></span>
                 </div>
-                <video data-src="assets/fps-demo.mp4" muted loop playsinline preload="none" aria-label="The FPS and ping readouts updating in game"></video>
+                <video data-src="assets/fps-demo.mp4" muted loop playsinline preload="none" aria-label="The FPS readout updating in game"></video>
             </figure>
         </div>
     </article>
@@ -247,6 +247,22 @@
         <div class="module__copy">
             <div class="module__title">
                 <span class="module__num">07</span>
+                <h3 class="module__name">Ping</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Server latency in milliseconds, read straight from the network handler rather than the tab list, so it updates as often as the connection does. Custom colour, scale and background.</p>
+            <p class="module__meta">Colour · Scale · Background</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media media--still">
+                <img src="assets/ping-demo.png" alt="The ping module rendered in game, reading 18 ms" width="164" height="69" decoding="async">
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">08</span>
                 <h3 class="module__name">The designer</h3>
             </div>
             <p class="body" style="max-width:48ch;margin:0 0 20px">A visual editor for the keystrokes layout with pixel-perfect snapping, context menus, drag-and-drop, per-key colours and unlimited undo and redo.</p>

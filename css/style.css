@@ -968,13 +968,21 @@ code {
 }
 .media--still img {
     position: static;
-    width: auto;
+    /* 3x native size so the pixel art is readable, but never wider than
+       the frame. transform: scale() cannot do this — it ignores the
+       container and crops the readout on a phone. */
+    width: min(492px, 100%);
     height: auto;
-    max-width: 100%;
-    object-fit: contain;
     image-rendering: pixelated;
-    transform: scale(3);
-    transform-origin: center;
+}
+
+/* In a module row a still sits among clips, so it holds the same 16:9
+   frame instead of shrinking to its own height and breaking the rhythm
+   the row-by-row scroll sets up. */
+.media-frame .media--still {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+    border: 0;
 }
 
 /* ---------------------------------------------------------
