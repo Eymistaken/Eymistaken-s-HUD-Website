@@ -64,6 +64,11 @@
 
 * { box-sizing: border-box; }
 
+/* An author `display` declaration silently beats the UA rule behind the
+   `hidden` attribute, which makes hidden elements show up anyway. Keep
+   `hidden` meaning hidden. */
+[hidden] { display: none !important; }
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 76px;
@@ -723,33 +728,9 @@ code {
 .media.is-failed .media__spinner { display: none; }
 .media.is-failed .media__label { color: var(--warn); }
 
-/* Shown instead of autoplay on touch, reduced-motion and data-saver. */
-.media__play {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(20, 23, 18, 0.55);
-    border: 0;
-    color: var(--fg);
-    cursor: pointer;
-    font-family: var(--font-label);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-.media__play span {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid var(--line-btn);
-    background: var(--bg);
-    padding: 12px 20px;
-}
-.media__play:hover span { border-color: var(--brass); color: var(--brass); }
-.media.is-playing .media__play { display: none; }
+/* Visitors who opt out of autoplay get the browser's own video controls
+   rather than a custom overlay button. */
+.media video[controls] { z-index: 2; }
 
 .media-frame {
     padding: var(--gutter);

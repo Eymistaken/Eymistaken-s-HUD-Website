@@ -274,7 +274,6 @@
 
         figures.forEach(function (figure) {
             var video = figure.querySelector('video');
-            var btn   = figure.querySelector('.media__play');
 
             if (!video) return; // still image demo — plain lazy <img>
 
@@ -300,14 +299,21 @@
                 figure.classList.remove('is-loading', 'is-ready', 'is-playing');
                 figure.classList.add('is-failed');
                 if (label) label.textContent = title + ' unavailable';
-                if (btn) btn.hidden = true;
             });
 
-            if (btn) {
-                btn.hidden = autoplay;
-                btn.addEventListener('click', function () {
-                    video.controls = true; // give them a way to stop it again
-                    play(figure, video);
+            if (!autoplay) {
+                // Data Saver or reduced motion: fetch the first frame only and
+                // hand over the browser's own controls. Clearing the overlay on
+                // metadata keeps it from spinning against a clip that will
+                // never start by itself.
+                video.controls = true;
+                video.loop = false;
+                video.preload = 'metadata';
+                video.src = video.dataset.src;
+                delete video.dataset.src;
+                video.addEventListener('loadedmetadata', function () {
+                    figure.classList.remove('is-loading');
+                    figure.classList.add('is-ready', 'is-playing');
                 });
             }
         });
