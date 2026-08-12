@@ -1,410 +1,352 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eymistaken's HUD — Minecraft 26.2</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            darkMode:'class',
-            theme:{ extend:{
-                colors:{'bg':'#131313','bg-low':'#0e0e0e','surf':'#1c1b1b','surf-high':'#2a2a2a','surf-top':'#353534','green':'#55FF55','green-dim':'#33e43d','teal':'#49f6f6','teal-dim':'#0edcdd','muted':'#bbcbb3','on-surf':'#e5e2e1','outline':'#3c4b38'},
-                fontFamily:{ head:['Space Grotesk','sans-serif'], body:['Inter','sans-serif'] },
-                borderRadius:{ DEFAULT:'0px', lg:'0px', xl:'0px', full:'9999px' }
-            }}
-        };
-    </script>
-    <style>
-        body { font-family:'Inter',sans-serif; }
-        .font-head { font-family:'Space Grotesk',sans-serif; }
-        .stat-num  { font-family:'Space Grotesk',sans-serif; }
-
-        /* Key buttons */
-        .key-btn {
-            border:1px solid #3c4b38; background:#2a2a2a; color:#e5e2e1;
-            font-family:'Space Grotesk',monospace; font-weight:700;
-            text-align:center; display:flex; align-items:center; justify-content:center;
-            transition:background 0.06s, color 0.06s, transform 0.06s, box-shadow 0.06s;
-            user-select:none; cursor:default; line-height:1;
-        }
-        .key-btn.pressed {
-            background:#55FF55 !important; color:#131313 !important;
-            transform:scale(0.88); box-shadow:0 0 8px rgba(85,255,85,0.6);
-        }
-
-        /* Combo */
-        @keyframes dotPulse {
-            from { transform:scale(1);    box-shadow:0 0 4px #ff3333; }
-            to   { transform:scale(1.4);  box-shadow:0 0 12px rgba(255,51,51,0.6); }
-        }
-        @keyframes comboShake {
-            0%,100%{ transform:translate(0,0); }
-            15%    { transform:translate(-3px,1px); }
-            30%    { transform:translate(3px,-1px); }
-            45%    { transform:translate(-2px,2px); }
-            60%    { transform:translate(2px,-2px); }
-            75%    { transform:translate(-1px,1px); }
-        }
-        .combo-shake { animation:comboShake 0.12s ease-in-out infinite; }
-        .combo-dot {
-            position:absolute; width:10px; height:10px;
-            background:#ff3333; border-radius:50%; cursor:crosshair;
-            animation:dotPulse 0.7s ease-in-out infinite alternate;
-        }
-
-        /* Fade up */
-        @keyframes fadeUp {
-            from { opacity:0; transform:translateY(20px); }
-            to   { opacity:1; transform:translateY(0); }
-        }
-        .fade-up { opacity:0; animation:fadeUp 0.6s cubic-bezier(0.2,0.8,0.2,1) forwards; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eymistaken's HUD</title>
+<meta name="description" content="A modular, client-side HUD for Minecraft 26.1–26.2 on Fabric. Seven modules, a live drag-and-drop editor, share codes and a plugin API.">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-bg text-on-surf min-h-screen">
+<body>
 
-<!-- NAV -->
-<nav class="sticky top-0 z-50 bg-bg-low border-b border-outline/30 flex items-center justify-between px-8 py-4">
-    <span class="font-head text-teal font-bold text-xl tracking-tighter uppercase">Eymistaken's HUD</span>
-    <div class="hidden md:flex items-center gap-8">
-        <a href="index.html"      data-page="index.html"      class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Home</a>
-        <a href="user-guide.html" data-page="user-guide.html" class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">User Guide</a>
-        <a href="api-guide.html"  data-page="api-guide.html"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">API Guide</a>
-        <a href="downloads.html"  data-page="downloads.html"  class="font-head text-xs uppercase tracking-widest text-muted hover:text-green transition-colors">Downloads</a>
-    </div>
-    <a href="downloads.html" class="bg-green text-bg-low px-6 py-2 font-head font-bold text-xs uppercase tracking-widest hover:bg-green-dim transition-colors">GET STARTED</a>
-</nav>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<!-- HERO -->
-<section class="relative min-h-[92vh] flex flex-col justify-center px-8 md:px-16 bg-bg-low dot-grid overflow-hidden">
-    <div class="absolute top-0 left-0 w-96 h-96 rounded-full opacity-5 pointer-events-none" style="background:radial-gradient(circle,#55FF55,transparent 70%)"></div>
-    <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full opacity-5 pointer-events-none" style="background:radial-gradient(circle,#49f6f6,transparent 70%)"></div>
+<header class="site-header">
+    <a class="wordmark" href="index.html">
+        <img src="assets/icon-96.png" alt="" width="22" height="22">
+        <span>Eymistaken's HUD</span>
+    </a>
 
-    <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <nav class="nav" aria-label="Primary">
+        <a href="user-guide.html">User Guide</a>
+        <a href="api-guide.html">API Guide</a>
+        <a href="downloads.html">Downloads</a>
+        <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
+    </nav>
 
-        <!-- Title -->
-        <div>
-            <div class="inline-flex items-center gap-2 bg-surf border-l-4 border-teal px-4 py-1.5 mb-8">
-                <span class="w-1.5 h-1.5 bg-green rounded-full"></span>
-                <span class="font-head text-[10px] uppercase tracking-[0.25em] text-teal">Minecraft Fabric 26.2</span>
-            </div>
-            <h1 class="font-head text-6xl lg:text-8xl font-bold tracking-tighter leading-none mb-8 fade-up" style="animation-delay:0.1s">
-                EYMISTAKEN'S<br><span class="text-green">HUD.</span>
-            </h1>
-            <p class="text-muted text-lg max-w-md mb-12 leading-relaxed fade-up" style="animation-delay:0.2s">
-                A highly customizable, modular HUD mod with a pixel-perfect drag-and-drop editor, shareable setups, a HUD that follows you from server to server, a full developer plugin API, and zero performance overhead.
-            </p>
-            <div class="flex flex-wrap gap-4 fade-up" style="animation-delay:0.3s">
-                <a href="downloads.html" class="bg-green text-bg-low px-10 py-4 font-head font-bold text-sm uppercase tracking-widest hover:bg-green-dim transition-colors">DOWNLOAD NOW</a>
-                <a href="api-guide.html" class="border border-teal text-teal px-10 py-4 font-head font-bold text-sm uppercase tracking-widest hover:bg-teal/10 transition-colors">API GUIDE</a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
+        <span class="visually-hidden">Menu</span>
+        <svg class="icon-open" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14"/></svg>
+        <svg class="icon-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+</header>
+
+<div class="nav-panel" id="nav-panel">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="user-guide.html">User Guide</a>
+    <a href="api-guide.html">API Guide</a>
+    <a href="downloads.html">Downloads</a>
+    <a class="btn btn--brass" href="downloads.html">Download</a>
+</div>
+
+<main id="main">
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="split hero">
+    <div class="hero__copy-cell">
+        <div class="hero__copy">
+            <p class="eyebrow">Fabric · Minecraft 26.1–26.2 · client-side</p>
+            <h1 class="display">A competitive HUD you place yourself.</h1>
+            <p class="lede" style="max-width:44ch">Seven modules, a live drag-and-drop editor, and a plugin API. Everything is drawn client-side and stored in one config file you can share as a line of text.</p>
+            <div class="chips" style="gap:12px">
+                <a class="btn btn--brass" href="downloads.html">Download</a>
+                <a class="btn btn--ghost" href="api-guide.html">API Guide</a>
             </div>
         </div>
+    </div>
 
-        <!-- Interactive HUD Preview -->
-        <div class="fade-up" style="animation-delay:0.4s">
-            <div id="hud-preview" class="bg-surf border border-outline/50 p-5 relative select-none" style="max-width:360px;margin-left:auto;">
-
-                <!-- Icon -->
-                <div class="flex justify-center mb-4">
-                    <img src="assets/icon.png" alt="Icon" class="w-20 h-20 object-contain"
-                         style="image-rendering:pixelated;filter:drop-shadow(0 0 14px rgba(85,255,85,0.3));"
-                         onerror="this.style.display='none'">
-                </div>
-                <div class="font-head text-[9px] uppercase tracking-[0.2em] text-muted mb-3">// HUD PREVIEW</div>
-
-                <!-- CPS live -->
-                <div id="cps-row" class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-1">
-                    <span class="font-head text-[10px] uppercase tracking-widest text-muted">CPS</span>
-                    <span id="cps-display" class="font-head text-green font-bold text-base">0 | 0</span>
+    <div class="hero__demo raised">
+        <div style="width:100%;max-width:520px">
+            <div class="hud" id="hud-preview" tabindex="0" role="group" aria-label="Interactive HUD preview. Click, or press W A S D and space while focused, to drive the readouts.">
+                <div class="hud__head">
+                    <span>Live preview</span>
+                    <span>click · WASD · space</span>
                 </div>
 
-
-                <!-- FPS / PING static -->
-                <div class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-1">
-                    <span class="font-head text-[10px] uppercase tracking-widest text-muted">FPS</span>
-                    <span class="font-head text-teal font-bold text-base">244</span>
-                </div>
-                <div class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-1">
-                    <span class="font-head text-[10px] uppercase tracking-widest text-muted">PING</span>
-                    <span class="font-head text-green font-bold text-base">18ms</span>
-                </div>
-
-                <!-- COMBO interactive -->
-                <div id="combo-parent" class="bg-surf-high px-3 py-2.5 mb-1 cursor-default">
-                    <div id="combo-row" class="flex justify-between items-center">
-                        <span class="font-head text-[10px] uppercase tracking-widest text-muted">COMBO</span>
-                        <span id="combo-display" class="font-head font-bold text-base" style="color:#e5e2e1;transition:color 0.2s">0 Combo</span>
+                <div class="hud__grid">
+                    <div class="hud__stats">
+                        <div class="hud__stat"><span>CPS</span><span data-cps style="color:var(--brass)">0 | 0</span></div>
+                        <div class="hud__stat"><span>FPS</span><span>244</span></div>
+                        <div class="hud__stat"><span>Ping</span><span>18ms</span></div>
+                        <div class="hud__stat"><span>Reach</span><span>3.14</span></div>
+                        <div class="hud__stat"><span>Combo</span><span data-combo>0 combo</span></div>
                     </div>
-                    <div id="combo-area" style="position:relative;height:0;overflow:hidden;transition:height 0.2s ease, margin-top 0.2s ease;margin-top:0;"></div>
-                </div>
 
-                <!-- REACH static -->
-                <div class="flex justify-between items-center bg-surf-high px-3 py-2.5 mb-3">
-                    <span class="font-head text-[10px] uppercase tracking-widest text-muted">REACH</span>
-                    <span class="font-head text-green font-bold text-base">3.14 blocks</span>
-                </div>
-
-                <!-- KEYSTROKES functional -->
-                <div>
-                    <div style="display:flex;gap:2px;margin-bottom:2px;padding-left:22px;">
-                        <div id="key-W"     class="key-btn" style="width:20px;height:20px;font-size:8px;">W</div>
-                    </div>
-                    <div style="display:flex;gap:2px;margin-bottom:2px;">
-                        <div id="key-A"     class="key-btn" style="width:20px;height:20px;font-size:8px;">A</div>
-                        <div id="key-S"     class="key-btn" style="width:20px;height:20px;font-size:8px;">S</div>
-                        <div id="key-D"     class="key-btn" style="width:20px;height:20px;font-size:8px;">D</div>
-                    </div>
-                    <div style="display:flex;gap:2px;margin-bottom:2px;">
-                        <div id="key-LMB"   class="key-btn" style="width:31px;height:20px;font-size:7px;">LMB</div>
-                        <div id="key-RMB"   class="key-btn" style="width:31px;height:20px;font-size:7px;">RMB</div>
-                    </div>
-                    <div style="display:flex;gap:2px;margin-bottom:2px;">
-                        <div id="key-SPACE" class="key-btn" style="width:64px;height:12px;font-size:6px;letter-spacing:2px;">─────</div>
-                    </div>
-                    <div style="display:flex;gap:2px;">
-                        <div id="key-CTRL"  class="key-btn" style="width:31px;height:12px;font-size:6px;">CTRL</div>
-                        <div id="key-SHIFT" class="key-btn" style="width:31px;height:12px;font-size:6px;">SHIFT</div>
+                    <div class="hud__keys" aria-hidden="true">
+                        <div class="hud__keyrow"><div class="hud__key" data-key="W">W</div></div>
+                        <div class="hud__keyrow">
+                            <div class="hud__key" data-key="A">A</div>
+                            <div class="hud__key" data-key="S">S</div>
+                            <div class="hud__key" data-key="D">D</div>
+                        </div>
+                        <div class="hud__keyrow" style="margin-top:3px">
+                            <div class="hud__key hud__key--wide" data-key="LMB">LMB</div>
+                            <div class="hud__key hud__key--wide" data-key="RMB">RMB</div>
+                        </div>
+                        <div class="hud__keyrow"><div class="hud__key hud__key--space" data-key="SPACE"></div></div>
                     </div>
                 </div>
 
-                <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-green pointer-events-none"></div>
+                <div class="hud__touch">
+                    <p class="hud__touch-label">Tap to try it</p>
+                    <div class="hud__touch-keys">
+                        <button type="button" data-touch-key="LMB">LMB</button>
+                        <button type="button" data-touch-key="RMB">RMB</button>
+                        <button type="button" data-touch-key="W">W</button>
+                        <button type="button" data-touch-key="A">A</button>
+                        <button type="button" data-touch-key="S">S</button>
+                        <button type="button" data-touch-key="D">D</button>
+                        <button type="button" data-touch-key="SPACE">Space</button>
+                    </div>
+                </div>
             </div>
+            <p class="caption">Not a screenshot — the real thing behaves like this in game.</p>
         </div>
     </div>
 </section>
 
-<!-- STATS BAR -->
-<section class="bg-bg border-y border-outline/30 py-12 px-8">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div><div class="stat-num text-5xl font-bold text-teal mb-1">7</div><div class="font-head text-[10px] uppercase tracking-[0.3em] text-muted">Core Modules</div></div>
-        <div><div class="stat-num text-5xl font-bold text-green mb-1">26.2</div><div class="font-head text-[10px] uppercase tracking-[0.3em] text-muted">MC Version</div></div>
-        <div><div class="stat-num text-5xl font-bold text-teal mb-1">0ms</div><div class="font-head text-[10px] uppercase tracking-[0.3em] text-muted">Lag Spike</div></div>
-        <div><div class="stat-num text-5xl font-bold text-green mb-1">API</div><div class="font-head text-[10px] uppercase tracking-[0.3em] text-muted">Plugin Ready</div></div>
+<!-- ── Spec strip ───────────────────────────────────────── -->
+<section class="strip" aria-label="At a glance">
+    <div class="spec"><div class="spec__label">Modules</div><div class="spec__value">7 built-in</div></div>
+    <div class="spec"><div class="spec__label">Runtime</div><div class="spec__value">Java 25</div></div>
+    <div class="spec"><div class="spec__label">Dependencies</div><div class="spec__value">Fabric API only</div></div>
+    <div class="spec"><div class="spec__label">Licence</div><div class="spec__value">MIT</div></div>
+</section>
+
+<!-- ── Modules ──────────────────────────────────────────── -->
+<section aria-labelledby="modules-heading" style="border-bottom:1px solid var(--line)">
+    <div class="section-head">
+        <h2 class="h2" id="modules-heading">The modules</h2>
+        <span class="section-count">01 — 07</span>
+    </div>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">01</span>
+                <h3 class="module__name">CPS</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Left and right click counters with a configurable separator and free-text prefixes and suffixes, so you can render <code>12 | 4</code>, <code>CPS: 12</code>, or anything else you like.</p>
+            <p class="module__meta">Left · Right · Separator · Prefix / suffix</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>CPS demo</span></div>
+                <video data-src="assets/cps-demo.mp4" muted loop playsinline preload="none" aria-label="The CPS module counting left and right clicks in game"></video>
+                <button class="media__play" type="button" hidden><span>Play CPS demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">02</span>
+                <h3 class="module__name">Keystrokes</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Not a fixed WASD block. The bundled designer lets you draw your own layout: add any key or mouse button, resize it, drag its label independently, recolour individual keys, and pick a press animation. Any key can carry its own CPS counter.</p>
+            <p class="module__meta">Designer · Per-key colour · Squish / ripple</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>Keystrokes demo</span></div>
+                <video data-src="assets/keystrokes-demo.mp4" muted loop playsinline preload="none" aria-label="A custom keystrokes layout lighting up as keys are pressed"></video>
+                <button class="media__play" type="button" hidden><span>Play Keystrokes demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">03</span>
+                <h3 class="module__name">Combo</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">A hit-streak counter with a heatmap: the number changes colour as your streak climbs and shakes at the top tier. Classic mode counts every swing; Modern respects the 1.9+ attack cooldown so spam clicking does not inflate your streak.</p>
+            <p class="module__meta">Easy 3/5/7 · Medium 5/8/12 · Hard 10/40/60</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>Combo demo</span></div>
+                <video data-src="assets/combo-demo.mp4" muted loop playsinline preload="none" aria-label="The combo counter climbing through its colour tiers"></video>
+                <button class="media__play" type="button" hidden><span>Play Combo demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">04</span>
+                <h3 class="module__name">Reach</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">The exact distance of your last hit, to 2 decimal places. Optionally filters to players only, and can stay on screen with a custom no-hit-yet label instead of disappearing.</p>
+            <p class="module__meta">Players only · Persistent label</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>Reach demo</span></div>
+                <video data-src="assets/reach-demo.mp4" muted loop playsinline preload="none" aria-label="The reach readout showing hit distance in blocks"></video>
+                <button class="media__play" type="button" hidden><span>Play Reach demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">05</span>
+                <h3 class="module__name">Armor</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Your armour, main hand and off hand as item icons with durability bars. Vertical or horizontal, hotbar-style slot backgrounds, exact durability numbers, and a red flash when a slot takes damage. Every slot is independently placeable.</p>
+            <p class="module__meta">Sub-elements · Durability · Damage flash</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>Armor demo</span></div>
+                <video data-src="assets/armor-demo.mp4" muted loop playsinline preload="none" aria-label="The armor module showing equipped items and durability bars"></video>
+                <button class="media__play" type="button" hidden><span>Play Armor demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">06</span>
+                <h3 class="module__name">FPS &amp; Ping</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">Lightweight performance readouts with custom label text, colour, scale and background — for when you want the numbers without opening F3.</p>
+            <p class="module__meta">Custom label · Colour · Scale · Background</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>FPS demo</span></div>
+                <video data-src="assets/fps-demo.mp4" muted loop playsinline preload="none" aria-label="The FPS and ping readouts updating in game"></video>
+                <button class="media__play" type="button" hidden><span>Play FPS demo</span></button>
+            </figure>
+        </div>
+    </article>
+
+    <article class="split module-row rise">
+        <div class="module__copy">
+            <div class="module__title">
+                <span class="module__num">07</span>
+                <h3 class="module__name">The designer</h3>
+            </div>
+            <p class="body" style="max-width:48ch;margin:0 0 20px">A visual editor for the keystrokes layout with pixel-perfect snapping, context menus, drag-and-drop, per-key colours and unlimited undo and redo.</p>
+            <p class="module__meta">Snapping · Undo / redo · Share codes</p>
+        </div>
+        <div class="media-frame">
+            <figure class="media" data-media>
+                <div class="media__ph"><span>Designer demo</span></div>
+                <video data-src="assets/designer-demo.mp4" muted loop playsinline preload="none" aria-label="The Keystrokes Designer being used to build a custom layout"></video>
+                <button class="media__play" type="button" hidden><span>Play Designer demo</span></button>
+            </figure>
+        </div>
+    </article>
+</section>
+
+<!-- ── The editor ───────────────────────────────────────── -->
+<section class="split band" aria-labelledby="editor-heading">
+    <div class="section section--lead section--tall">
+        <p class="eyebrow">Press Right Shift</p>
+        <h2 class="h2" id="editor-heading" style="margin-bottom:22px">The editor is the HUD.</h2>
+        <p class="body" style="max-width:46ch;margin:0 0 34px">Everything you see in the editor is live. Drag a module — or a single armour slot — to place it exactly. Right-click it for its own settings without leaving the screen.</p>
+        <a class="btn btn--ghost" href="user-guide.html">Read the user guide</a>
+    </div>
+    <div>
+        <div class="section" style="padding:28px;border-bottom:1px solid var(--line-soft)">
+            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Multi-select and align</h3>
+            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Align left / centre / right, top / middle / bottom, and distribute two or more elements evenly.</p>
+        </div>
+        <div class="section" style="padding:28px;border-bottom:1px solid var(--line-soft)">
+            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Snapping and grid</h3>
+            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Snaps to other modules' edges with a magenta guide, gliding into place instead of jumping. Optional 4 / 8 / 16 / 32 pixel grid, arrow-key nudging, and scroll to scale from 50% to 300%.</p>
+        </div>
+        <div class="section" style="padding:28px">
+            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Prevent overlap</h3>
+            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Keeps two modules from ever covering the same pixels, resolving to the nearest free rectangle.</p>
+        </div>
     </div>
 </section>
 
-<!-- FEATURES -->
-<section class="py-24 px-8 md:px-24 bg-bg">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-16">
-            <div>
-                <h2 class="font-head text-4xl font-bold tracking-tight uppercase mb-1 text-on-surf">Core Features</h2>
-                <p class="font-head text-[10px] uppercase tracking-widest text-muted">Next-generation interface components</p>
-            </div>
-            <div class="h-px flex-grow bg-outline/30 mx-8 hidden md:block"></div>
-            <span class="font-head text-teal font-bold text-sm">01 / 03</span>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-green/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">7 Default Modules</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Track everything that matters. CPS, FPS, Ping, Combo, Keystrokes, Armor HUD, and Reach Display — all out of the box.</p>
-                <a href="user-guide.html" class="mt-8 text-green font-head text-xs uppercase tracking-widest hover:text-green-dim flex items-center gap-2 group-hover:gap-3 transition-all">VIEW MODULES <span>→</span></a>
-            </div>
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-teal/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Keystrokes Designer</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">A fully interactive precision designer. Pixel-perfect snapping, context menus, drag-and-drop, per-key colors, and unlimited undo/redo.</p>
-                <a href="user-guide.html#keystrokes-designer" class="mt-8 text-teal font-head text-xs uppercase tracking-widest hover:text-teal-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
-            </div>
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-green/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Plugin API</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Built for developers. Inject custom modules via <code>EymistakenHudPlugin</code> using Fabric Entrypoints. Context menu settings, an event bus, and settings that travel with every preset and share code.</p>
-                <a href="api-guide.html" class="mt-8 text-green font-head text-xs uppercase tracking-widest hover:text-green-dim flex items-center gap-2 group-hover:gap-3 transition-all">API GUIDE <span>→</span></a>
-            </div>
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-teal/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Precision Editor</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Magnetic snapping that glides into place instead of jumping. Optional grid, box-select, align and distribute tools, and arrow-key nudging down to the pixel.</p>
-                <a href="user-guide.html" class="mt-8 text-teal font-head text-xs uppercase tracking-widest hover:text-teal-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
-            </div>
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-green/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 13v7h16v-7M12 3v13M8 7l4-4 4 4"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Share &amp; Sync</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Pack your whole HUD into one line of text and paste it to a friend. Save named configs, and let each server remember its own layout automatically.</p>
-                <a href="user-guide.html#configs" class="mt-8 text-green font-head text-xs uppercase tracking-widest hover:text-green-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
-            </div>
-            <div class="bg-surf p-10 flex flex-col hover:bg-surf-high transition-colors group">
-                <div class="w-10 h-10 bg-teal/20 flex items-center justify-center mb-6">
-                    <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 20h16M7 16l5-12 5 12M9 11h6"/></svg>
-                </div>
-                <h3 class="font-head text-xl font-bold mb-4 uppercase text-on-surf">Bundled Fonts</h3>
-                <p class="text-muted leading-relaxed text-sm flex-1">Five fonts ship with the mod — Inter, Rubik, JetBrains Mono, Bebas Neue and Enchanting Table — plus a text outline mode. Applies to the HUD only, never to chat.</p>
-                <a href="user-guide.html#appearance" class="mt-8 text-teal font-head text-xs uppercase tracking-widest hover:text-teal-dim flex items-center gap-2 group-hover:gap-3 transition-all">LEARN MORE <span>→</span></a>
-            </div>
-        </div>
+<!-- ── Layouts ──────────────────────────────────────────── -->
+<section class="split" aria-labelledby="layouts-heading">
+    <div class="section section--lead">
+        <h2 class="h2 h2--sm" id="layouts-heading" style="margin-bottom:20px">Layouts that travel.</h2>
+        <p class="body" style="max-width:46ch;margin:0">Save the whole HUD under a name, let each server remember its own, or export everything as one <code>EYMHUD1-…</code> string and paste it to a friend. Imports are validated before anything is applied, and a timestamped backup is taken first.</p>
     </div>
+    <dl class="rowlist" style="border-top:0;margin:0">
+        <div style="padding:26px var(--gutter)">
+            <dt>Presets</dt>
+            <dd class="body-sm">Named layouts stored as plain JSON in <code>simplecps_presets/</code>.</dd>
+        </div>
+        <div style="padding:26px var(--gutter)">
+            <dt>Per-server</dt>
+            <dd class="body-sm">Join a server you have configured and its layout loads silently.</dd>
+        </div>
+        <div style="padding:26px var(--gutter)">
+            <dt>Share codes</dt>
+            <dd class="body-sm">The whole HUD, or just a keystrokes layout, as one copyable string.</dd>
+        </div>
+        <div style="padding:26px var(--gutter)">
+            <dt>Fonts</dt>
+            <dd class="body-sm">Inter, Rubik, JetBrains Mono, Bebas Neue and the enchanting-table font — HUD only, never chat.</dd>
+        </div>
+    </dl>
 </section>
 
-<!-- CTA -->
-<section class="py-32 px-8 text-center bg-bg-low relative overflow-hidden dot-grid">
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-green/5 pointer-events-none"></div>
-    <div class="relative z-10 max-w-3xl mx-auto">
-        <div class="font-head text-[10px] uppercase tracking-[0.3em] text-teal mb-8">// GET STARTED</div>
-
-        <div style="min-height:8rem;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;">
-            <h2 id="cta-heading" class="font-head font-bold tracking-tighter uppercase"
-                style="font-size:clamp(2.8rem,7vw,5.5rem);line-height:1.05;color:#e5e2e1;
-                       transition:opacity 0.45s ease, transform 0.45s ease;">
-                EYMISTAKEN'S HUD
-            </h2>
-        </div>
-
-        <p class="text-muted mb-12 font-head uppercase" style="letter-spacing:0.2em;font-size:0.78rem;">
-            Fully customizable&nbsp;&nbsp;·&nbsp;&nbsp;Zero overhead&nbsp;&nbsp;·&nbsp;&nbsp;Open source
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="downloads.html" class="bg-green text-bg-low px-12 py-5 font-head font-black text-sm uppercase tracking-widest hover:bg-green-dim transition-colors">DOWNLOAD <span id="dynamic-version">LATEST</span></a>
-            <a href="user-guide.html" class="bg-surf-high text-on-surf px-12 py-5 font-head font-bold text-sm uppercase tracking-widest border border-outline hover:bg-surf-top transition-colors">USER GUIDE</a>
-        </div>
+<!-- ── For developers ───────────────────────────────────── -->
+<section class="split" aria-labelledby="dev-heading">
+    <div class="section section--lead">
+        <p class="eyebrow">For developers</p>
+        <h2 class="h2 h2--sm" id="dev-heading" style="margin-bottom:20px">Register a module, get everything else free.</h2>
+        <p class="body" style="max-width:46ch;margin:0 0 30px">A module registered through the <code>eymistaken_hud</code> entrypoint gets a settings page, a slot in the editor, and its state carried inside presets, server configs and share codes.</p>
+        <a class="btn btn--brass" href="api-guide.html">Read the API guide</a>
     </div>
-</section>
-<script>
-(function(){
-    const el = document.getElementById('cta-heading');
-    if (!el) return;
-    const phrases = [
-        { text:"EYMISTAKEN'S HUD", color:'#e5e2e1' },
-        { text:'YOUR HUD.',        color:'#55FF55'  },
-    ];
-    let idx = 0;
-    function cycle() {
-        el.style.opacity   = '0';
-        el.style.transform = 'translateY(-10px)';
-        setTimeout(() => {
-            idx = (idx + 1) % phrases.length;
-            el.textContent = phrases[idx].text;
-            el.style.color = phrases[idx].color;
-            el.style.transform = 'translateY(10px)';
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                el.style.opacity   = '1';
-                el.style.transform = 'translateY(0)';
-            }));
-        }, 480);
+    <div class="codeblock" style="margin:0;border:0;border-left:1px solid var(--line-soft)">
+        <button class="copy-btn" type="button" aria-label="Copy code">
+            <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
+            <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
+        </button>
+        <div class="codeblock__scroll"><pre><code>public class MyPlugin implements EymistakenHudPlugin {
+    @Override
+    public void registerHudModules(HudModuleManager manager) {
+        manager.registerModule(new MyHudModule());
     }
-    setInterval(cycle, 2600);
-})();
-</script>
 
-<!-- FOOTER -->
-<footer class="bg-bg-low border-t border-outline/20 py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-    <span class="font-head text-teal font-bold uppercase tracking-tighter text-xl">Eymistaken's HUD</span>
-    <div class="flex gap-8">
-        <a href="https://github.com/Eymistaken/Eymistaken-s-hud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">GitHub</a>
-        <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Modrinth</a>
-        <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">CurseForge</a>
-        <a href="https://linktr.ee/Eymistaken"                    target="_blank" class="font-head text-[10px] uppercase tracking-widest text-muted hover:text-teal transition-colors">Linktree</a>
+    @Override
+    public void registerEvents(EymistakenHudEventBus bus) {
+        bus.subscribe(ComboStreakEvent.class, event -&gt; {
+            if (event.level() &gt;= 2) playHypeSound();
+        });
+    }
+}</code></pre></div>
     </div>
-    <span class="font-head text-[10px] uppercase tracking-widest text-green">© 2026 Eymistaken — for Minecraft 26.2</span>
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <div>
+        <div class="wordmark" style="margin-bottom:14px">
+            <img src="assets/icon-96.png" alt="" width="20" height="20" style="width:20px;height:20px">
+            <span>Eymistaken's HUD</span>
+        </div>
+        <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.1–26.2</p>
+    </div>
+    <div>
+        <a href="https://github.com/Eymistaken/Eymistaken-s-hud" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" rel="noopener">Modrinth</a>
+        <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" rel="noopener">CurseForge</a>
+        <a href="https://linktr.ee/Eymistaken" target="_blank" rel="noopener">Linktree</a>
+    </div>
 </footer>
 
 <script src="js/scripts.js"></script>
-<script>
-(function(){
-    // ── Prevent right-click context menu on entire page ──────
-    document.addEventListener('contextmenu', e => e.preventDefault());
-
-    // ── Live CPS ─────────────────────────────────────────────
-    const lArr = [], rArr = [];
-    const cpsEl = document.getElementById('cps-display');
-    function refreshCPS() {
-        const now = Date.now();
-        while (lArr.length && now - lArr[0] > 1000) lArr.shift();
-        while (rArr.length && now - rArr[0] > 1000) rArr.shift();
-        if (cpsEl) cpsEl.textContent = lArr.length + ' | ' + rArr.length;
-    }
-    document.addEventListener('mousedown', e => {
-        if (e.button === 0) { lArr.push(Date.now()); refreshCPS(); }
-        if (e.button === 2) { rArr.push(Date.now()); refreshCPS(); }
-    });
-    setInterval(refreshCPS, 150);
-
-    // ── Keystrokes ───────────────────────────────────────────
-    const kMap = { KeyW:'W', KeyA:'A', KeyS:'S', KeyD:'D',
-                   ControlLeft:'CTRL', ShiftLeft:'SHIFT', Space:'SPACE' };
-    document.addEventListener('keydown', e => {
-        const id = kMap[e.code];
-        if (id) { document.getElementById('key-'+id)?.classList.add('pressed'); }
-        if (e.code === 'Space') e.preventDefault();
-    });
-    document.addEventListener('keyup', e => {
-        const id = kMap[e.code];
-        if (id) document.getElementById('key-'+id)?.classList.remove('pressed');
-    });
-    document.addEventListener('mousedown', e => {
-        if (e.button === 0) document.getElementById('key-LMB')?.classList.add('pressed');
-        if (e.button === 2) document.getElementById('key-RMB')?.classList.add('pressed');
-    });
-    document.addEventListener('mouseup', e => {
-        if (e.button === 0) document.getElementById('key-LMB')?.classList.remove('pressed');
-        if (e.button === 2) document.getElementById('key-RMB')?.classList.remove('pressed');
-    });
-
-    // ── Combo ────────────────────────────────────────────────
-    let combo = 0, comboTimer = null;
-    const comboEl  = document.getElementById('combo-display');
-    const comboRow = document.getElementById('combo-row');
-    const area     = document.getElementById('combo-area');
-    const parent   = document.getElementById('combo-parent');
-
-    function comboColor(c) {
-        if (c === 0) return '#e5e2e1';
-        if (c <= 3)  return '#ffcc00';
-        if (c <= 6)  return '#ff6600';
-        return '#ff2222';
-    }
-    function syncCombo() {
-        if (!comboEl) return;
-        comboEl.textContent = combo + ' Combo';
-        comboEl.style.color = comboColor(combo);
-        if (combo >= 7) comboRow.classList.add('combo-shake');
-        else            comboRow.classList.remove('combo-shake');
-    }
-    function spawnDots() {
-        if (!area) return;
-        area.querySelectorAll('.combo-dot').forEach(d => d.remove());
-        const n = 3 + Math.floor(Math.random() * 3);
-        for (let i = 0; i < n; i++) {
-            const d = document.createElement('div');
-            d.className = 'combo-dot';
-            d.style.top  = (8  + Math.random() * 62) + '%';
-            d.style.left = (5  + Math.random() * 84) + '%';
-            d.style.animationDelay = (Math.random() * 0.5) + 's';
-            d.addEventListener('mousedown', ev => {
-                ev.stopPropagation();
-                d.remove();
-                combo++;
-                syncCombo();
-                clearTimeout(comboTimer);
-                comboTimer = setTimeout(() => { combo=0; syncCombo(); }, 3000);
-                setTimeout(spawnDots, 160);
-            });
-            area.appendChild(d);
-        }
-    }
-    parent?.addEventListener('mouseenter', () => {
-        area.style.height    = '54px';
-        area.style.marginTop = '6px';
-        spawnDots();
-    });
-    parent?.addEventListener('mouseleave', () => {
-        area.style.height    = '0';
-        area.style.marginTop = '0';
-        area.querySelectorAll('.combo-dot').forEach(d => d.remove());
-    });
-})();
-</script>
 </body>
 </html>

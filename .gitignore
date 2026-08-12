@@ -1,0 +1,8 @@
+# Local tooling — not part of the deployed site
+.claude/
+.impeccable/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini

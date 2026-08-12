@@ -1,0 +1,12 @@
+# core.autocrlf is on for this checkout. Mark media explicitly so git can
+# never apply line-ending conversion to it — a mangled .mp4 or .png would
+# only show up as a broken asset after deploy.
+*.mp4 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
