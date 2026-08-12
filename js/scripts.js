@@ -239,16 +239,21 @@
         var figures = Array.prototype.slice.call(document.querySelectorAll('.media[data-media]'));
         if (!figures.length) return;
 
-        var conn      = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        var saveData  = !!(conn && conn.saveData);
-        var smallView = window.matchMedia('(max-width: 759px)').matches;
-        var autoplay  = !smallView && !saveData && !reducedMotion;
+        var conn     = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        var saveData = !!(conn && conn.saveData);
+
+        // Clips load and play on their own everywhere. The only two opt-outs
+        // are explicit visitor settings: Data Saver, and reduced motion (a
+        // looping clip is motion the visitor asked not to be given).
+        var autoplay = !saveData && !reducedMotion;
 
         var playing = null;
 
         function load(video) {
             if (video.dataset.src) {
-                video.preload = 'metadata';
+                var figure = video.closest('.media');
+                if (figure) figure.classList.add('is-loading');
+                video.preload = 'auto';
                 video.src = video.dataset.src;
                 delete video.dataset.src;
             }
@@ -273,20 +278,28 @@
 
             if (!video) return; // still image demo — plain lazy <img>
 
-            video.addEventListener('loadeddata', function () {
-                figure.classList.add('is-ready');
+            var label = figure.querySelector('.media__label');
+            var title = label ? label.textContent.replace(/^Loading\s+/i, '') : 'demo';
+
+            // Frames are running: drop the overlay.
+            video.addEventListener('playing', function () {
+                figure.classList.remove('is-loading');
+                figure.classList.add('is-ready', 'is-playing');
             });
 
-            // Only clear the overlay once frames are actually running, so a
-            // tap on a slow connection does not leave a blank black box.
-            video.addEventListener('playing', function () {
-                figure.classList.add('is-playing');
+            // Ran dry mid-clip on a slow line: bring the spinner back rather
+            // than sitting on a frozen frame with no explanation.
+            video.addEventListener('waiting', function () {
+                figure.classList.add('is-loading');
+                if (label) label.textContent = 'Buffering ' + title;
             });
 
             video.addEventListener('error', function () {
-                // Keep the placeholder rather than showing a broken frame.
+                // Say so plainly instead of spinning forever.
                 video.style.display = 'none';
-                figure.classList.remove('is-ready', 'is-playing');
+                figure.classList.remove('is-loading', 'is-ready', 'is-playing');
+                figure.classList.add('is-failed');
+                if (label) label.textContent = title + ' unavailable';
                 if (btn) btn.hidden = true;
             });
 
@@ -299,6 +312,10 @@
             }
         });
 
+        // Start fetching this far outside the viewport, so a clip has a head
+        // start on a slow line and is usually running by the time it is read.
+        var PRELOAD_MARGIN = 800;
+
         // How many pixels of this element are actually on screen.
         function visibleArea(el) {
             var r  = el.getBoundingClientRect();
@@ -308,6 +325,12 @@
             var w  = Math.min(r.right, vw) - Math.max(r.left, 0);
             if (h <= 0 || w <= 0) return 0;
             return h * w;
+        }
+
+        function nearViewport(el) {
+            var r  = el.getBoundingClientRect();
+            var vh = window.innerHeight || document.documentElement.clientHeight;
+            return r.bottom > -PRELOAD_MARGIN && r.top < vh + PRELOAD_MARGIN;
         }
 
         // Exactly one clip runs at a time: the one occupying the most screen.
@@ -320,8 +343,7 @@
             figures.forEach(function (figure) {
                 var area = visibleArea(figure);
 
-                // Pull the file in slightly before it is needed.
-                if (autoplay && area > 0) load(figure.querySelector('video'));
+                if (autoplay && nearViewport(figure)) load(figure.querySelector('video'));
 
                 if (area > bestArea) { bestArea = area; best = figure; }
             });
