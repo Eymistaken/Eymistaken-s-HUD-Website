@@ -685,8 +685,16 @@ code {
     display: block;
 }
 
-/* Loading state — covers the clip until frames are actually running,
-   and comes back if playback stalls to re-buffer. */
+/* Only one clip runs at a time. The rest hold their last frame under a
+   light blur, so the live one is obvious without anything being lost —
+   pausing keeps the playhead, and scrolling back resumes from it.
+   The 1.5% scale hides the transparent fringe a blur leaves at the
+   element's edges. */
+.media video { transition: filter 0.4s ease, transform 0.4s ease; }
+.media.is-paused video { filter: blur(2px) brightness(0.88); transform: scale(1.015); }
+
+/* Loading state — covers the clip until it can play through, and comes
+   back only if playback later stalls to re-buffer. */
 .media__ph {
     position: absolute;
     inset: 0;
@@ -698,9 +706,25 @@ code {
     gap: 14px;
     padding: 16px;
     text-align: center;
-    background: rgba(20, 23, 18, 0.82);
-    transition: opacity 0.3s ease;
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
+
+/* The shade is its own layer so that buffering progress can thin it out
+   — revealing more of the first frame underneath as the clip arrives —
+   while the label and spinner stay at full strength on top of it.
+   --load is written by JS and runs 0 → 1. */
+.media__ph::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg-deep);
+    opacity: calc(0.9 - var(--load, 0) * 0.72);
+    transition: opacity 0.4s linear;
+}
+.media__label,
+.media__spinner { position: relative; }
+
 .media__label {
     font-family: var(--font-label);
     font-size: 10px;
@@ -720,11 +744,18 @@ code {
 }
 @keyframes media-spin { to { transform: rotate(360deg); } }
 
-/* Frames are running — get out of the way. */
-.media.is-playing .media__ph { opacity: 0; }
-/* …unless we are buffering again, in which case come back. */
-.media.is-loading .media__ph { opacity: 1; }
+/* Once a clip has played it is loaded, and the overlay is done for good.
+   Tying this to is-ready rather than is-playing is what stops the
+   loading animation from dropping back over a finished clip every time
+   the reader scrolls on to the next module. */
+.media.is-ready .media__ph { opacity: 0; pointer-events: none; }
 
+/* The single exception: a genuine mid-clip stall on a slow line. */
+.media.is-stalled .media__ph { opacity: 1; }
+.media.is-stalled .media__ph::before { opacity: 0.55; }
+
+.media.is-failed .media__ph { opacity: 1; }
+.media.is-failed .media__ph::before { opacity: 0.9; }
 .media.is-failed .media__spinner { display: none; }
 .media.is-failed .media__label { color: var(--warn); }
 

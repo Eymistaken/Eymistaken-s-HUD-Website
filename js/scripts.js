@@ -231,9 +231,13 @@
        Demo clips
 
        The seven demos total roughly 265 MB, so nothing is
-       fetched until it is close to the viewport, and phones,
-       data-saver and reduced-motion get an explicit play
-       button instead of autoplay.
+       fetched until it is close to the viewport. Exactly one
+       clip runs at a time — the one occupying the most
+       screen — and the others hold their last frame under a
+       blur until the reader comes back to them.
+
+       Data Saver and reduced motion opt out of autoplay and
+       get the browser's own controls instead.
        ----------------------------------------------------- */
     function initMedia() {
         var figures = Array.prototype.slice.call(document.querySelectorAll('.media[data-media]'));
@@ -247,27 +251,38 @@
         // looping clip is motion the visitor asked not to be given).
         var autoplay = !saveData && !reducedMotion;
 
+        // A browser that never gets confident enough to fire canplaythrough
+        // would leave a clip sitting behind the overlay forever. Once it has
+        // enough to play the next frames, start it anyway after this long.
+        var READY_TIMEOUT = 7000;
+
         var playing = null;
+
+        // Per-video bookkeeping, keyed off the element itself so that
+        // selectActive() can reach it without another lookup table.
+        function stateOf(video) {
+            return video._media || (video._media = { ready: false, wanted: false, timer: null });
+        }
 
         function load(video) {
             if (video.dataset.src) {
-                var figure = video.closest('.media');
-                if (figure) figure.classList.add('is-loading');
                 video.preload = 'auto';
                 video.src = video.dataset.src;
                 delete video.dataset.src;
             }
         }
 
-        function play(figure, video) {
-            load(video);
+        function start(figure, video) {
             if (playing && playing !== video) playing.pause();
             playing = video;
             var attempt = video.play();
             if (attempt && attempt.catch) {
                 attempt.catch(function () {
-                    // Autoplay refused — fall back to the manual control.
-                    figure.classList.remove('is-playing');
+                    // Autoplay refused outright — hand over native controls
+                    // rather than leaving a dead frame on the page.
+                    video.controls = true;
+                    video.loop = false;
+                    figure.classList.remove('is-paused');
                 });
             }
         }
@@ -275,28 +290,80 @@
         figures.forEach(function (figure) {
             var video = figure.querySelector('video');
 
-            if (!video) return; // still image demo — plain lazy <img>
+            if (!video) return; // still image demo — plain <img>, nothing to drive
 
             var label = figure.querySelector('.media__label');
             var title = label ? label.textContent.replace(/^Loading\s+/i, '') : 'demo';
+            var state = stateOf(video);
 
-            // Frames are running: drop the overlay.
+            // How much of the clip is buffered from the start, 0 → 1. Only a
+            // range beginning at zero counts: a chunk grabbed from the middle
+            // does not get playback going any sooner.
+            function bufferedRatio() {
+                var duration = video.duration;
+                if (!duration || !isFinite(duration)) return 0;
+                var ranges = video.buffered, end = 0;
+                for (var i = 0; i < ranges.length; i++) {
+                    if (ranges.start(i) <= 0.05) end = Math.max(end, ranges.end(i));
+                }
+                return Math.min(1, end / duration);
+            }
+
+            // Thins the shade over the first frame as the clip arrives.
+            function reportProgress() {
+                if (state.ready) return;
+                var p = video.readyState >= 4 ? 1 : bufferedRatio();
+                // There is nothing to reveal until a first frame exists to be
+                // revealed. On a fast line the buffer outruns the decoder, and
+                // without this the shade thins over a blank box.
+                if (video.readyState < 2) p = Math.min(p, 0.12);
+                figure.style.setProperty('--load', p.toFixed(3));
+            }
+
+            function markReady() {
+                if (state.ready) return;
+                state.ready = true;
+                clearTimeout(state.timer);
+                figure.style.setProperty('--load', '1');
+                figure.classList.remove('is-stalled');
+                // The overlay fades out over half a second while the clip
+                // starts underneath it, so the two changes read as one.
+                figure.classList.add('is-ready');
+                if (state.wanted) start(figure, video);
+                // Finished arriving while off to the side: settle straight
+                // into the blurred first frame rather than waiting for the
+                // next scroll to notice.
+                else if (autoplay) figure.classList.add('is-paused');
+            }
+            state.markReady = markReady;
+
+            ['progress', 'loadeddata', 'durationchange', 'canplay', 'timeupdate']
+                .forEach(function (type) { video.addEventListener(type, reportProgress); });
+
+            video.addEventListener('canplaythrough', markReady);
             video.addEventListener('playing', function () {
-                figure.classList.remove('is-loading');
-                figure.classList.add('is-ready', 'is-playing');
+                markReady();
+                figure.classList.remove('is-stalled');
+                // Put the label back, so a later stall does not inherit the
+                // wording of the previous one.
+                if (label) label.textContent = 'Loading ' + title;
             });
 
             // Ran dry mid-clip on a slow line: bring the spinner back rather
-            // than sitting on a frozen frame with no explanation.
+            // than sitting on a frozen frame with no explanation. Only while
+            // this clip is the one meant to be running — a deliberate pause
+            // is not a stall.
             video.addEventListener('waiting', function () {
-                figure.classList.add('is-loading');
+                if (!state.wanted) return;
+                figure.classList.add('is-stalled');
                 if (label) label.textContent = 'Buffering ' + title;
             });
 
             video.addEventListener('error', function () {
                 // Say so plainly instead of spinning forever.
+                clearTimeout(state.timer);
                 video.style.display = 'none';
-                figure.classList.remove('is-loading', 'is-ready', 'is-playing');
+                figure.classList.remove('is-ready', 'is-stalled', 'is-paused');
                 figure.classList.add('is-failed');
                 if (label) label.textContent = title + ' unavailable';
             });
@@ -311,10 +378,7 @@
                 video.preload = 'metadata';
                 video.src = video.dataset.src;
                 delete video.dataset.src;
-                video.addEventListener('loadedmetadata', function () {
-                    figure.classList.remove('is-loading');
-                    figure.classList.add('is-ready', 'is-playing');
-                });
+                video.addEventListener('loadedmetadata', markReady);
             }
         });
 
@@ -365,10 +429,33 @@
                 var video = figure.querySelector('video');
                 if (!video) return;
 
+                var state = stateOf(video);
+
                 if (figure === best) {
-                    if (autoplay) play(figure, video);
+                    if (!autoplay) return;
+
+                    state.wanted = true;
+                    figure.classList.remove('is-paused');
+                    load(video);
+
+                    if (state.ready) {
+                        // Resumes from the frame it was paused on.
+                        if (video.paused) start(figure, video);
+                    } else if (!state.timer) {
+                        // Some browsers hold canplaythrough back indefinitely
+                        // on a long file. Once there is enough buffered to
+                        // show the next frames, get going regardless.
+                        state.timer = setTimeout(function () {
+                            state.timer = null;
+                            if (state.wanted && video.readyState >= 3) state.markReady();
+                        }, READY_TIMEOUT);
+                    }
                     return;
                 }
+
+                state.wanted = false;
+                clearTimeout(state.timer);
+                state.timer = null;
 
                 // A clip the reader started by hand keeps running until it
                 // leaves the viewport outright.
@@ -376,7 +463,12 @@
 
                 video.pause();
                 if (playing === video) playing = null;
-                if (!video.controls) figure.classList.remove('is-playing');
+                figure.classList.remove('is-stalled');
+
+                // Only a clip that already has frames to show gets the blur.
+                // One that is still arriving keeps its loading overlay, which
+                // carries on filling in while it sits off to the side.
+                if (autoplay && state.ready) figure.classList.add('is-paused');
             });
         }
 
