@@ -406,7 +406,7 @@ public void resetVisualDefaults() {
             <p class="eyebrow eyebrow--brass">07</p>
             <h2 class="h3">The Settings Screen</h2>
             <p class="body" style="margin:0 0 18px">The right-click menu is not the only place your module can be configured. The moment you register it, your module also gets <em style="font-style:normal;color:var(--brass)">its own page</em> in the mod's settings screen — listed in the sidebar under <strong>PLUGINS</strong>, opened from Mod Menu or from the HUD Editor. You do not have to build it; it is generated from what your module already exposes.</p>
-            <p class="body" style="margin:0 0 18px">Two tabs are assembled for you:</p>
+            <p class="body" style="margin:0 0 18px">Declare no tabs of your own and two are assembled for you:</p>
 
             <ul class="list">
                 <li><strong>POSITION</strong> — anchor picker, X / Y offsets and scale, driven by the same <a class="link-rule" href="#editor-integration">editor setters</a> you already implement. Nothing extra to write.</li>
@@ -444,7 +444,7 @@ public List&lt;HudModuleSetting&gt; getSettingsScreenSettings() {
 }</code></pre></div>
             </div>
 
-            <p class="body" style="margin:0 0 22px">The page lists the context-menu settings first, then these — concatenated in order, using the same six setting types. It defaults to an empty list, so addons written before it existed keep working and simply show their context-menu settings on both surfaces.</p>
+            <p class="body" style="margin:0 0 22px">With no tabs declared, the page lists the context-menu settings first, then these — concatenated in order, using the same six setting types. It defaults to an empty list, so addons written before it existed keep working and simply show their context-menu settings on both surfaces.</p>
 
             <div class="callout callout--warn">
                 <div class="callout__label">Warning</div>
@@ -454,6 +454,57 @@ public List&lt;HudModuleSetting&gt; getSettingsScreenSettings() {
             <div class="callout" style="margin-bottom:26px">
                 <div class="callout__label">Note</div>
                 <p><strong>Two things the generated page cannot do for you.</strong> The per-row reset arrow only works for <code>SliderSetting</code>, since that is the one type that carries a <code>defaultValue</code> — for the rest it is drawn inert. And the <strong>ENABLED / DISABLED</strong> badge is read-only for addon modules, because <code>HudModule</code> has no setter for it. Expose a <code>BooleanSetting</code> if you want players to switch your module on and off from here, and an <code>ActionSetting</code> for a reset button that covers everything at once.</p>
+            </div>
+
+            <p class="body" style="margin:0 0 18px">One flat list stops being readable once it has grown past a handful of rows. When it does, override <code>getSettingsTabs()</code> and split the page yourself. A tab is a plain record — <code>SettingsTab(String id, String name, List&lt;HudModuleSetting&gt; settings)</code> — with three parts:</p>
+
+            <ul class="list">
+                <li><code>id</code> — a stable key. The screen remembers which tab you were on by it, so keep it constant between calls.</li>
+                <li><code>name</code> — the label on the tab strip. Upper-cased for you, to match the built-in pages, and it falls back to the <code>id</code> when left blank.</li>
+                <li><code>settings</code> — the rows on that tab, in order, from the same six setting types.</li>
+            </ul>
+
+            <div class="codeblock" style="margin-bottom:26px">
+                <button class="copy-btn" type="button" aria-label="Copy code">
+                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
+                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
+                </button>
+                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
+import java.util.Arrays;
+import java.util.List;
+
+// Inside your MyCustomModule class:
+
+@Override
+public List&lt;SettingsTab&gt; getSettingsTabs() {
+    return List.of(
+        new SettingsTab("display", "DISPLAY", List.of(
+            new ColorSetting("Text Color",
+                () -&gt; MyAddonConfig.textColor,
+                color -&gt; { MyAddonConfig.textColor = color; MyAddonConfig.save(); }
+            ),
+            new SliderSetting("Scale %",
+                50, 300, 100,
+                () -&gt; MyAddonConfig.scale,
+                val -&gt; { MyAddonConfig.scale = val; MyAddonConfig.save(); }
+            )
+        )),
+        new SettingsTab("behaviour", "BEHAVIOUR", List.of(
+            new CycleSetting("Display Mode",
+                Arrays.asList("Compact", "Full", "Minimal"),
+                () -&gt; MyAddonConfig.displayModeIndex,
+                idx -&gt; { MyAddonConfig.displayModeIndex = idx; MyAddonConfig.save(); }
+            )
+        ))
+    );
+}</code></pre></div>
+            </div>
+
+            <p class="body" style="margin:0 0 22px">Declaring tabs does not throw the two flat lists away, it only moves them. The context-menu settings <em style="font-style:normal;color:var(--brass)">lead the first tab you declared</em> — the contract that everything on the editor's right-click menu also appears on the page still holds — and <code>getSettingsScreenSettings()</code> is no longer concatenated onto the end; it becomes a trailing <strong>SETTINGS</strong> tab of its own.</p>
+
+            <div class="callout" style="margin-bottom:26px">
+                <div class="callout__label">Note</div>
+                <p><strong>Four things the page decides for you.</strong> <strong>POSITION</strong> is always added, so do not declare placement rows yourself. A tab whose settings are all empty or of an unrecognised type is dropped rather than drawn blank. Two tabs sharing an <code>id</code> are renumbered rather than one going missing. And the tab strip does not scroll — tabs past the panel's width are simply not drawn, so keep to a handful of short names.</p>
             </div>
 
             <p class="body" style="margin:0">Players reach your page either from the sidebar, or straight from the editor: right-clicking your module now offers <strong>Open Settings</strong> at the bottom of its menu, which jumps directly to it. Right-clicking one of your <a class="link-rule" href="#sub-elements">sub-elements</a> lands on the same page — sub-elements do not get pages of their own.</p>
