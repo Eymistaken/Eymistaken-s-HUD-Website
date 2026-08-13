@@ -1,5 +1,5 @@
 /* =========================================================
-   Eymistaken's HUD — site behaviour
+   Eymistaken's HUD — site behavior
 
    Each init* function is independent and no-ops when the
    elements it needs are not on the page.
@@ -118,7 +118,7 @@
        Code highlighting
 
        Deliberately shallow: comments, strings, annotations,
-       keywords and numbers. No type or member colouring —
+       keywords and numbers. No type or member coloring —
        the point is to make structure skimmable, not to turn
        the page into a rainbow.
        ----------------------------------------------------- */
@@ -639,7 +639,7 @@
             });
         }
 
-        function comboColour(c) {
+        function comboColor(c) {
             if (c === 0) return 'var(--fg-muted)';
             if (c <= 4)  return '#e0c877';
             if (c <= 8)  return '#e09a5a';
@@ -649,7 +649,7 @@
         function syncCombo() {
             if (!comboEl) return;
             comboEl.textContent = combo + ' Combo';
-            comboEl.style.color = comboColour(combo);
+            comboEl.style.color = comboColor(combo);
         }
 
         function trim() {

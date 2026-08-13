@@ -35,7 +35,6 @@
     <nav class="nav" aria-label="Primary">
         <a href="user-guide.html">User Guide</a>
         <a href="api-guide.html" aria-current="page">API Guide</a>
-        <a href="downloads.html">Downloads</a>
         <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
     </nav>
 
@@ -50,7 +49,6 @@
     <a href="index.html">Home</a>
     <a href="user-guide.html">User Guide</a>
     <a href="api-guide.html" aria-current="page">API Guide</a>
-    <a href="downloads.html">Downloads</a>
     <a class="btn btn--brass" href="downloads.html">Download</a>
 </div>
 
@@ -208,10 +206,10 @@ public class MyCustomModule extends HudModule {
             <ul class="list">
                 <li><code>drawText(context, text, x, y, color)</code> — draws in the active HUD font, honours the <strong>Text Outline</strong> setting and the current fade alpha</li>
                 <li><code>textWidth(text)</code> — measures a string in the active HUD font (raw font widths are wrong once a custom font is selected)</li>
-                <li><code>col(argb)</code> — applies the current fade alpha to any colour, for anything you draw yourself</li>
+                <li><code>col(argb)</code> — applies the current fade alpha to any color, for anything you draw yourself</li>
             </ul>
 
-            <p class="body" style="margin:0 0 22px">Modules opt into the smooth fade-in / fade-out that plays when they appear or disappear by overriding <code>supportsFade()</code>. It defaults to <code>false</code>, in which case your module pops in and out as before. Only override it to <code>true</code> if every colour you draw goes through <code>col()</code> or <code>drawText()</code> — otherwise your module will stay fully opaque while the rest fades.</p>
+            <p class="body" style="margin:0 0 22px">Modules opt into the smooth fade-in / fade-out that plays when they appear or disappear by overriding <code>supportsFade()</code>. It defaults to <code>false</code>, in which case your module pops in and out as before. Only override it to <code>true</code> if every color you draw goes through <code>col()</code> or <code>drawText()</code> — otherwise your module will stay fully opaque while the rest fades.</p>
 
             <div class="codeblock" style="margin-bottom:0">
                 <button class="copy-btn" type="button" aria-label="Copy code">
@@ -501,7 +499,7 @@ public List&lt;SettingsTab&gt; getSettingsTabs() {
                 val -&gt; { MyAddonConfig.scale = val; MyAddonConfig.save(); }
             )
         )),
-        new SettingsTab("behaviour", "BEHAVIOUR", List.of(
+        new SettingsTab("behavior", "BEHAVIOR", List.of(
             new CycleSetting("Display Mode",
                 Arrays.asList("Compact", "Full", "Minimal"),
                 () -&gt; MyAddonConfig.displayModeIndex,
@@ -516,7 +514,7 @@ public List&lt;SettingsTab&gt; getSettingsTabs() {
 
             <div class="callout" style="margin-bottom:26px">
                 <div class="callout__label">Note</div>
-                <p><strong>Four things the page decides for you.</strong> <strong>POSITION</strong> is always added, so do not declare placement rows yourself. A tab whose settings are all empty or of an unrecognised type is dropped rather than drawn blank. Two tabs sharing an <code>id</code> are renumbered rather than one going missing. And the tab strip does not scroll — tabs past the panel's width are simply not drawn, so keep to a handful of short names.</p>
+                <p><strong>Four things the page decides for you.</strong> <strong>POSITION</strong> is always added, so do not declare placement rows yourself. A tab whose settings are all empty or of an unrecognized type is dropped rather than drawn blank. Two tabs sharing an <code>id</code> are renumbered rather than one going missing. And the tab strip does not scroll — tabs past the panel's width are simply not drawn, so keep to a handful of short names.</p>
             </div>
 
             <p class="body" style="margin:0">Players reach your page either from the sidebar, or straight from the editor: right-clicking your module now offers <strong>Open Settings</strong> at the bottom of its menu, which jumps directly to it. Right-clicking one of your <a class="link-rule" href="#sub-elements">sub-elements</a> lands on the same page — sub-elements do not get pages of their own.</p>
@@ -629,7 +627,7 @@ public class MyPluginInit implements EymistakenHudPlugin {
                 <li><code>ComboStreakEvent(int combo, int level, int previousLevel, Entity target)</code> — fired when a landed hit pushes the combo into a higher heatmap tier, so <em style="font-style:normal;color:var(--brass)">once per tier</em> rather than once per hit</li>
             </ul>
 
-            <p class="body" style="margin:0 0 22px">Levels come from <code>ComboHeatmap</code> and follow the player's chosen heatmap mode, so <code>level()</code> means the same thing to you as it does to the on-screen colour. The event fires whether or not heatmap colouring is switched on — that setting decides how the counter looks, not whether the streak happened.</p>
+            <p class="body" style="margin:0 0 22px">Levels come from <code>ComboHeatmap</code> and follow the player's chosen heatmap mode, so <code>level()</code> means the same thing to you as it does to the on-screen color. The event fires whether or not heatmap coloring is switched on — that setting decides how the counter looks, not whether the streak happened.</p>
 
             <div class="codeblock" style="margin-bottom:26px">
                 <button class="copy-btn" type="button" aria-label="Copy code">
