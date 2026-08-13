@@ -749,31 +749,6 @@
         syncCombo();
     }
 
-    /* -----------------------------------------------------
-       Latest release version
-       ----------------------------------------------------- */
-    function initVersion() {
-        var targets = document.querySelectorAll('[data-version]');
-        if (!targets.length) return;
-
-        fetch('https://api.github.com/repos/Eymistaken/Eymistaken-s-HUD/releases/latest')
-            .then(function (r) { return r.ok ? r.json() : null; })
-            .then(function (data) {
-                if (!data || !data.tag_name) return;
-                targets.forEach(function (el) {
-                    // JitPack strips the leading "v" from a tag, so a Gradle
-                    // coordinate has to read 1.1.1-6 — asking for v1.1.1-6 does
-                    // not resolve, it just hangs while JitPack tries to build a
-                    // ref that has no artifact. Places where the version is only
-                    // a label, like a download button, keep the "v".
-                    el.textContent = el.hasAttribute('data-strip-v')
-                        ? data.tag_name.replace(/^v/i, '')
-                        : data.tag_name;
-                });
-            })
-            .catch(function () { /* the hardcoded fallback stays in the markup */ });
-    }
-
     function boot() {
         initNav();
         initToc();
@@ -781,7 +756,6 @@
         initCopy();
         initMedia();
         initHudPreview();
-        initVersion();
     }
 
     if (document.readyState === 'loading') {
