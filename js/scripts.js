@@ -261,6 +261,12 @@
         var MAX_CONCURRENT_LOADS = 1;
         var SAFE_LEAD = 6;
 
+        // How many times a clip may be re-fetched after a failed load, and how
+        // long a clip that used them all sits before scrolling back to it is
+        // allowed to start over.
+        var MAX_RETRIES   = 3;
+        var RECOVER_AFTER = 8000;
+
         var playing = null;
 
         // Per-video bookkeeping, keyed off the element itself so that
@@ -375,14 +381,60 @@
                 if (label) label.textContent = 'Buffering ' + title;
             });
 
+            // A dropped request on a slow line used to kill a clip outright:
+            // one error event and it read "unavailable" for the rest of the
+            // visit, with nothing that could ever bring it back. Which clip
+            // died was pure chance, so reloads moved it around. Give up only
+            // after the network has actually been given a few chances.
+            var source   = video.dataset.src || video.getAttribute('src') || '';
+            var attempts = 0;
+            var failedAt = 0;
+
+            function retry() {
+                attempts++;
+                failedAt = 0;
+                state.ready = false;
+                figure.classList.remove('is-failed');
+                figure.style.setProperty('--load', '0');
+                video.style.display = '';
+                if (label) label.textContent = 'Loading ' + title;
+                // A part-finished load can leave a broken entry in the HTTP
+                // cache — exactly what happens when a file changes at the same
+                // URL between deploys. Ask for a clean copy rather than the one
+                // that just failed.
+                video.src = source + (source.indexOf('?') === -1 ? '?' : '&') +
+                            'retry=' + attempts;
+                video.load();
+            }
+
             video.addEventListener('error', function () {
-                // Say so plainly instead of spinning forever.
-                clearTimeout(state.timer);
-                video.style.display = 'none';
+                clearInterval(state.timer);
+                state.timer = null;
+                state.ready = false;
                 figure.classList.remove('is-ready', 'is-stalled', 'is-paused');
+
+                if (source && attempts < MAX_RETRIES) {
+                    // Back off a little further each time, in case the line is
+                    // briefly saturated rather than actually broken.
+                    setTimeout(retry, 1200 * (attempts + 1));
+                    return;
+                }
+
+                // Out of attempts: say so plainly instead of spinning forever.
+                failedAt = Date.now();
+                video.style.display = 'none';
                 figure.classList.add('is-failed');
                 if (label) label.textContent = title + ' unavailable';
             });
+
+            // Scrolling back to a clip that gave up is a fresh chance: the
+            // network may well have recovered since. Rate-limited so a clip
+            // that is genuinely gone does not retry on every scroll frame.
+            state.recover = function () {
+                if (!failedAt || Date.now() - failedAt < RECOVER_AFTER) return;
+                attempts = 0;
+                retry();
+            };
 
             if (!autoplay) {
                 // Data Saver or reduced motion: fetch the first frame only and
@@ -505,6 +557,7 @@
                     state.wanted = true;
                     figure.classList.remove('is-paused');
                     load(video);
+                    if (state.recover) state.recover();
 
                     if (state.ready) {
                         // Resumes from the frame it was paused on.
