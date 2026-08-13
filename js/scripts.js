@@ -648,7 +648,7 @@
 
         function syncCombo() {
             if (!comboEl) return;
-            comboEl.textContent = combo + ' combo';
+            comboEl.textContent = combo + ' Combo';
             comboEl.style.color = comboColour(combo);
         }
 
