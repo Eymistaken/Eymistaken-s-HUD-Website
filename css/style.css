@@ -635,7 +635,7 @@ code {
     padding: 0;
     font-size: inherit;
 }
-/* Four token colours, all drawn from the page palette: keywords take the
+/* Four token colors, all drawn from the page palette: keywords take the
    brass accent, comments and annotations recede, numbers sit a shade off
    the brass, and strings get the one hue the theme does not already use. */
 .codeblock .kw  { color: var(--brass); }
