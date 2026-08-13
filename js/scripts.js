@@ -230,7 +230,7 @@
     /* -----------------------------------------------------
        Demo clips
 
-       The seven demos total roughly 265 MB, so nothing is
+       The seven demos total roughly 29 MB, so nothing is
        fetched until it is close to the viewport. Exactly one
        clip runs at a time — the one occupying the most
        screen — and the others hold their last frame under a
