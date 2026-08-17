@@ -608,7 +608,7 @@ public int getWidth() {
                 <p><strong>Never step animation state the live HUD reads.</strong> With the settings screen open in-game your module is drawn <em style="font-style:normal;color:var(--brass)">twice</em> a frame — once on the real HUD, once in the preview — so any per-frame counter advanced inside your render path runs at double speed for as long as the menu is up. Keep a preview-local copy, or leave the counter alone while <code>isPreviewing()</code>. The built-in keystrokes module holds separate squish and ripple maps for exactly this reason.</p>
             </div>
 
-            <p class="body" style="margin:0 0 18px">When the preview should not be the module at all — a legend, a labelled comparison, a fixed illustration — implement the interface directly and draw whatever you like:</p>
+            <p class="body" style="margin:0 0 18px">When the preview should not be the module at all — a legend, a labeled comparison, a fixed illustration — implement the interface directly and draw whatever you like:</p>
 
             <div class="codeblock" style="margin-bottom:26px">
                 <button class="copy-btn" type="button" aria-label="Copy code">
