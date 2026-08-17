@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>API Guide — Eymistaken's HUD</title>
-<meta name="description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, plugin state and events.">
+<meta name="description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
 <link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide.html">
 <meta name="theme-color" content="#1c1f1a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eymistaken's HUD">
 <meta property="og:title" content="API Guide — Eymistaken's HUD">
-<meta property="og:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, plugin state and events.">
+<meta property="og:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
 <meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide.html">
 <meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="API Guide — Eymistaken's HUD">
-<meta name="twitter:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, plugin state and events.">
+<meta name="twitter:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
 <meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
 <link rel="icon" href="assets/icon-96.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,6 +66,7 @@
                 <a href="#editor-integration">HUD Editor</a>
                 <a href="#context-menu">Context Menu</a>
                 <a href="#settings-screen">Settings Screen</a>
+                <a href="#preview">Live Preview</a>
                 <a href="#plugin-state">Plugin State</a>
                 <a href="#events">Events</a>
                 <a href="#registering">Registering</a>
@@ -521,8 +522,121 @@ public List&lt;SettingsTab&gt; getSettingsTabs() {
         </section>
 
         <!-- ── 08 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="plugin-state">
+        <section class="doc-section" id="preview">
             <p class="eyebrow eyebrow--brass">08</p>
+            <h2 class="h3">Live Preview</h2>
+            <p class="body" style="margin:0 0 18px">Settings that change how something <em style="font-style:normal;color:var(--brass)">looks</em> are miserable to tune blind. Pick a color, close the menu, squint at the HUD, come back. Do that fifteen times and the round trip has cost more than the decisions did.</p>
+            <p class="body" style="margin:0 0 18px">The top of your page's right-hand column can carry a <strong>PREVIEW</strong> card: your module, drawn live at the size it will really be, on a checkerboard that shows transparency for what it is instead of flattering every light color against a dark panel. Edits land in it the same frame. A <strong>focus</strong> button in its header expands the card over the rest of the screen when a module is too big to judge in a sidebar.</p>
+            <p class="body" style="margin:0 0 22px">Nothing appears until you opt in. <code>getPreview()</code> returns <code>null</code> by default, and a null preview means <em style="font-style:normal;color:var(--brass)">no card at all</em> rather than an empty one — the INFO, PRESETS and SHARE cards simply move up to fill the space. There is no blank state to design around.</p>
+
+            <p class="body" style="margin:0 0 18px">A preview is three methods. Two report size in screen pixels — the same units as <code>getWidth()</code>, scale already applied — and one draws:</p>
+
+            <div class="codeblock" style="margin-bottom:26px">
+                <button class="copy-btn" type="button" aria-label="Copy code">
+                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
+                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
+                </button>
+                <div class="codeblock__scroll"><pre><code>package com.eymistaken.simplecps.api;
+
+public interface HudPreview {
+
+    // Size in screen pixels, the same units as HudModule.getWidth().
+    int width();
+    int height();
+
+    // Draw with the top-left corner at (0, 0).
+    void render(GuiGraphicsExtractor ctx, float tickDelta);
+
+    // A preview that is simply the module drawing itself.
+    static HudPreview ofModule(HudModule module) { ... }
+}</code></pre></div>
+            </div>
+
+            <p class="body" style="margin:0 0 22px">You will rarely implement it by hand. Most previews are the module rendering exactly as it always does, with stand-in values for data the game is not currently producing — no clicks have been counted, no server is connected, and since the settings screen opens from the main menu too, there may be no player or world at all. <code>HudPreview.ofModule</code> wires the module's own render path up for you, and <code>isPreviewing()</code> is where you substitute the data:</p>
+
+            <div class="codeblock" style="margin-bottom:26px">
+                <button class="copy-btn" type="button" aria-label="Copy code">
+                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
+                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
+                </button>
+                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
+import java.util.List;
+
+// Inside your MyCustomModule class:
+
+@Override
+public HudPreview getPreview() {
+    return HudPreview.ofModule(this);
+}
+
+// Stand-in rows, so the card has something to show with no world loaded.
+private static final List&lt;String&gt; PREVIEW_ROWS =
+    List.of("Water Breathing 1:27", "Strength II 3:34");
+
+private List&lt;String&gt; rows() {
+    if (isPreviewing()) return PREVIEW_ROWS;
+    return client.player == null ? List.of() : liveRows();
+}
+
+@Override
+public void extractRenderState(GuiGraphicsExtractor ctx, float tickDelta) {
+    int y = 0;
+    for (String row : rows()) {
+        drawText(ctx, row, 0, y, MyAddonConfig.textColor);
+        y += client.font.lineHeight + 1;
+    }
+}
+
+@Override
+public int getWidth() {
+    // The same helper, so the card is sized for what it actually draws.
+    int w = 0;
+    for (String row : rows()) w = Math.max(w, textWidth(row));
+    return w;
+}</code></pre></div>
+            </div>
+
+            <p class="body" style="margin:0 0 22px">The detail that matters is <code>rows()</code> feeding the render path <em style="font-style:normal;color:var(--brass)">and</em> the measurement. <code>isPreviewing()</code> is true for the whole pass, sizing included, precisely so the two can agree — report one size and draw another and the card is built for something it never shows.</p>
+
+            <div class="callout" style="margin-bottom:26px">
+                <div class="callout__label">Note</div>
+                <p><strong>The card owns the geometry, not you.</strong> It measures you, sizes itself, centers you, applies the transform that puts one of your pixels on one real screen pixel, and clips you to the box — so <code>render</code> draws from the origin and never translates or scales itself. The card grows downward to fit and stops before it would push the panels below it off screen; it never widens, and a module wider than the column is clipped rather than shrunk. That is deliberate: a preview scaled to fit would answer the wrong question about how much room your module takes. Focus mode is the way to see the rest of it.</p>
+            </div>
+
+            <div class="callout callout--warn">
+                <div class="callout__label">Warning</div>
+                <p><strong>Never step animation state the live HUD reads.</strong> With the settings screen open in-game your module is drawn <em style="font-style:normal;color:var(--brass)">twice</em> a frame — once on the real HUD, once in the preview — so any per-frame counter advanced inside your render path runs at double speed for as long as the menu is up. Keep a preview-local copy, or leave the counter alone while <code>isPreviewing()</code>. The built-in keystrokes module holds separate squish and ripple maps for exactly this reason.</p>
+            </div>
+
+            <p class="body" style="margin:0 0 18px">When the preview should not be the module at all — a legend, a labelled comparison, a fixed illustration — implement the interface directly and draw whatever you like:</p>
+
+            <div class="codeblock" style="margin-bottom:26px">
+                <button class="copy-btn" type="button" aria-label="Copy code">
+                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
+                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
+                </button>
+                <div class="codeblock__scroll"><pre><code>@Override
+public HudPreview getPreview() {
+    return new HudPreview() {
+        @Override public int width()  { return 96; }
+        @Override public int height() { return 28; }
+
+        @Override
+        public void render(GuiGraphicsExtractor ctx, float tickDelta) {
+            ctx.fill(0, 0, 96, 28, 0x40FFFFFF);
+            drawText(ctx, "Water Breathing 1:27", 2, 2,  MyAddonConfig.textColor);
+            drawText(ctx, "Strength II 3:34",     2, 14, MyAddonConfig.textColor);
+        }
+    };
+}</code></pre></div>
+            </div>
+
+            <p class="body" style="margin:0"><code>getPreview()</code> is called once a frame while your page is open, so keep it cheap and prefer handing back a cached instance to building one per call. Anything that throws — the getter, either size, or the drawing — costs you the preview for that frame and nothing else; the screen carries on. And like every other hook here it is additive and defaults to nothing, so an addon compiled against an older build of the HUD keeps running untouched, simply without a card.</p>
+        </section>
+
+        <!-- ── 09 ───────────────────────────────────────────── -->
+        <section class="doc-section" id="plugin-state">
+            <p class="eyebrow eyebrow--brass">09</p>
             <h2 class="h3">Plugin State (Presets, Share Codes &amp; Server Configs)</h2>
             <p class="body" style="margin:0 0 18px">Your settings live in your own config file, and that keeps working exactly as before. What it cannot do on its own is <em style="font-style:normal;color:var(--brass)">travel</em>: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken's HUD config moves — your module's settings stay behind, and the layout the player carefully built comes back half wrong.</p>
             <p class="body" style="margin:0 0 22px">Override <code>saveState()</code> and <code>loadState()</code> to opt in. Whatever you return is stored under your <code>getName()</code> and carried through <strong>all four</strong> persistence paths for free: <code>simplecps.json</code>, named presets, <code>EYMHUD1-</code> share codes, and per-server configs.</p>
@@ -587,9 +701,9 @@ public void loadState(JsonElement state) {
             </div>
         </section>
 
-        <!-- ── 09 ───────────────────────────────────────────── -->
+        <!-- ── 10 ───────────────────────────────────────────── -->
         <section class="doc-section" id="events">
-            <p class="eyebrow eyebrow--brass">09</p>
+            <p class="eyebrow eyebrow--brass">10</p>
             <h2 class="h3">Events</h2>
             <p class="body" style="margin:0 0 22px">Third-party mods can react to things happening inside the HUD through <code>EymistakenHudEventBus</code> — a static singleton you subscribe to from <code>registerEvents()</code>, which is called once at client init, right after <code>registerHudModules()</code>.</p>
 
@@ -655,9 +769,9 @@ int level = heat.levelFor(17);  // 0 (cold) through 3 (top tier)</code></pre></d
             </div>
         </section>
 
-        <!-- ── 10 ───────────────────────────────────────────── -->
+        <!-- ── 11 ───────────────────────────────────────────── -->
         <section class="doc-section" id="registering" style="border-bottom:1px solid var(--line)">
-            <p class="eyebrow eyebrow--brass">10</p>
+            <p class="eyebrow eyebrow--brass">11</p>
             <h2 class="h3">Registering the Plugin</h2>
             <p class="body" style="margin:0 0 22px">Declare an entrypoint implementing <code>EymistakenHudPlugin</code> in your <code>fabric.mod.json</code>. Your modules will be passed to <code>HudModuleManager#registerModule()</code> and managed alongside the built-in ones from that point forward — no core modification required.</p>
 
