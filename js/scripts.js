@@ -63,6 +63,10 @@
         var active = null;
         var frame  = null;
 
+        // Breathing room so the active entry never sits flush against the top
+        // or bottom edge of the scrolled column.
+        var EDGE = 16;
+
         function apply(id) {
             if (id === active) return;
             active = id;
@@ -79,6 +83,25 @@
                     if (toc.scrollWidth > toc.clientWidth) {
                         var left = link.offsetLeft - (toc.clientWidth - link.offsetWidth) / 2;
                         toc.scrollTo({ left: left, behavior: reducedMotion ? 'auto' : 'smooth' });
+                    }
+
+                    // And in the sidebar column, which scrolls once the list is
+                    // taller than the viewport. Measured against the box rather
+                    // than offsetTop, because the offset parent is .toc and the
+                    // scroller is its parent.
+                    var box = toc.closest('.docs__aside-inner');
+                    if (box && box.scrollHeight > box.clientHeight) {
+                        var lr = link.getBoundingClientRect();
+                        var br = box.getBoundingClientRect();
+                        var delta = 0;
+                        if (lr.top < br.top + EDGE) delta = lr.top - br.top - EDGE;
+                        else if (lr.bottom > br.bottom - EDGE) delta = lr.bottom - br.bottom + EDGE;
+                        if (delta) {
+                            box.scrollTo({
+                                top: box.scrollTop + delta,
+                                behavior: reducedMotion ? 'auto' : 'smooth'
+                            });
+                        }
                     }
                 } else {
                     link.removeAttribute('aria-current');
