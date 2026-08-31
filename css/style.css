@@ -887,7 +887,16 @@ code {
     position: sticky;
     top: var(--header-h);
     padding: 44px 24px 44px var(--gutter);
+    /* The Full Guide's contents list is taller than a laptop viewport, so the
+       sticky column scrolls on its own rather than cutting the last entries off. */
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-btn) transparent;
 }
+.docs__aside-inner::-webkit-scrollbar { width: 6px; }
+.docs__aside-inner::-webkit-scrollbar-thumb { background: var(--line-btn); }
+.docs__aside-inner::-webkit-scrollbar-track { background: transparent; }
 .docs__main { min-width: 0; }
 
 .toc-label {
@@ -1214,7 +1223,7 @@ code {
         border-right: 0;
         border-bottom: 1px solid var(--line);
     }
-    .docs__aside-inner { position: static; padding: 0; }
+    .docs__aside-inner { position: static; padding: 0; max-height: none; overflow: visible; }
     .toc-label,
     .toc__group,
     .docs__aside-links { display: none; }
