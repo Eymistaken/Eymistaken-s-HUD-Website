@@ -491,8 +491,8 @@
         // Fetching every clip within reach at once splits the line between
         // clips nobody is looking at: measured on a real connection, four
         // streams ran together and the one on screen stalled for 15 s while
-        // its neighbours sat at under 2%. So the visible clip gets the pipe
-        // to itself, and exactly one neighbour is allowed to start once that
+        // its neighbors sat at under 2%. So the visible clip gets the pipe
+        // to itself, and exactly one neighbor is allowed to start once that
         // clip can play through.
         function queueLoads(best) {
             if (best) load(best.querySelector('video'));
@@ -528,7 +528,7 @@
 
         // Exactly one clip runs at a time: the one occupying the most screen.
         // Comparing visible area rather than each element's own intersection
-        // ratio is what stops a short neighbour from winning over the clip
+        // ratio is what stops a short neighbor from winning over the clip
         // the reader is actually looking at.
         function selectActive() {
             var best = null, bestArea = 0;
