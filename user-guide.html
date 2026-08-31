@@ -150,7 +150,7 @@
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Featured</p>
                 <h3 class="h4" style="font-size:22px">Keystrokes</h3>
-                <p class="body prose">A fully custom keystroke display, not a fixed WASD block. Per-key colors, bold / italic / underline labels, a press animation, and a CPS counter on any key including the mouse buttons. Built in the <a class="link-rule" href="#keystrokes-designer">Keystrokes Designer</a>.</p>
+                <p class="body prose">A fully custom keystroke display, not a fixed WASD block. Eleven designs, per-key colors, bold / italic / underline labels, press animations you stack rather than pick between, and a CPS counter on any key including the mouse buttons. Built in the <a class="link-rule" href="#keystrokes-designer">Keystrokes Designer</a>.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
                     <span class="media__label">Loading Keystrokes demo</span>
@@ -241,7 +241,7 @@
         <section class="doc-section doc-section--wide" id="keystrokes-designer">
             <p class="eyebrow eyebrow--brass">05</p>
             <h2 class="h3">Keystrokes Designer</h2>
-            <p class="body prose" style="margin:0 0 26px">A fully interactive precision designer that lets you completely reimagine how your keystrokes look — no external tools needed. Add any key or mouse button, resize it, drag its label independently, recolor individual keys, and pick a press animation: none, squish, ripple, or both.</p>
+            <p class="body prose" style="margin:0 0 26px">A fully interactive precision designer that lets you completely reimagine how your keystrokes look — no external tools needed. Add any key or mouse button, resize it, drag its label independently, recolor individual keys, pick from eleven designs, and stack as many press animations as you want on top of any of them.</p>
 
             <figure class="media" data-media style="max-width:920px">
                 <div class="media__ph">
@@ -255,11 +255,13 @@
             <h3 class="h4" style="margin:44px 0 0">How to use it</h3>
             <ol class="steps">
                 <li><span>01</span><span>Right-click <strong>Keystrokes</strong> in the HUD Editor and choose <strong>Open Designer</strong>. You can also reach it from the settings menu under <strong>Keystrokes → Designer</strong>.</span></li>
-                <li><span>02</span><span><strong>Drag and drop:</strong> left-click and drag any key panel to reposition it. Keys snap to their neighbours' edges — and to an even gap between them — then settle smoothly into place.</span></li>
-                <li><span>03</span><span><strong>Context menu:</strong> right-click a key to rename it, set its keybind, change colors, toggle bold / italic / underline, duplicate or delete it. Right-click empty space to add new keys or reset the layout.</span></li>
-                <li><span>04</span><span><strong>Edit labels:</strong> right-click and drag a key to move its label inside the button — it snaps to the center. Arrow keys nudge the selection pixel by pixel.</span></li>
-                <li><span>05</span><span><strong>Share it:</strong> <strong>Export Layout</strong> copies just your keystrokes layout to the clipboard as a share code, and <strong>Import Layout</strong> reads one back. See <a class="link-rule" href="#configs">presets &amp; share codes</a>.</span></li>
-                <li><span>06</span><span><strong>Undo / redo:</strong> press <code>Ctrl+Z</code> to undo and <code>Ctrl+Y</code> to redo. History is saved automatically.</span></li>
+                <li><span>02</span><span><strong>Drag and drop:</strong> left-click and drag any key panel to reposition it. Keys snap to their neighbors' edges — and to an even gap between them — then settle smoothly into place.</span></li>
+                <li><span>03</span><span><strong>Pick a design:</strong> <strong>DESIGN</strong> in the toolbar opens a gallery of eleven — Baseline, Frame, Bar, Soft Block, Segment, Neon, Wedge, Timeline, Hex, Pixel Bevel and Slot. The cards animate themselves, because a design cannot be judged at rest. Choosing one brings the palette and animation it was drawn with, and Wedge and Hex bring their arrangement too — all of it still editable afterwards.</span></li>
+                <li><span>04</span><span><strong>Animate it:</strong> <strong>ANIM</strong> opens the animation drawer. Motions move the key (Squish, Kick, Sink, Nudge) and fills paint it (Ripple, Sweep, Cascade, Hold Ring, Edge Run, Glow); these are checkboxes, not a choice, so several run at once. One direction is shared by every fill, and the release trail has its own switch because it fires on release rather than on press.</span></li>
+                <li><span>05</span><span><strong>Context menu:</strong> right-click a key to rename it, set its keybind, change colors, toggle bold / italic / underline, duplicate or delete it — and to give that one key its own design or animation, overriding the module's. Right-click empty space to add new keys or reset the layout.</span></li>
+                <li><span>06</span><span><strong>Edit labels:</strong> right-click and drag a key to move its label inside the button — it snaps to the center. Arrow keys nudge the selection pixel by pixel.</span></li>
+                <li><span>07</span><span><strong>Share it:</strong> <strong>EXPORT</strong> copies the whole keystrokes look — the key layout plus its design, animation and palette — to the clipboard as a share code, and <strong>IMPORT</strong> reads one back. See <a class="link-rule" href="#configs">presets &amp; share codes</a>.</span></li>
+                <li><span>08</span><span><strong>Undo / redo:</strong> press <code>Ctrl+Z</code> to undo and <code>Ctrl+Y</code> to redo. History covers the design, animation and colors as well as the keys, so one undo puts the whole look back.</span></li>
             </ol>
         </section>
 
@@ -282,7 +284,8 @@
                     <h3 class="h4">Keystrokes</h3>
                     <ul class="list list--tight" style="margin:0">
                         <li>Enable Keystrokes <span style="color:var(--brass)">[ON/OFF]</span></li>
-                        <li>Effect <span style="color:var(--brass)">[None / Squish / Ripple / Both]</span></li>
+                        <li>Design <span style="color:var(--brass)">[cycle, 11 designs]</span></li>
+                        <li>Board <span style="color:var(--brass)">[ON/OFF]</span></li>
                         <li>Open Designer <span style="color:var(--brass)">[action]</span></li>
                     </ul>
                 </div>
@@ -365,10 +368,10 @@
             </ul>
 
             <h3 class="h4" style="font-size:20px;margin-top:38px">Share codes</h3>
-            <p class="body prose" style="margin:0 0 18px"><strong>Export Code</strong> packs your whole setup into a single line of text starting with <code>EYMHUD1-</code> and copies it to your clipboard — paste it into Discord, a forum post, wherever. <strong>Import Code</strong> reads one back off your clipboard. The Keystrokes Designer has its own <strong>Export Layout</strong> and <strong>Import Layout</strong> for sharing just the key layout without the rest of your HUD.</p>
+            <p class="body prose" style="margin:0 0 18px"><strong>Export Code</strong> packs your whole setup into a single line of text starting with <code>EYMHUD1-</code> and copies it to your clipboard — paste it into Discord, a forum post, wherever. <strong>Import Code</strong> reads one back off your clipboard. The Keystrokes Designer has its own <strong>EXPORT</strong> and <strong>IMPORT</strong> for the keystrokes module on its own — the key layout together with the design, animation and palette it was drawn with, without the rest of your HUD. Where it goes on your screen is left out on purpose: that corner is yours, not the sender's.</p>
             <ul class="list prose">
-                <li>Imports are fully validated before anything is applied, and your current setup is saved as a timestamped backup config first — so a code you did not like is one click away from being undone</li>
-                <li>Codes made with a different version of the mod still work; the status line tells you which version it came from</li>
+                <li>Imports are fully validated before anything is applied. A full-config import saves your current setup as a timestamped backup config first, so a code you did not like is one click away from being undone; a keystrokes import is a single <code>Ctrl+Z</code> in the designer instead</li>
+                <li>Codes made with a different version of the mod still work, and the status line tells you which version one came from. One exception, and it runs only one way: a keystrokes code written by v1.2.1 or later carries a design and palette that earlier builds have no field for, so those refuse it outright rather than import half of it</li>
                 <li>A code from someone running an addon module you do not have imports fine — their settings for it ride along untouched, and the reverse holds too</li>
             </ul>
 
