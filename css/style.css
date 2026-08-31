@@ -986,6 +986,170 @@ code {
 }
 
 /* ---------------------------------------------------------
+   Docs search — the guides only
+
+   New surface: the site had no input of any kind before this,
+   so the box is built from the same parts as .nav-toggle and
+   .copy-btn — square corners, a hairline border, brass on
+   hover. The global :focus-visible rule supplies the ring.
+   --------------------------------------------------------- */
+
+.search { position: relative; max-width: 520px; }
+
+.search__field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line-btn);
+    padding: 0 12px;
+    transition: border-color 0.15s ease;
+}
+.search__field:hover { border-color: var(--brass-rule); }
+.search:focus-within .search__field { border-color: var(--brass); }
+
+.search__icon { width: 16px; height: 16px; flex: none; color: var(--fg-faint); }
+.search:focus-within .search__icon { color: var(--brass); }
+
+.search__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    /* 44px keeps the coarse-pointer target legal without a media query. */
+    height: 44px;
+    background: none;
+    border: 0;
+    color: var(--fg-strong);
+    font-family: var(--font-sans);
+    font-size: 15px;
+}
+.search__input:focus { outline: none; }
+.search__input::placeholder { color: var(--fg-faint); }
+
+/* The one circle in a zero-radius design is the media spinner, so this
+   stays square like every other chrome element. */
+.search__kbd {
+    flex: none;
+    font-family: var(--font-label);
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+    border: 1px solid var(--line-soft);
+    padding: 4px 6px;
+}
+.search:focus-within .search__kbd { opacity: 0; }
+/* Nothing to press it with, and it costs the placeholder ~30px. */
+@media (pointer: coarse) {
+    .search__kbd { display: none; }
+}
+
+/* --- Results ------------------------------------------------ */
+
+.search__panel {
+    position: absolute;
+    z-index: 60;
+    top: calc(100% - 1px);
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: var(--bg-raised);
+    border: 1px solid var(--line-btn);
+    border-top-color: var(--line-soft);
+}
+
+.search__hit {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--line-soft);
+    border-left: 2px solid transparent;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+}
+.search__hit:last-child { border-bottom: 0; }
+.search__hit:hover,
+.search__hit.is-active {
+    background: var(--bg-deep);
+    border-left-color: var(--brass);
+}
+/* Pointer hover and keyboard cursor would otherwise fight over which row
+   looks selected while the mouse rests on the list. */
+.search__panel.is-keying .search__hit:hover { background: none; border-left-color: transparent; }
+.search__panel.is-keying .search__hit.is-active { background: var(--bg-deep); border-left-color: var(--brass); }
+
+.search__hit-top {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.search__hit-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--fg-strong);
+    min-width: 0;
+}
+.search__hit-page {
+    flex: none;
+    margin-left: auto;
+    font-family: var(--font-label);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+}
+.search__hit-crumb {
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+.search__hit-snippet {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+}
+.search__hit-snippet mark {
+    background: none;
+    color: var(--brass-hi);
+    font-weight: 500;
+}
+
+/* Three items side by side do not fit a phone; the title takes its own
+   line and the crumb and page label share the next one. */
+@media (max-width: 560px) {
+    .search__hit-top { flex-wrap: wrap; row-gap: 4px; }
+    .search__hit-title { flex: 1 1 100%; }
+}
+
+.search__empty {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--fg-dim);
+}
+
+/* --- TOC groups --------------------------------------------
+   Twenty entries in one flat column is a wall. The labels are
+   spans, so initToc()'s a[href^="#"] query never sees them.
+   ----------------------------------------------------------- */
+
+.toc__group {
+    font-family: var(--font-label);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    padding: 18px 0 6px 12px;
+}
+/* .toc__bar is a span too, so :first-of-type would match it instead. */
+.toc__bar + .toc__group { padding-top: 0; }
+
+/* ---------------------------------------------------------
    Footer
    --------------------------------------------------------- */
 
@@ -1052,6 +1216,7 @@ code {
     }
     .docs__aside-inner { position: static; padding: 0; }
     .toc-label,
+    .toc__group,
     .docs__aside-links { display: none; }
 
     .toc {

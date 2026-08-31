@@ -34,6 +34,7 @@
 
     <nav class="nav" aria-label="Primary">
         <a href="user-guide.html" aria-current="page">User Guide</a>
+        <a href="full-guide.html">Full Guide</a>
         <a href="api-guide.html">API Guide</a>
         <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
     </nav>
@@ -48,6 +49,7 @@
 <div class="nav-panel" id="nav-panel">
     <a href="index.html">Home</a>
     <a href="user-guide.html" aria-current="page">User Guide</a>
+    <a href="full-guide.html">Full Guide</a>
     <a href="api-guide.html">API Guide</a>
     <a class="btn btn--brass" href="downloads.html">Download</a>
 </div>
@@ -70,6 +72,7 @@
                 <a href="#appearance">Appearance</a>
             </nav>
             <div class="docs__aside-links">
+                <a href="full-guide.html">Full Guide →</a>
                 <a href="api-guide.html">API Guide →</a>
                 <a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues" target="_blank" rel="noopener">Report an issue →</a>
             </div>
@@ -81,11 +84,22 @@
         <div class="bleed" style="padding:80px 56px 56px;border-bottom:1px solid var(--line)">
             <p class="eyebrow">For players</p>
             <h1 class="display" style="margin-bottom:24px">User Guide</h1>
-            <p class="lede" style="max-width:58ch;margin:0">Everything is drawn client-side, placed exactly where you want it, and stored in a single config file you can share as a string of text. Press <strong>Right Shift</strong> in game to start.</p>
+            <p class="lede" style="max-width:58ch;margin:0 0 32px">Everything is drawn client-side, placed exactly where you want it, and stored in a single config file you can share as a string of text. Press <strong>Right Shift</strong> in game to start. Looking for a specific setting, its default or its range? That is the <a class="link-rule" href="full-guide.html">Full Guide</a>.</p>
+            <div class="search" data-search hidden>
+                <label class="visually-hidden" for="guide-search">Search the guides</label>
+                <div class="search__field">
+                    <svg class="search__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+                    <input id="guide-search" class="search__input" type="text" autocomplete="off" spellcheck="false"
+                           placeholder="Search both guides&hellip;"
+                           role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+                    <kbd class="search__kbd" aria-hidden="true">/</kbd>
+                </div>
+                <div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+            </div>
         </div>
 
         <!-- ── 01 The layout editor ─────────────────────────── -->
-        <section class="doc-section" id="editor">
+        <section class="doc-section" id="editor" data-keywords="hud editor right shift drag drop move snap grid scale scroll arrow keys multi select marquee layout">
             <p class="eyebrow eyebrow--brass">01</p>
             <h2 class="h3">The layout editor</h2>
             <p class="body prose" style="margin:0 0 30px">Press <strong>Right Shift</strong> from anywhere in game to open the editor. Everything you see is the real HUD, live. Modules snap to corners, edges or the center using a stacking algorithm, and when one lines up with another a magenta guide appears and it glides smoothly into place rather than jumping.</p>
@@ -99,10 +113,12 @@
                 <div><dt>Right-click a module</dt><dd>Open its own settings context menu, straight from the HUD.</dd></div>
                 <div><dt>Right-click empty space</dt><dd>Open the global HUD Settings menu: settings, presets, server configs, share codes and a full layout reset.</dd></div>
             </dl>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#editor">The HUD editor</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 02 Align & distribute ────────────────────────── -->
-        <section class="doc-section" id="align">
+        <section class="doc-section" id="align" data-keywords="align distribute left right top bottom center evenly spacing toolbar">
             <p class="eyebrow eyebrow--brass">02</p>
             <h2 class="h3">Align &amp; distribute</h2>
             <p class="body prose" style="margin:0 0 26px">Select two or more modules and a toolbar appears at the top of the screen. Hover any button to see what it does.</p>
@@ -112,10 +128,12 @@
                 <div><dt>T / CY / B</dt><dd>Align top, match center Y, align bottom.</dd></div>
                 <div><dt>DX / DY</dt><dd>Distribute horizontally / vertically — spread the selection out with equal gaps. Needs at least three modules; the outermost two stay put.</dd></div>
             </dl>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#align">Align and distribute</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 03 The HUD Settings menu ─────────────────────── -->
-        <section class="doc-section" id="settings-menu">
+        <section class="doc-section" id="settings-menu" data-keywords="hud settings menu global right click prevent overlap grid save config export import reset">
             <p class="eyebrow eyebrow--brass">03</p>
             <h2 class="h3">The HUD Settings menu</h2>
             <p class="body prose" style="margin:0 0 26px">Right-click anywhere that is not a module to open it.</p>
@@ -126,17 +144,19 @@
                 <div><dt>Configs</dt><dd>Save Config, Configs, Server Configs and Export / Import Code — see <a class="link-rule" href="#configs">presets &amp; share codes</a> below.</dd></div>
                 <div><dt>Reset HUD</dt><dd>Puts every module back to its default position and scale.</dd></div>
             </dl>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#global-menu">The global menu, row by row</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 04 Modules ───────────────────────────────────── -->
-        <section class="doc-section doc-section--wide" id="modules">
+        <section class="doc-section doc-section--wide" id="modules" data-keywords="modules cps fps ping combo keystrokes armor reach what each module shows">
             <p class="eyebrow eyebrow--brass">04</p>
             <h2 class="h3">Modules</h2>
             <p class="body prose" style="margin:0 0 8px">Seven modules ship with the mod. Each one carries its own color, scale, rainbow mode, background color and opacity, custom label text and anchor.</p>
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Tracker</p>
-                <h3 class="h4" style="font-size:22px">CPS</h3>
+                <h3 class="h4" id="mod-cps" style="font-size:22px">CPS</h3>
                 <p class="body prose">Counts clicks in the last 1 second window and displays left and right independently. A configurable separator plus free-text prefixes and suffixes let you render <code>12 | 4</code>, <code>CPS: 12</code>, or anything else you like. Supports rainbow mode and a background.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -149,7 +169,7 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Featured</p>
-                <h3 class="h4" style="font-size:22px">Keystrokes</h3>
+                <h3 class="h4" id="mod-keystrokes" style="font-size:22px">Keystrokes</h3>
                 <p class="body prose">A fully custom keystroke display, not a fixed WASD block. Eleven designs, per-key colors, bold / italic / underline labels, press animations you stack rather than pick between, and a CPS counter on any key including the mouse buttons. Built in the <a class="link-rule" href="#keystrokes-designer">Keystrokes Designer</a>.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -162,7 +182,7 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Combat</p>
-                <h3 class="h4" style="font-size:22px">Combo</h3>
+                <h3 class="h4" id="mod-combo" style="font-size:22px">Combo</h3>
                 <p class="body prose">A hit-streak counter with a heatmap: the number changes color as your streak climbs and shakes at the top tier. Three difficulty curves decide where the tiers sit. You choose whether the combo breaks on any damage taken, whether it survives switching targets, and how long it lingers before timing out.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -172,7 +192,7 @@
                     <video data-src="assets/combo-demo.mp4" muted loop playsinline preload="none" aria-label="The combo counter climbing through its color tiers"></video>
                 </figure>
 
-                <h4 class="h4" style="margin:34px 0 16px">Combo heatmap tiers</h4>
+                <h4 class="h4" id="heatmap-tiers" style="margin:34px 0 16px">Combo heatmap tiers</h4>
                 <div class="table-wrap">
                     <table class="table">
                         <thead>
@@ -190,7 +210,7 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Combat</p>
-                <h3 class="h4" style="font-size:22px">Reach</h3>
+                <h3 class="h4" id="mod-reach" style="font-size:22px">Reach</h3>
                 <p class="body prose">The exact distance in blocks of your last successful melee attack, calculated at the moment of the hit and shown to 2 decimal places. Configurable timeout, optional players-only filter, and an always-show mode with a custom no-hit-yet label instead of disappearing.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -203,7 +223,7 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Equipment</p>
-                <h3 class="h4" style="font-size:22px">Armor HUD</h3>
+                <h3 class="h4" id="mod-armor" style="font-size:22px">Armor HUD</h3>
                 <p class="body prose">All 4 armor slots plus main hand and off hand, as item icons with durability bars. Vertical or horizontal orientation, scalable 50–300%, hotbar-style slot backgrounds, exact durability numbers, and a red flash when a slot takes damage. Slots can be ungrouped and placed individually.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -216,7 +236,7 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Performance</p>
-                <h3 class="h4" style="font-size:22px">FPS</h3>
+                <h3 class="h4" id="mod-fps" style="font-size:22px">FPS</h3>
                 <p class="body prose">Frames per second, updated every tick. Custom suffix text, color, scale, rainbow mode and background — for when you want the number without opening F3.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
@@ -229,16 +249,18 @@
 
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Network</p>
-                <h3 class="h4" style="font-size:22px">Ping</h3>
+                <h3 class="h4" id="mod-ping" style="font-size:22px">Ping</h3>
                 <p class="body prose">Server latency in milliseconds, read from your own player-list entry — the same value the tab list shows, refreshed whenever the server sends a latency update, roughly once a second on a vanilla server. Custom color, scale and background.</p>
                 <figure class="media media--still">
                     <img src="assets/ping-demo.png" alt="The ping module rendered in game, reading 18 ms" width="164" height="69" decoding="async">
                 </figure>
             </article>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#cps">Every module setting</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 05 Keystrokes Designer ───────────────────────── -->
-        <section class="doc-section doc-section--wide" id="keystrokes-designer">
+        <section class="doc-section doc-section--wide" id="keystrokes-designer" data-keywords="keystrokes designer canvas keys layout label keybind resize undo import export design gallery animation">
             <p class="eyebrow eyebrow--brass">05</p>
             <h2 class="h3">Keystrokes Designer</h2>
             <p class="body prose" style="margin:0 0 26px">A fully interactive precision designer that lets you completely reimagine how your keystrokes look — no external tools needed. Add any key or mouse button, resize it, drag its label independently, recolor individual keys, pick from eleven designs, and stack as many press animations as you want on top of any of them.</p>
@@ -252,7 +274,7 @@
             </figure>
             <p class="caption" style="max-width:920px">Pixel-perfect snapping, context menus, drag-and-drop and unlimited undo / redo.</p>
 
-            <h3 class="h4" style="margin:44px 0 0">How to use it</h3>
+            <h3 class="h4" id="designer-howto" style="margin:44px 0 0">How to use it</h3>
             <ol class="steps">
                 <li><span>01</span><span>Right-click <strong>Keystrokes</strong> in the HUD Editor and choose <strong>Open Designer</strong>. You can also reach it from the settings menu under <strong>Keystrokes → Designer</strong>.</span></li>
                 <li><span>02</span><span><strong>Drag and drop:</strong> left-click and drag any key panel to reposition it. Keys snap to their neighbors' edges — and to an even gap between them — then settle smoothly into place.</span></li>
@@ -263,10 +285,12 @@
                 <li><span>07</span><span><strong>Share it:</strong> <strong>EXPORT</strong> copies the whole keystrokes look — the key layout plus its design, animation and palette — to the clipboard as a share code, and <strong>IMPORT</strong> reads one back. See <a class="link-rule" href="#configs">presets &amp; share codes</a>.</span></li>
                 <li><span>08</span><span><strong>Undo / redo:</strong> press <code>Ctrl+Z</code> to undo and <code>Ctrl+Y</code> to redo. History covers the design, animation and colors as well as the keys, so one undo puts the whole look back.</span></li>
             </ol>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#designer">The Designer, control by control</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 06 Context menu settings ─────────────────────── -->
-        <section class="doc-section doc-section--wide" id="context-menu">
+        <section class="doc-section doc-section--wide" id="context-menu" data-keywords="context menu right click per module settings quick options reset position">
             <p class="eyebrow eyebrow--brass">06</p>
             <h2 class="h3">Context menu settings</h2>
             <p class="body prose" style="margin:0 0 26px">Every module has a right-click context menu in the HUD Editor. Besides <strong>Reset Position</strong>, each module exposes its own settings:</p>
@@ -342,24 +366,28 @@
                 <div class="callout__label">Note</div>
                 <p>Everything here — plus options that have no context-menu entry, such as backgrounds, rainbow mode, combo timeout and combat mode — is also in the <a class="link-rule" href="#settings">settings screen</a>.</p>
             </div>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#surfaces">The full context menu lists</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 07 The settings screen ───────────────────────── -->
-        <section class="doc-section" id="settings">
+        <section class="doc-section" id="settings" data-keywords="settings screen tabs search preview info defaults presets share code mod menu">
             <p class="eyebrow eyebrow--brass">07</p>
             <h2 class="h3">The settings screen</h2>
             <p class="body prose" style="margin:0 0 18px">A purpose-built settings screen — one page per module, split into tabs, with a search box that finds any setting by name, per-row descriptions and defaults, and a one-click reset on anything you have changed.</p>
             <p class="body prose" style="margin:0 0 18px">It holds a single readable size at any Minecraft GUI Scale, and you can nudge that baseline from 50% to 200%.</p>
             <p class="body prose" style="margin:0">Open it from <strong>Mod Menu</strong>, from <strong>Options → Mods → Eymistaken's HUD → Settings</strong>, or by right-clicking empty space in the HUD Editor and choosing <strong>Settings</strong>.</p>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#settings-screen">The settings screen in detail</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 08 Presets & share codes ─────────────────────── -->
-        <section class="doc-section" id="configs">
+        <section class="doc-section" id="configs" data-keywords="presets saved configs share codes export import server configs per server backup EYMHUD1 clipboard">
             <p class="eyebrow eyebrow--brass">08</p>
             <h2 class="h3">Presets, server configs &amp; share codes</h2>
             <p class="body prose" style="margin:0 0 34px">Three ways to keep more than one HUD layout around — all reachable by right-clicking empty space in the HUD Editor.</p>
 
-            <h3 class="h4" style="font-size:20px">Saved configs</h3>
+            <h3 class="h4" id="saved-configs" style="font-size:20px">Saved configs</h3>
             <p class="body prose" style="margin:0 0 18px"><strong>Save Config</strong> takes a snapshot of your entire HUD — every module's position, scale, colors and settings — stored as plain JSON in <code>simplecps_presets/</code>, so you can switch between named layouts instantly. Hover <strong>Configs</strong> to see the list.</p>
             <ul class="list prose">
                 <li><strong>Left-click</strong> a name to load it</li>
@@ -367,7 +395,7 @@
                 <li><strong>Click the bin icon</strong> to delete it</li>
             </ul>
 
-            <h3 class="h4" style="font-size:20px;margin-top:38px">Share codes</h3>
+            <h3 class="h4" id="share-codes" style="font-size:20px;margin-top:38px">Share codes</h3>
             <p class="body prose" style="margin:0 0 18px"><strong>Export Code</strong> packs your whole setup into a single line of text starting with <code>EYMHUD1-</code> and copies it to your clipboard — paste it into Discord, a forum post, wherever. <strong>Import Code</strong> reads one back off your clipboard. The Keystrokes Designer has its own <strong>EXPORT</strong> and <strong>IMPORT</strong> for the keystrokes module on its own — the key layout together with the design, animation and palette it was drawn with, without the rest of your HUD. Where it goes on your screen is left out on purpose: that corner is yours, not the sender's.</p>
             <ul class="list prose">
                 <li>Imports are fully validated before anything is applied. A full-config import saves your current setup as a timestamped backup config first, so a code you did not like is one click away from being undone; a keystrokes import is a single <code>Ctrl+Z</code> in the designer instead</li>
@@ -375,7 +403,7 @@
                 <li>A code from someone running an addon module you do not have imports fine — their settings for it ride along untouched, and the reverse holds too</li>
             </ul>
 
-            <h3 class="h4" style="font-size:20px;margin-top:38px">Server configs</h3>
+            <h3 class="h4" id="server-configs" style="font-size:20px;margin-top:38px">Server configs</h3>
             <p class="body prose" style="margin:0 0 18px">A different HUD per server, with nothing to press. While this is switched on, whatever your HUD looks like on a server is quietly remembered for it — join again and it comes back. Single-player worlds share one profile.</p>
             <ul class="list prose">
                 <li>Hover <strong>Server Configs</strong> to see the list. The server you are on right now is highlighted.</li>
@@ -388,15 +416,17 @@
                 <div class="callout__label">Note</div>
                 <p>Whenever a server config replaces what is on screen, the previous setup is written to a config named <strong>Auto Backup</strong>. It is a single rolling slot, so only the most recent one is kept.</p>
             </div>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#presets">Presets, server configs and share codes</a> in the Full Guide.</p>
         </section>
 
         <!-- ── 09 Appearance ────────────────────────────────── -->
-        <section class="doc-section" id="appearance" style="border-bottom:1px solid var(--line)">
+        <section class="doc-section" id="appearance" data-keywords="appearance hud font inter rubik jetbrains bebas enchant text outline shadow restore font" style="border-bottom:1px solid var(--line)">
             <p class="eyebrow eyebrow--brass">09</p>
             <h2 class="h3">Appearance</h2>
             <p class="body prose" style="margin:0 0 26px">Found under <strong>Settings → General</strong>. Both options apply to every module at once.</p>
 
-            <h3 class="h4" style="font-size:20px">HUD font</h3>
+            <h3 class="h4" id="hud-font" style="font-size:20px">HUD font</h3>
             <p class="body prose" style="margin:0 0 18px">Five bundled fonts alongside the default:</p>
             <ul class="list prose">
                 <li><strong>Vanilla</strong> — Minecraft's own font</li>
@@ -415,7 +445,7 @@
                 <span class="chip">Enchanting table</span>
             </div>
 
-            <h3 class="h4" style="font-size:20px">Text outline</h3>
+            <h3 class="h4" id="text-outline" style="font-size:20px">Text outline</h3>
             <p class="body prose" style="margin:0 0 26px">Draws a thin black outline on every side of your HUD text instead of the vanilla drop shadow. Much easier to read against bright terrain like snow or sand.</p>
 
             <div class="callout">
@@ -429,6 +459,8 @@
             </div>
 
             <p class="note" style="margin-top:26px">Still improving fonts. They are not perfect yet. Sorry.</p>
+
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#appearance">Fonts, outline and menu scale</a> in the Full Guide.</p>
         </section>
 
         <footer class="site-footer" style="border-top:0">

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Guide — Eymistaken's HUD</title>
+<meta name="description" content="The complete settings reference for Eymistaken's HUD: every option in every module, the keystrokes design catalog and animation system, presets, server configs and share codes.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide.html">
+<meta name="theme-color" content="#1c1f1a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Full Guide — Eymistaken's HUD">
+<meta property="og:description" content="The complete settings reference for Eymistaken's HUD: every option in every module, the keystrokes design catalog and animation system, presets, server configs and share codes.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Full Guide — Eymistaken's HUD">
+<meta name="twitter:description" content="The complete settings reference for Eymistaken's HUD: every option in every module, the keystrokes design catalog and animation system, presets, server configs and share codes.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+    <a class="wordmark" href="index.html">
+        <img src="assets/icon-96.png" alt="" width="22" height="22">
+        <span>Eymistaken's HUD</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+        <a href="user-guide.html">User Guide</a>
+        <a href="full-guide.html" aria-current="page">Full Guide</a>
+        <a href="api-guide.html">API Guide</a>
+        <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
+    </nav>
+
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
+        <span class="visually-hidden">Menu</span>
+        <svg class="icon-open" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14"/></svg>
+        <svg class="icon-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+</header>
+
+<div class="nav-panel" id="nav-panel">
+    <a href="index.html">Home</a>
+    <a href="user-guide.html">User Guide</a>
+    <a href="full-guide.html" aria-current="page">Full Guide</a>
+    <a href="api-guide.html">API Guide</a>
+    <a class="btn btn--brass" href="downloads.html">Download</a>
+</div>
+
+<div class="docs">
+
+    <aside class="docs__aside">
+        <div class="docs__aside-inner">
+            <p class="toc-label">Contents</p>
+            <nav class="toc" data-toc aria-label="On this page">
+                <span class="toc__bar" aria-hidden="true"></span>
+                <span class="toc__group" aria-hidden="true">Getting around</span>
+                <a href="#files">Where settings live</a>
+                <a href="#surfaces">The four surfaces</a>
+                <a href="#placement">Placement</a>
+                <span class="toc__group" aria-hidden="true">The interfaces</span>
+                <a href="#editor">The HUD editor</a>
+                <a href="#settings-screen">The settings screen</a>
+                <span class="toc__group" aria-hidden="true">Modules</span>
+                <a href="#cps">CPS</a>
+                <a href="#ping">Ping</a>
+                <a href="#fps">FPS</a>
+                <a href="#combo">Combo</a>
+                <a href="#reach">Reach</a>
+                <a href="#armor">Armor HUD</a>
+                <span class="toc__group" aria-hidden="true">Keystrokes</span>
+                <a href="#keystrokes">Keystrokes settings</a>
+                <a href="#designs">The design catalog</a>
+                <a href="#animation">The animation system</a>
+                <a href="#designer">The Designer</a>
+                <span class="toc__group" aria-hidden="true">Configs &amp; sharing</span>
+                <a href="#appearance">Fonts &amp; appearance</a>
+                <a href="#presets">Presets &amp; server configs</a>
+                <a href="#share-codes">Share codes</a>
+                <a href="#resets">What each reset resets</a>
+                <a href="#gotchas">Gotchas</a>
+            </nav>
+            <div class="docs__aside-links">
+                <a href="user-guide.html">User Guide →</a>
+                <a href="api-guide.html">API Guide →</a>
+                <a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues" target="_blank" rel="noopener">Report an issue →</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="docs__main" id="main">
+
+        <div class="bleed" style="padding:80px 56px 56px;border-bottom:1px solid var(--line)">
+            <p class="eyebrow">Complete reference</p>
+            <h1 class="display" style="margin-bottom:24px">Full Guide</h1>
+            <p class="lede" style="max-width:58ch;margin:0 0 32px">Every setting in the mod, with its default, its range and the screen it lives on. If you are setting the HUD up for the first time, the <a class="link-rule" href="user-guide.html">User Guide</a> is the shorter way in — this page is the one you come back to when you need the exact number.</p>
+            <div class="search" data-search hidden>
+                <label class="visually-hidden" for="guide-search">Search the guides</label>
+                <div class="search__field">
+                    <svg class="search__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+                    <input id="guide-search" class="search__input" type="text" autocomplete="off" spellcheck="false"
+                           placeholder="Search both guides&hellip;"
+                           role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+                    <kbd class="search__kbd" aria-hidden="true">/</kbd>
+                </div>
+                <div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+            </div>
+        </div>
+
+        <!-- ── 01 Where settings live ───────────────────────── -->
+        <section class="doc-section" id="files" data-keywords="config file json location folder path save backup atomic simplecps.json presets directory legacy fields">
+            <p class="eyebrow eyebrow--brass">01</p>
+            <h2 class="h3">Where your settings live</h2>
+            <p class="body prose" style="margin:0 0 30px">Everything is stored client-side, in your Minecraft <code>config</code> folder. Nothing is sent anywhere and no server ever sees it.</p>
+
+            <dl class="rowlist">
+                <div><dt><code>simplecps.json</code></dt><dd>The live config — one flat file holding every setting for every module.</dd></div>
+                <div><dt><code>simplecps_presets/</code></dt><dd>Your named presets, one <code>.json</code> per preset. The file name <em>is</em> the name you see in-game.</dd></div>
+                <div><dt><code>simplecps_server_presets/</code></dt><dd>Per-server configs, one <code>.json</code> per server. The file name <em>is</em> the server address.</dd></div>
+                <div><dt><code>_labels.json</code></dt><dd>Inside the server folder — the friendly names you gave your servers. Not a server itself.</dd></div>
+            </dl>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p>Saves are atomic: the mod writes a temporary file and then moves it into place. A crash halfway through a save cannot leave you with a broken config.</p>
+            </div>
+
+            <h3 class="h4" id="legacy-fields" style="font-size:20px;margin-top:40px">Fields you may see but that do nothing</h3>
+            <p class="body prose" style="margin:0 0 24px">If you open <code>simplecps.json</code> in a text editor you will find a few keys the current build never reads. They are kept because a field name is a key on disk — deleting them from the mod would silently drop settings out of everyone's existing file.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt><code>keystrokesEffectMode</code></dt><dd>Read once when an old config is loaded, to work out which animations you had. Never written back.</dd></div>
+                <div><dt><code>keystrokesMotion</code><br><code>keystrokesFill</code></dt><dd>The single-animation predecessors of the current lists. Same story — migration only.</dd></div>
+                <div><dt><code>showLCTRL</code><br><code>showLSHIFT</code><br><code>showSpace</code></dt><dd>Left over from before the layout was freely editable. Nothing reads them; add or remove those keys in the designer instead.</dd></div>
+            </dl>
+        </section>
+
+        <!-- ── 02 The four surfaces ─────────────────────────── -->
+        <section class="doc-section" id="surfaces" data-keywords="where is this setting open editor right shift keybind mod menu designer settings screen which screen surface">
+            <p class="eyebrow eyebrow--brass">02</p>
+            <h2 class="h3">The four surfaces</h2>
+            <p class="body prose" style="margin:0 0 30px">There are four places settings can be changed, and several settings live on exactly one of them. This is the table to check when you cannot find something.</p>
+
+            <dl class="rowlist">
+                <div><dt>In-world HUD editor</dt><dd>Press <strong>Right Shift</strong> in-game. Rebindable under Controls, in a category called <em>Eymistaken's HUD</em>. It only opens when no other screen is up.</dd></div>
+                <div><dt>Settings screen</dt><dd>From the editor's <strong>Settings…</strong> row, or from Mod Menu.</dd></div>
+                <div><dt>Keystrokes Designer</dt><dd>Keystrokes page → <strong>Layout</strong> → <strong>Open Designer</strong>, or right-click the Keystrokes module in the editor.</dd></div>
+                <div><dt>Mod Menu</dt><dd>Optional. When it is not installed, the settings screen is still reachable through the editor.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="only-here" style="font-size:20px;margin-top:44px">Settings that exist in only one place</h3>
+            <div class="cards" style="max-width:920px;margin-top:22px">
+                <div>
+                    <h3 class="h4">Only in the Designer's animation drawer</h3>
+                    <p class="body-sm" style="margin:0">Which motions and fills are switched on. They are a <em>set</em> — several run at once — and a one-value-at-a-time control cannot express a set, so no other screen offers them.</p>
+                </div>
+                <div>
+                    <h3 class="h4">Only in the Designer's inspector</h3>
+                    <p class="body-sm" style="margin:0">Everything about an individual key: its colors, its own design and animation, bold/italic/underline/shadow, label placement and size, line mode, hidden, show-CPS.</p>
+                </div>
+                <div>
+                    <h3 class="h4">Only in the in-world editor</h3>
+                    <p class="body-sm" style="margin:0">The twelve per-armor-slot offsets, Group / Ungroup, the align and distribute toolbar, cycling the grid size, managing per-server configs, and the Restore Font escape hatch.</p>
+                </div>
+                <div>
+                    <h3 class="h4">Only in the settings screen</h3>
+                    <p class="body-sm" style="margin:0">The settings search, each row's default and per-row reset, the live preview, Reset All Settings, Discard Changes, the preset card and the typed share-code field.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── 03 Placement ─────────────────────────────────── -->
+        <section class="doc-section" id="placement" data-keywords="position anchor corner center offset x y scale size stacking overlap move layout engine manual">
+            <p class="eyebrow eyebrow--brass">03</p>
+            <h2 class="h3">Placement and the layout engine</h2>
+            <p class="body prose" style="margin:0 0 30px">Every module gets the same four placement rows, on its <strong>Position</strong> tab. Third-party modules get them too.</p>
+
+            <div class="table-wrap" style="max-width:760px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Type</th><th scope="col">Range</th><th scope="col">Default</th></tr></thead>
+                    <tbody>
+                        <tr><td>Position</td><td>Anchor grid</td><td>5 anchors</td><td>Top left</td></tr>
+                        <tr><td>X Offset</td><td>Stepper</td><td>−10000 to 10000 px</td><td>0</td></tr>
+                        <tr><td>Y Offset</td><td>Stepper</td><td>−10000 to 10000 px</td><td>0</td></tr>
+                        <tr><td>Scale %</td><td>Slider</td><td>50 to 300</td><td>100</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="body prose" style="margin:30px 0 24px">The anchor grid is 3&times;3 but only five cells do anything: the four corners and the center. The four edge cells are inert.</p>
+
+            <h3 class="h4" id="stacking" style="font-size:20px;margin-top:38px">Auto-stacking versus manual placement</h3>
+            <p class="body prose" style="margin:0 0 24px">Modules that share a corner are stacked along that edge automatically, so they never sit on top of each other. A module leaves auto-stacking the moment you give it a non-zero offset or drag it in the editor; from then on it is placed exactly where you put it, clamped to the screen, and the stack closes up behind it.</p>
+            <p class="body prose" style="margin:0 0 24px">Centered modules are centered rather than stacked, so two of them can overlap unless you offset one.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Prevent Overlap</dt><dd>On by default. Pushes colliding modules to the nearest free spot so two of them never cover the same pixels. General → Editor.</dd></div>
+            </dl>
+        </section>
+
+        <!-- ── 04 The HUD editor ────────────────────────────── -->
+        <section class="doc-section" id="editor" data-keywords="hud editor right shift drag drop snap grid align distribute multi select marquee arrow keys scroll scale context menu reset position">
+            <p class="eyebrow eyebrow--brass">04</p>
+            <h2 class="h3">The HUD editor</h2>
+            <p class="body prose" style="margin:0 0 30px">Press <strong>Right Shift</strong> in-game. The editor draws over your live HUD, so what you are dragging is the real thing at its real size.</p>
+
+            <h3 class="h4" id="editor-gestures" style="font-size:20px">Mouse and keyboard</h3>
+            <dl class="rowlist rowlist--narrow" style="margin-top:22px">
+                <div><dt>Left-click + drag</dt><dd>Move a module — or a single armor slot once you have ungrouped them. Snaps to other modules' edges and centers, then to the grid if the grid is on.</dd></div>
+                <div><dt>Hold Shift while dragging</dt><dd>Turns snapping off for that drag. Free placement, pixel for pixel.</dd></div>
+                <div><dt>Scroll wheel</dt><dd>Scale the module under the cursor by 5% per notch, from 50% to 300%. This saves immediately — there is no drag to release.</dd></div>
+                <div><dt>Drag on empty space</dt><dd>Marquee select. Everything inside the box is selected.</dd></div>
+                <div><dt>Arrow keys</dt><dd>Nudge the selection one pixel.</dd></div>
+                <div><dt>Right-click a module</dt><dd>Its own context menu.</dd></div>
+                <div><dt>Right-click empty space</dt><dd>The global menu.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="align" style="font-size:20px;margin-top:44px">Align and distribute</h3>
+            <p class="body prose" style="margin:0 0 22px">Select two or more elements and a toolbar appears at the top of the screen.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt><code>L</code> <code>CX</code> <code>R</code></dt><dd>Align left, match center on X, align right.</dd></div>
+                <div><dt><code>T</code> <code>CY</code> <code>B</code></dt><dd>Align top, match center on Y, align bottom.</dd></div>
+                <div><dt><code>DX</code> <code>DY</code></dt><dd>Distribute horizontally or vertically — equal gaps between elements. Needs three or more.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="global-menu" style="font-size:20px;margin-top:44px">The global menu</h3>
+            <p class="body prose" style="margin:0 0 22px">Right-click anywhere empty. Nine rows:</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Settings…</dt><dd>Opens the full settings screen.</dd></div>
+                <div><dt>Prevent Overlap</dt><dd>Toggles collision handling for the whole HUD.</dd></div>
+                <div><dt>Grid</dt><dd>Left-click toggles the grid. <strong>Right-click cycles its size</strong> through 4, 8, 16 and 32 pixels.</dd></div>
+                <div><dt>Save Config</dt><dd>Saves everything as a preset called <code>Config 1</code>, <code>Config 2</code>, and so on — the first free number.</dd></div>
+                <div><dt>Configs</dt><dd>Hover for your saved presets. Left-click a name to load it, the bin icon to delete it, right-click to rename it.</dd></div>
+                <div><dt>Server Configs</dt><dd>Hover for your per-server configs. The title row switches the whole feature on and off.</dd></div>
+                <div><dt>Export Code</dt><dd>Copies your whole HUD to the clipboard as a share code. The row reads <em>Copied!</em> for a moment.</dd></div>
+                <div><dt>Import Code</dt><dd>Opens a text box you can paste into with Ctrl+V. Your current config is backed up to a preset first.</dd></div>
+                <div><dt>Reset HUD</dt><dd>Sends every module back to its default anchor, offset and scale. Colors and behavior are left alone.</dd></div>
+            </dl>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p>Every module's own menu starts with <strong>Reset Position</strong> and ends with <strong>Open Settings…</strong>, which jumps straight to that module's page in the settings screen.</p>
+            </div>
+        </section>
+
+        <!-- ── 05 The settings screen ───────────────────────── -->
+        <section class="doc-section" id="settings-screen" data-keywords="settings screen menu tabs sidebar search preview info default reset all discard changes done mod menu">
+            <p class="eyebrow eyebrow--brass">05</p>
+            <h2 class="h3">The settings screen</h2>
+            <p class="body prose" style="margin:0 0 30px">One page per module in a sidebar, then a <strong>General</strong> page, then a <em>Plugins</em> divider with a page for each third-party module you have installed. Every module page has an enable toggle in its header; General is global and cannot be switched off.</p>
+
+            <h3 class="h4" id="settings-parts" style="font-size:20px">What is on the screen</h3>
+            <dl class="rowlist rowlist--narrow" style="margin-top:22px">
+                <div><dt>Search settings</dt><dd>Filters every row on every page into a single results page. Faster than remembering which tab a setting is on.</dd></div>
+                <div><dt>Preview</dt><dd>A live render of whichever module you are looking at, updating as you change things.</dd></div>
+                <div><dt>Info</dt><dd>The description of the row you last touched, plus its default value and a button to put it back.</dd></div>
+                <div><dt>Presets</dt><dd>Your saved configs. Click one to load it, or <strong>Save Current</strong> to add one.</dd></div>
+                <div><dt>Share code</dt><dd>A field with <strong>Export</strong> and <strong>Import</strong>. Import falls back to your clipboard if the field is empty.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="settings-buttons" style="font-size:20px;margin-top:44px">The three buttons that ask twice</h3>
+            <dl class="rowlist rowlist--narrow" style="margin-top:22px">
+                <div><dt>Reset All Settings</dt><dd>Every module returns to its default position, color and scale. <strong>Saved presets and plugin module data are kept.</strong> Cannot be undone.</dd></div>
+                <div><dt>Cancel</dt><dd>Puts back everything changed since the screen opened — including edits already written to disk.</dd></div>
+                <div><dt>Done</dt><dd>Closes the screen. Changes were already saved as you made them; the footer shows the config path.</dd></div>
+            </dl>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p>Row types are consistent throughout: toggles, sliders, steppers, text fields, color swatches with a hex box and a picker, cycles, and action buttons. Every built-in row knows its own default, so the reset in the Info panel always works.</p>
+            </div>
+        </section>
+
+        <!-- ── 06 CPS ───────────────────────────────────────── -->
+        <section class="doc-section" id="cps" data-keywords="cps clicks per second left right click counter separator prefix suffix rightClickCps">
+            <p class="eyebrow eyebrow--brass">06</p>
+            <h2 class="h3">CPS</h2>
+            <p class="body prose" style="margin:0 0 30px">Clicks per second for the left and right mouse buttons, counted over a rolling one-second window. It is the only module that is <strong>on by default</strong>.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable CPS</td><td>On</td><td></td><td>Shows or hides the module.</td></tr>
+                        <tr><td>Right Click CPS</td><td>On</td><td></td><td>Shows the right-click count alongside the left.</td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td>Color of the numbers.</td></tr>
+                        <tr><td>Rainbow</td><td>Off</td><td></td><td>Cycles the text through the spectrum. Overrides Text Color.</td></tr>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td>Draws a box behind the text.</td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td>0 is invisible, 255 is solid.</td></tr>
+                        <tr><td>Left Prefix</td><td><em>(empty)</em></td><td>64 chars</td><td>Text before the left-click count.</td></tr>
+                        <tr><td>Separator</td><td><code>" | "</code></td><td>64 chars</td><td>Text between the two counts.</td></tr>
+                        <tr><td>Right Prefix</td><td><em>(empty)</em></td><td>64 chars</td><td>Text before the right-click count.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable CPS, Text Color, Scale %.</p>
+        </section>
+
+        <!-- ── 07 Ping ──────────────────────────────────────── -->
+        <section class="doc-section" id="ping" data-keywords="ping latency ms milliseconds server connection">
+            <p class="eyebrow eyebrow--brass">07</p>
+            <h2 class="h3">Ping</h2>
+            <p class="body prose" style="margin:0 0 30px">Your latency to the current server, in milliseconds. Off by default.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable Ping</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td></td></tr>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p><strong>Ping is the one module with no rainbow option.</strong> If you want it to change color, there is no setting for it — that is not a bug you are looking at.</p>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable Ping, Scale %, Text Color.</p>
+        </section>
+
+        <!-- ── 08 FPS ───────────────────────────────────────── -->
+        <section class="doc-section" id="fps" data-keywords="fps frames per second framerate suffix text">
+            <p class="eyebrow eyebrow--brass">08</p>
+            <h2 class="h3">FPS</h2>
+            <p class="body prose" style="margin:0 0 30px">Frames per second. Off by default.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable FPS</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Suffix Text</td><td><code>FPS</code></td><td>64 chars</td><td>Text after the number. Empty it for a bare count.</td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td></td></tr>
+                        <tr><td>Rainbow</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable FPS, Text Color.</p>
+        </section>
+
+        <!-- ── 09 Combo ─────────────────────────────────────── -->
+        <section class="doc-section" id="combo" data-keywords="combo counter hits streak heatmap shake timeout combat mode classic modern cooldown decay target switch">
+            <p class="eyebrow eyebrow--brass">09</p>
+            <h2 class="h3">Combo</h2>
+            <p class="body prose" style="margin:0 0 30px">Counts consecutive hits. Off by default. This is the module with the most behavior to tune, because "what counts as a combo" genuinely differs between servers.</p>
+
+            <h3 class="h4" id="combo-behavior" style="font-size:20px">Behavior</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Combat Mode</td><td>Modern</td><td>Classic, Modern</td><td><strong>Classic</strong> counts every hit, the way 1.8 PvP works. <strong>Modern</strong> only counts a hit when your attack cooldown has recharged to 90% or more, so spam-clicking does not inflate the count.</td></tr>
+                        <tr><td>Reset on Any Damage</td><td>On</td><td></td><td><strong>On</strong> is the classic rule: taking any damage resets you to zero. <strong>Off</strong> switches to advanced mode, where the combo decays and a distance check applies instead.</td></tr>
+                        <tr><td>Only Players</td><td>On</td><td></td><td>Hits on mobs do not count.</td></tr>
+                        <tr><td>Continue On Target Switch</td><td>On</td><td></td><td>Keeps the combo alive when you start hitting someone else. Turn it off if a combo should mean one opponent.</td></tr>
+                        <tr><td>Timeout</td><td>3 s</td><td>1 to 10 s</td><td>Seconds of not hitting anything before the combo resets.</td></tr>
+                        <tr><td>Hide When Inactive</td><td>Off</td><td></td><td>Hides the display entirely while the combo is zero.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="h4" id="combo-style" style="font-size:20px;margin-top:44px">Style</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Suffix Text</td><td><code>Combo</code></td><td>64 chars</td><td>Text after the number.</td></tr>
+                        <tr><td>Heatmap Mode</td><td>Off</td><td></td><td>Colors the text from blue through red to black as the combo climbs, and shakes it at the top tier. <strong>Overrides Rainbow.</strong></td></tr>
+                        <tr><td>Heatmap Difficulty</td><td>Medium</td><td>Easy, Medium, Hard</td><td>How many hits each color tier takes. <strong>Changing this resets the running combo.</strong></td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td>Ignored while the heatmap is on.</td></tr>
+                        <tr><td>Rainbow</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="h4" id="heatmap-tiers" style="margin:34px 0 16px">Heatmap tiers</h4>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th scope="col">Difficulty</th><th scope="col">Tier 1</th><th scope="col">Tier 2</th><th scope="col">Tier 3 (shake)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Easy</td><td>3 hits</td><td>5 hits</td><td>7 hits</td></tr>
+                        <tr><td>Medium <em>(default)</em></td><td>5 hits</td><td>8 hits</td><td>12 hits</td></tr>
+                        <tr><td>Hard</td><td>10 hits</td><td>40 hits</td><td>60 hits</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable Combo, <strong>Always Show</strong> (the inverse of Hide When Inactive), Text Color, Suffix Text.</p>
+        </section>
+
+        <!-- ── 10 Reach ─────────────────────────────────────── -->
+        <section class="doc-section" id="reach" data-keywords="reach distance blocks hit range no hit text timeout always show">
+            <p class="eyebrow eyebrow--brass">10</p>
+            <h2 class="h3">Reach</h2>
+            <p class="body prose" style="margin:0 0 30px">The distance of your last landed hit, in blocks, to two decimal places. Off by default.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable Reach</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Timeout</td><td>3 s</td><td>1 to 10 s</td><td>How long the last measurement stays on screen.</td></tr>
+                        <tr><td>Only Players</td><td>On</td><td></td><td>Only measures hits on players.</td></tr>
+                        <tr><td>Always Show</td><td>Off</td><td></td><td>Keeps the display up even when idle, showing the No Hit text.</td></tr>
+                        <tr><td>No Hit Text</td><td><code>No Hit</code></td><td>64 chars</td><td>Shown before your first hit, and while idle if Always Show is on.</td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td></td></tr>
+                        <tr><td>Rainbow</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable Reach, Always Show, Text Color, No Hit Text.</p>
+        </section>
+
+        <!-- ── 11 Armor HUD ─────────────────────────────────── -->
+        <section class="doc-section" id="armor" data-keywords="armor helmet chestplate leggings boots main hand off hand durability damage flash vertical group ungroup slots">
+            <p class="eyebrow eyebrow--brass">11</p>
+            <h2 class="h3">Armor HUD</h2>
+            <p class="body prose" style="margin:0 0 30px">Your four armor pieces and your held items, with durability. Off by default, and the only module that starts in the <strong>bottom left</strong> rather than the top left.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable Armor</td><td>Off</td><td></td></tr>
+                        <tr><td>Vertical Orientation</td><td>On</td><td>Stacks the items in a column. Off lays them in a row.</td></tr>
+                        <tr><td>Show Main Hand</td><td>On</td><td>Includes the item you are holding.</td></tr>
+                        <tr><td>Show Off Hand</td><td>Off</td><td>Includes your off-hand item.</td></tr>
+                        <tr><td>Show Background Slots</td><td>Off</td><td>Draws a semi-transparent inventory slot behind each item.</td></tr>
+                        <tr><td>Durability Text</td><td>Off</td><td>Prints the exact number next to each item instead of relying on the bar.</td></tr>
+                        <tr><td>Damage Flash</td><td>On</td><td>Flashes an item red for a moment when it loses durability.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p>Armor is the one module with <strong>no color settings and no background box</strong>. It draws items, not text, so there is nothing to tint; the slot backgrounds are the equivalent switch.</p>
+            </div>
+
+            <h3 class="h4" id="armor-slots" style="font-size:20px;margin-top:44px">Splitting the slots apart</h3>
+            <p class="body prose" style="margin:0 0 24px">Right-click the Armor HUD in the editor and choose <strong>Ungroup</strong>. The six pieces — Helmet, Chestplate, Leggings, Boots, Main Hand, Off Hand — become independently draggable, each with its own offset, so you can put your boots somewhere entirely different from your helmet.</p>
+            <p class="body prose" style="margin:0 0 24px">Right-click any detached slot and choose <strong>Group</strong> to snap everything back into the stack and clear all twelve offsets at once.</p>
+            <div class="callout">
+                <div class="callout__label">Note</div>
+                <p>Those per-slot offsets exist <em>only</em> in the in-world editor. There are no rows for them in the settings screen — dragging is the interface.</p>
+            </div>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Ungroup, Enable Armor, Scale %, Vertical, Show Background, Durability Text, Damage Flash, Show Main Hand, Show Off Hand.</p>
+        </section>
+
+        <!-- ── 12 Keystrokes settings ───────────────────────── -->
+        <section class="doc-section" id="keystrokes" data-keywords="keystrokes keys wasd mouse buttons pressed color rainbow target board release trail ghost scale background opacity">
+            <p class="eyebrow eyebrow--brass">12</p>
+            <h2 class="h3">Keystrokes — module settings</h2>
+            <p class="body prose" style="margin:0 0 30px">The key display. These are the settings that apply to the whole cluster; anything about an individual key lives in the <a class="link-rule" href="#designer">Designer</a>.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Enable Keystrokes</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Scale %</td><td><strong>80</strong></td><td>50 to 300</td><td>Note the default is 80, not 100 — the stock cluster is large.</td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td>Color of the key labels at rest.</td></tr>
+                        <tr><td>Pressed Color</td><td>Green</td><td></td><td>Color used while a key is held.</td></tr>
+                        <tr><td>Rainbow</td><td>Off</td><td></td><td></td></tr>
+                        <tr><td>Rainbow Target</td><td>Text</td><td>Text, Background</td><td>Whether the rainbow paints the labels or the key bodies.</td></tr>
+                        <tr><td>Design</td><td>Baseline</td><td>11 designs</td><td>The look of a key at rest. <strong>Picking one also applies its animation and palette</strong> — see below.</td></tr>
+                        <tr><td>Fill Direction</td><td>Right</td><td>8 directions</td><td>Which side a directional fill starts from. Ignored by fills that have no direction.</td></tr>
+                        <tr><td>Release Trail</td><td>Off</td><td></td><td>Leaves a fading outline behind when you let a key go.</td></tr>
+                        <tr><td>Board</td><td>Off</td><td></td><td>Frames the whole cluster with an ornamented board.</td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td>Color of the key bodies.</td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p><strong>There is no "Show Background" toggle for Keystrokes.</strong> Set Background Opacity to <code>0</code> to remove the key bodies and leave only the labels — that is how the Frame, Bar and Segment designs get their look.</p>
+            </div>
+
+            <div class="callout callout--warn" style="margin-top:14px">
+                <div class="callout__label">Warning</div>
+                <p><strong>Design is not just a texture.</strong> Choosing one rewrites your animations, all four colors, and — for Wedge and Hex — the positions of your keys. Everything stays editable afterwards, but export your layout first if you have one you want to keep.</p>
+            </div>
+
+            <p class="note" style="margin-top:26px">The layout holds up to 256 keys. In the editor's right-click menu: Enable Keystrokes, Design, Board, Open Designer — this module has no Reset Settings row.</p>
+        </section>
+
+        <!-- ── 13 The design catalog ────────────────────────── -->
+        <section class="doc-section doc-section--wide" id="designs" data-keywords="design catalog baseline frame bar soft block segment neon wedge timeline hex pixel bevel slot style look palette arrangement">
+            <p class="eyebrow eyebrow--brass">13</p>
+            <h2 class="h3">The Keystrokes design catalog</h2>
+            <p class="body prose" style="margin:0 0 30px;max-width:58ch">Eleven designs. Each one is a resting look <em>plus</em> the animation and palette it was drawn with, because the palette is what makes a design legible — Neon needs its near-black core, the pixel styles their slate and gold, Bar a dimmer label because nothing sits behind it. Picking a design applies all of it. Everything stays editable afterwards; the preset is only a starting point.</p>
+
+            <div class="table-wrap" style="max-width:none">
+                <table class="table">
+                    <thead><tr><th scope="col">Design</th><th scope="col">At rest</th><th scope="col">Motion</th><th scope="col">Fill</th><th scope="col">Direction</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Baseline</strong></td><td>Flat translucent fill with sharp corners — the original look.</td><td>Squish</td><td>Ripple</td><td>Center Out</td></tr>
+                        <tr><td><strong>Frame</strong></td><td>Empty body with a 2 px border. The most readable one in a fight.</td><td>Squish</td><td>Sweep</td><td>Up</td></tr>
+                        <tr><td><strong>Bar</strong></td><td>No box at all — the label with a thin rail under it.</td><td>None</td><td>Sweep</td><td>Right</td></tr>
+                        <tr><td><strong>Soft Block</strong></td><td>Rounded 3 px corners with a light line along the top edge.</td><td>Sink</td><td>None</td><td>Right</td></tr>
+                        <tr><td><strong>Segment</strong></td><td>Body built from horizontal slices, like an equalizer.</td><td>None</td><td>Cascade</td><td>Up</td></tr>
+                        <tr><td><strong>Neon</strong></td><td>Near-black core; the halo is painted by the animation.</td><td>None</td><td>Glow</td><td>Center Out</td></tr>
+                        <tr><td><strong>Wedge</strong></td><td>Triangle pointing away from center, direction taken from the keybind. <strong>Arranges your keys into a compass.</strong></td><td>Nudge</td><td>None</td><td>Right</td></tr>
+                        <tr><td><strong>Timeline</strong></td><td>Not a button style — a press history scrolling right to left.</td><td>None</td><td>None</td><td>Right</td></tr>
+                        <tr><td><strong>Hex</strong></td><td>Hexagonal keycaps. <strong>Arranges your keys into an interlocking comb.</strong></td><td>Squish</td><td>Sweep</td><td>Center Out</td></tr>
+                        <tr><td><strong>Pixel Bevel</strong></td><td>Double frame with a gold pixel at each corner, opaque slate and gold.</td><td>Sink</td><td>None</td><td>Right</td></tr>
+                        <tr><td><strong>Slot</strong></td><td>A recess with no frame of its own, meant to sit inside the Board.</td><td>Sink</td><td>None</td><td>Right</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="h4" id="design-rules" style="font-size:20px;margin-top:44px">Three rules worth knowing</h3>
+            <dl class="rowlist" style="margin-top:22px;max-width:920px">
+                <div><dt>Some designs move your keys</dt><dd>Wedge wants a compass and Hex wants a honeycomb, so choosing them rearranges the cluster. Your keybinds, labels and per-key settings ride along; anything with no slot is stacked underneath rather than dropped. <strong>Leaving an arranging design puts the keys back into the stock grid</strong>, and switching between two designs that carry no arrangement leaves your own layout alone.</dd></div>
+                <div><dt>Timeline is global only</dt><dd>It lays the keys out itself as lanes and ignores their positions and sizes entirely, so it cannot be applied to a single key. The Designer's canvas shows a notice instead of keys while it is active.</dd></div>
+                <div><dt>Decoration does not reserve space</dt><dd>Neon's halo, Pixel Bevel's outline and the release trail all paint outside their key, and that is allowed. If they counted toward the module's size, every module stacked against that edge would jump every time you tried a different design. Only the Board changes the measured size, adding 24 pixels of padding around the cluster.</dd></div>
+            </dl>
+        </section>
+
+        <!-- ── 14 The animation system ──────────────────────── -->
+        <section class="doc-section doc-section--wide" id="animation" data-keywords="animation motion fill direction squish kick sink nudge ripple sweep cascade hold ring edge run glow clockwise counter clockwise center out edges in combine">
+            <p class="eyebrow eyebrow--brass">14</p>
+            <h2 class="h3">The animation system</h2>
+            <p class="body prose" style="margin:0 0 30px;max-width:58ch">How a key <em>looks at rest</em> and what it <em>does when pressed</em> are separate. Animations are independent of the design and attachable to any style, which is why there is no list of named combined effects — there are three axes and you combine them freely.</p>
+
+            <p class="body prose" style="margin:0 0 30px;max-width:58ch"><strong>Motions and fills are sets, not single choices.</strong> Several run at once, and ticking them lives only in the Designer's <strong>Anim</strong> drawer — a control that shows one value at a time cannot express a set, so the settings screen and the in-world editor deliberately do not offer it.</p>
+
+            <h3 class="h4" id="motions" style="font-size:20px">Motion — how the key moves</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Motion</th><th scope="col">Effect</th></tr></thead>
+                    <tbody>
+                        <tr><td>Squish</td><td>The key shrinks to 85% while held.</td></tr>
+                        <tr><td>Kick</td><td>Shrinks to 88%, then springs past its size to 106% on release.</td></tr>
+                        <tr><td>Sink</td><td>The key drops 3 pixels, like a real keycap.</td></tr>
+                        <tr><td>Nudge</td><td>The key slides 5 pixels along the direction its keybind implies — W moves up, A moves left.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:24px 0 0;max-width:58ch"><strong>Sink and Nudge add together</strong> — tick both and the key sinks and slides. <strong>Squish and Kick both drive the scale, so Kick wins</strong> when both are ticked. Ticking nothing means no motion.</p>
+
+            <h3 class="h4" id="fills" style="font-size:20px;margin-top:44px">Fill — how the key is painted</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Fill</th><th scope="col">Effect</th><th scope="col">Reads direction</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ripple</td><td>Color spreads outward from the press.</td><td>No</td></tr>
+                        <tr><td>Sweep</td><td>A wave of color crosses the key.</td><td>Linear</td></tr>
+                        <tr><td>Cascade</td><td>The key fills row by row.</td><td>Linear</td></tr>
+                        <tr><td>Hold Ring</td><td>A ring travels around the border while you hold.</td><td>Rotational only</td></tr>
+                        <tr><td>Edge Run</td><td>A light runs along the perimeter.</td><td>Rotational only</td></tr>
+                        <tr><td>Glow</td><td>The key brightens from within.</td><td>No</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:24px 0 0;max-width:58ch">Multiple fills stack, and they are always painted in the order above regardless of the order you ticked them.</p>
+
+            <h3 class="h4" id="directions" style="font-size:20px;margin-top:44px">Direction — where a fill starts</h3>
+            <div class="chips" style="margin:22px 0 24px">
+                <span class="chip">Right</span>
+                <span class="chip">Left</span>
+                <span class="chip">Up</span>
+                <span class="chip">Down</span>
+                <span class="chip">Center Out</span>
+                <span class="chip">Edges In</span>
+                <span class="chip">Clockwise</span>
+                <span class="chip">Counter-clockwise</span>
+            </div>
+            <p class="body prose" style="margin:0 0 24px;max-width:58ch">There is <strong>one direction shared by every active fill</strong>, and it is adapted per fill as it is drawn. That is what lets a sweep going up and a ring going clockwise coexist under a single setting. The picker only offers Clockwise and Counter-clockwise while a perimeter fill is selected, and only the first six otherwise; a pairing that cannot work — a ring told to go "up" — is silently mapped to the nearest sensible one rather than sitting still and looking broken.</p>
+
+            <div class="callout">
+                <div class="callout__label">Note</div>
+                <p>The <strong>release trail</strong> has its own switch rather than being a fill, because it fires when you let go rather than while you hold. A <strong>per-key animation override</strong> names one animation and means only that one — it replaces the module's set instead of adding to it, which is how a single key opts out of an effect its neighbors have.</p>
+            </div>
+        </section>
+
+        <!-- ── 15 The Designer ─────────────────────────────── -->
+        <section class="doc-section doc-section--wide" id="designer" data-keywords="keystrokes designer canvas inspector layers presets undo redo snap import export gallery anim drawer keybind label line width per key color shortcuts">
+            <p class="eyebrow eyebrow--brass">15</p>
+            <h2 class="h3">The Keystrokes Designer</h2>
+            <p class="body prose" style="margin:0 0 30px;max-width:58ch">A free canvas where you place, resize, rename and restyle every key. The canvas draws real designs rather than neutral editor boxes, so what you are arranging is what the HUD will actually render.</p>
+
+            <h3 class="h4" id="designer-toolbar" style="font-size:20px">Toolbar</h3>
+            <dl class="rowlist" style="margin-top:22px;max-width:920px">
+                <div><dt>Undo / Redo</dt><dd>Sixty steps. Each step is a snapshot of the <em>whole look</em>, not just the key list — picking a design rewrites your colors too, and an undo that put the keys back while leaving the colors changed would be worse than none.</dd></div>
+                <div><dt>Snap</dt><dd>Snapping while you drag. On by default, and not saved — it is a property of the session, not of your layout.</dd></div>
+                <div><dt>Reset Layout</dt><dd>Restores the stock nine keys <strong>and</strong> the shipping design, animation, palette and per-key overrides. Putting back only the positions would leave the previous design painted over a default grid, which does not read as a reset.</dd></div>
+                <div><dt>Import</dt><dd>Paste a keystrokes share code with Ctrl+V.</dd></div>
+                <div><dt>Export</dt><dd>Copies your whole keystrokes look to the clipboard.</dd></div>
+                <div><dt>Design</dt><dd>The gallery — eleven cards whose previews animate themselves, because a design cannot be judged from its resting state alone. Cards that will move your keys are badged <em>Arranges keys</em>.</dd></div>
+                <div><dt>Anim</dt><dd>The animation drawer. The only place motions and fills are ticked.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="designer-rail" style="font-size:20px;margin-top:44px">The left rail</h3>
+            <dl class="rowlist rowlist--narrow" style="margin-top:22px">
+                <div><dt>Add element</dt><dd>Click to place a <strong>Key</strong> (21&times;21), <strong>Modifier</strong> (33&times;13), <strong>Mouse L</strong> or <strong>Mouse R</strong> (33&times;21), or a <strong>Space Bar</strong> (67&times;13).</dd></div>
+                <div><dt>Layers</dt><dd>One row per key. The dot hides and shows a key; click to select, Ctrl+click to add to the selection.</dd></div>
+                <div><dt>Presets</dt><dd><strong>WASD</strong> is the stock nine keys. <strong>Full</strong> adds Q/E and both mouse buttons. <strong>Mouse</strong> is the two mouse buttons on their own.</dd></div>
+            </dl>
+            <p class="note" style="margin-top:24px">The canvas shows a safe area of 400 &times; 300 pixels — anything laid out inside it will fit on screen at any sensible scale.</p>
+
+            <h3 class="h4" id="designer-inspector" style="font-size:20px;margin-top:44px">The inspector — per-key settings</h3>
+            <p class="body prose" style="margin:0 0 22px;max-width:58ch">Select a key and every one of these becomes available. None of them exist on any other screen.</p>
+            <div class="table-wrap" style="max-width:none">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Keybind</td><td></td><td></td><td>Press a key to bind it; Esc cancels. Binding also renames the label. Mouse buttons read as Mouse L, Mouse R or Mouse <em>n</em>.</td></tr>
+                        <tr><td>Label</td><td></td><td>64 chars</td><td>The text drawn on the key.</td></tr>
+                        <tr><td>Position X / Y</td><td></td><td>&plusmn;10000</td><td>Where the key sits in the cluster.</td></tr>
+                        <tr><td>Size W / H</td><td></td><td>1 to 1024</td><td></td></tr>
+                        <tr><td>Placement</td><td>Centered</td><td></td><td>Where the label sits inside the key. Centered until you drag it; the Center button puts it back.</td></tr>
+                        <tr><td>Content</td><td>Text</td><td>Text, Line</td><td><strong>Line</strong> draws a solid bar instead of the label — what a space bar actually wants.</td></tr>
+                        <tr><td>Text size / Line weight</td><td>100%</td><td>50 to 400</td><td>Label size, or the thickness of the bar in line mode.</td></tr>
+                        <tr><td>Line width</td><td>100%</td><td>10 to 100</td><td>Bar length as a share of the key's inner width. Only shown in line mode.</td></tr>
+                        <tr><td>Style</td><td>Shadow on</td><td>B I U S</td><td>Bold, italic, underline, shadow. In line mode only the shadow applies.</td></tr>
+                        <tr><td>Text color</td><td>Global</td><td></td><td>Overrides the module color for this key. <strong>Use Global</strong> puts it back.</td></tr>
+                        <tr><td>Pressed color</td><td>Global</td><td></td><td>Same, for the held state.</td></tr>
+                        <tr><td>Design</td><td>Global</td><td>10 designs</td><td>Give this one key a different look. Timeline is not offered — it is global only.</td></tr>
+                        <tr><td>Motion / Fill</td><td>Global</td><td></td><td>One animation for this key, replacing the module's whole set.</td></tr>
+                        <tr><td>Direction</td><td>Global</td><td></td><td>Only appears when the active fill actually reads a direction.</td></tr>
+                        <tr><td>Show CPS</td><td>Off</td><td></td><td>Draws a live click counter on the button. Mouse keys only.</td></tr>
+                        <tr><td>Animation</td><td>On</td><td></td><td>Switches every animation off for this key alone.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="h4" id="designer-shortcuts" style="font-size:20px;margin-top:44px">Shortcuts</h3>
+            <div class="table-wrap" style="max-width:640px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Action</th><th scope="col">Binding</th></tr></thead>
+                    <tbody>
+                        <tr><td>Multi-select</td><td><code>Ctrl</code> + click</td></tr>
+                        <tr><td>Box select</td><td>Drag on the canvas</td></tr>
+                        <tr><td>Edit label</td><td>Double-click, or <code>F2</code></td></tr>
+                        <tr><td>Move label</td><td>Right-drag — snaps to left/center/right and top/middle/bottom</td></tr>
+                        <tr><td>Resize</td><td><code>Scroll</code> — 2 px per notch, from the center</td></tr>
+                        <tr><td>Text size</td><td><code>Ctrl</code> + <code>Scroll</code></td></tr>
+                        <tr><td>Nudge</td><td>Arrow keys — 1 px, or 5 px with <code>Shift</code></td></tr>
+                        <tr><td>Duplicate</td><td><code>Ctrl+D</code></td></tr>
+                        <tr><td>Delete</td><td><code>Delete</code></td></tr>
+                        <tr><td>Undo / Redo</td><td><code>Ctrl+Z</code> / <code>Ctrl+Y</code></td></tr>
+                        <tr><td>Quick actions</td><td>Right-click a key</td></tr>
+                        <tr><td>Clear selection, close a panel</td><td><code>Esc</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">The footer tells you whether there is anything unsaved. Closing the Designer saves automatically; Cancel puts back what you started with.</p>
+        </section>
+
+        <!-- ── 16 Fonts & appearance ────────────────────────── -->
+        <section class="doc-section" id="appearance" data-keywords="font hud font inter rubik jetbrains mono bebas neue enchant vanilla text outline shadow menu scale gui scale restore font">
+            <p class="eyebrow eyebrow--brass">16</p>
+            <h2 class="h3">Fonts, outline and menu scale</h2>
+            <p class="body prose" style="margin:0 0 30px">On the <strong>General</strong> page. These apply to every module at once.</p>
+
+            <h3 class="h4" id="hud-font" style="font-size:20px">HUD font</h3>
+            <div class="chips" style="margin:22px 0 24px">
+                <span class="chip">Vanilla</span>
+                <span class="chip">Inter</span>
+                <span class="chip">Rubik</span>
+                <span class="chip">JetBrains Mono</span>
+                <span class="chip">Bebas Neue</span>
+                <span class="chip">Enchant</span>
+            </div>
+            <p class="body prose" style="margin:0 0 24px">The font applies to HUD modules and to this mod's own screens — the editor, the settings screen and the Designer. It never touches chat, the vanilla menus or anything another mod draws.</p>
+
+            <div class="callout callout--warn">
+                <div class="callout__label">Warning</div>
+                <p><strong>Stuck on the Enchanting Table font?</strong> It is unreadable on purpose, which includes the menu you would use to change it back. Open the in-world editor with <strong>Right Shift</strong> — a <strong>Restore Font</strong> button appears in the bottom-right corner whenever that font is active.</p>
+            </div>
+
+            <h3 class="h4" id="text-outline" style="font-size:20px;margin-top:44px">Text outline</h3>
+            <p class="body prose" style="margin:0 0 24px">Off by default, which gives you Minecraft's usual drop shadow. Turning it on draws a thin black outline on every side instead — noticeably more readable over bright terrain and snow.</p>
+
+            <h3 class="h4" id="menu-scale" style="font-size:20px;margin-top:44px">Menu scale</h3>
+            <p class="body prose" style="margin:0">The settings screen already holds one physical size across every Minecraft GUI Scale. <strong>Menu Scale %</strong> (50 to 200, default 100) nudges that baseline if you want the menus larger or smaller than the mod's own idea of right.</p>
+        </section>
+
+        <!-- ── 17 Presets & server configs ──────────────────── -->
+        <section class="doc-section" id="presets" data-keywords="presets saved configs save load rename delete server config per server automatic auto backup singleplayer realms label">
+            <p class="eyebrow eyebrow--brass">17</p>
+            <h2 class="h3">Presets and server configs</h2>
+            <p class="body prose" style="margin:0 0 30px">Two ways to keep more than one HUD around. Presets are named by you and switched by hand; server configs name themselves and switch on their own.</p>
+
+            <h3 class="h4" id="saved-configs" style="font-size:20px">Saved configs</h3>
+            <p class="body prose" style="margin:22px 0 24px">A preset is a complete copy of your settings. <strong>Save Config</strong> in the editor, or <strong>Save Current</strong> in the settings screen, names it <code>Config 1</code>, <code>Config 2</code> and so on, taking the first free number.</p>
+            <ul class="list prose">
+                <li><strong>Left-click</strong> a name to load it</li>
+                <li><strong>Right-click</strong> to rename it — a name already in use is refused rather than overwriting</li>
+                <li>The <strong>bin icon</strong> deletes it</li>
+            </ul>
+            <p class="body prose" style="margin:24px 0 0">A preset is validated before anything is applied, so a corrupt or hand-edited file cannot leave you with a half-replaced config.</p>
+
+            <h3 class="h4" id="server-configs" style="font-size:20px;margin-top:44px">Server configs</h3>
+            <p class="body prose" style="margin:22px 0 24px">On by default. There is nothing to press: while you are in a world, every save is mirrored into that server's own file, so "how my HUD looks here" is simply remembered. Join a server that already has one and it is applied silently.</p>
+            <ul class="list prose">
+                <li>All your single-player worlds share one config</li>
+                <li><code>mc.example.net</code> and <code>mc.example.net:25565</code> are treated as the same server</li>
+                <li>Realms are keyed by their display name, since they have no usable address</li>
+            </ul>
+            <div class="callout" style="margin-top:26px">
+                <div class="callout__label">Note</div>
+                <p>Renaming a server config only changes the name you see. The file keeps the server's address, because that address is how the mod finds the config when you join — renaming it would quietly unbind the config.</p>
+            </div>
+            <p class="body prose" style="margin:26px 0 0">Just before a silent switch, the config you are leaving is written to a preset called <strong>Auto Backup</strong>. It is a single rolling slot rather than a timestamp, because this fires on every join and timestamps would bury your Configs list within one session.</p>
+        </section>
+
+        <!-- ── 18 Share codes ───────────────────────────────── -->
+        <section class="doc-section" id="share-codes" data-keywords="share code export import EYMHUD1 clipboard copy paste send friend transfer full hud config export keystrokes code backup version mismatch">
+            <p class="eyebrow eyebrow--brass">18</p>
+            <h2 class="h3">Share codes</h2>
+            <p class="body prose" style="margin:0 0 30px">Your whole HUD, packed into one line of text you can paste into Discord. Codes start with <code>EYMHUD1-</code>.</p>
+
+            <h3 class="h4" id="two-code-types" style="font-size:20px">Two kinds of code</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col"></th><th scope="col">Full config code</th><th scope="col">Keystrokes code</th></tr></thead>
+                    <tbody>
+                        <tr><td>Carries</td><td>Every setting of every module, including third-party ones</td><td>The whole Keystrokes look</td></tr>
+                        <tr><td>Export from</td><td>Settings screen, or the editor's <strong>Export Code</strong></td><td>The Designer's <strong>Export</strong></td></tr>
+                        <tr><td>Import at</td><td>Settings screen, or the editor's <strong>Import Code</strong></td><td>The Designer's <strong>Import</strong></td></tr>
+                        <tr><td>Backup taken</td><td><strong>Yes</strong> — a timestamped preset before anything is applied</td><td>No — the Designer's undo covers it</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:26px 0 24px">The two are not interchangeable, and giving one to the wrong screen is refused rather than half-applied: paste a keystrokes code into the settings screen and it tells you to use the Designer instead.</p>
+
+            <h3 class="h4" id="keystrokes-code-contents" style="font-size:20px;margin-top:38px">What a keystrokes code carries</h3>
+            <p class="body prose" style="margin:22px 0 24px">The layout <em>and</em> the look: the design, the animations and their direction, the release trail, the board, the scale, the rainbow settings and all four colors — including anything a single key overrides on its own.</p>
+            <div class="callout">
+                <div class="callout__label">Note</div>
+                <p><strong>Where it sits on your screen is deliberately left out.</strong> A shared design should not move your HUD to someone else's corner — the anchor and offsets stay yours.</p>
+            </div>
+
+            <h3 class="h4" id="code-limits" style="font-size:20px;margin-top:44px">Limits and errors</h3>
+            <p class="body prose" style="margin:22px 0 24px">A code is a string from a stranger, so every step of reading one is bounded: 64 KB of text at most, half a megabyte once unpacked, and a hard stop before anything larger is ever allocated. A malformed or oversized code is rejected outright — nothing is partly applied.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Not a valid share code</dt><dd>The text is malformed, too large, or was made by a newer version of the mod than you have.</dd></div>
+                <div><dt>No valid code in clipboard</dt><dd>You pressed Import with an empty field and nothing usable on the clipboard.</dd></div>
+                <div><dt>That's a keystrokes code</dt><dd>Right code, wrong screen — take it to the Designer.</dd></div>
+                <div><dt>That's a config code</dt><dd>The mirror image: take it to the HUD editor.</dd></div>
+                <div><dt>Imported from v1.2.0</dt><dd>It worked, but the code came from a different version of the mod. Worth a glance to check nothing looks off.</dd></div>
+            </dl>
+            <div class="callout" style="margin-top:26px">
+                <div class="callout__label">Note</div>
+                <p>Keystrokes codes made before v1.2.1 still import — they simply carry no look of their own and arrive wearing your design. Codes exported from 1.2.1 onward are rejected by earlier builds, so someone still on 1.2.0 needs to update before your layout will reach them.</p>
+            </div>
+        </section>
+
+        <!-- ── 19 What each reset resets ────────────────────── -->
+        <section class="doc-section" id="resets" data-keywords="reset layout reset all settings reset position reset settings undo start over defaults scope">
+            <p class="eyebrow eyebrow--brass">19</p>
+            <h2 class="h3">What each reset actually resets</h2>
+            <p class="body prose" style="margin:0 0 30px">Four buttons say some form of "reset" and none of them mean the same thing. This is the single most common source of surprise, so it gets its own table.</p>
+
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Button</th><th scope="col">Where</th><th scope="col">What it touches</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Reset HUD Layout</strong></td><td>General tab, and the editor's <em>Reset HUD</em></td><td>Anchors, offsets and scales only. Colors and behavior are untouched, and Prevent Overlap goes back on.</td></tr>
+                        <tr><td><strong>Reset Settings</strong></td><td>A module's right-click menu</td><td>That one module's visual settings. Nothing else moves.</td></tr>
+                        <tr><td><strong>Reset Layout</strong></td><td>The Designer's toolbar</td><td>The stock nine keys <em>and</em> the design, animation, palette and every per-key override.</td></tr>
+                        <tr><td><strong>Reset All Settings</strong></td><td>The settings screen</td><td>Everything. <strong>Saved presets and third-party module data are kept.</strong> Cannot be undone.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note" style="margin-top:26px">Third-party module settings survive a full reset on purpose — those modules provide their own Reset Settings row instead.</p>
+        </section>
+
+        <!-- ── 20 Gotchas ───────────────────────────────────── -->
+        <section class="doc-section" id="gotchas" style="border-bottom:1px solid var(--line)" data-keywords="troubleshooting gotchas problems not working missing setting cannot find bug help faq">
+            <p class="eyebrow eyebrow--brass">20</p>
+            <h2 class="h3">Gotchas</h2>
+            <p class="body prose" style="margin:0 0 30px">Things that look like bugs and are not.</p>
+
+            <dl class="rowlist">
+                <div><dt>Keystrokes has no background toggle</dt><dd>Set Background Opacity to <code>0</code>. That is how the Frame, Bar and Segment designs get their transparent look.</dd></div>
+                <div><dt>Ping has no rainbow, Armor has no colors</dt><dd>Neither is an oversight. Armor draws items rather than text, so there is nothing to tint; the slot backgrounds are its equivalent switch.</dd></div>
+                <div><dt>Picking a design changed my colors</dt><dd>That is the design. A palette is what makes a style legible, so choosing one brings its own — along with its animations, and its arrangement if it has one. Export your layout before browsing the gallery if you want it back.</dd></div>
+                <div><dt>Changing heatmap difficulty dropped my combo</dt><dd>Expected — the tiers moved underneath it, so the count is reset rather than reinterpreted.</dd></div>
+                <div><dt>The timeout slider stops at 10 seconds</dt><dd>The slider covers 1 to 10, but the config itself accepts 0.1 to 60. A hand-edited file or an imported code can carry a value the slider cannot reach or display exactly.</dd></div>
+                <div><dt>Scaling in the editor saved without asking</dt><dd>Scroll-to-scale writes immediately, because there is no drag to release. Use undo in the Designer, or a preset, if you want a way back.</dd></div>
+                <div><dt>I cannot find the armor slot offsets</dt><dd>They exist only after <strong>Ungroup</strong>, and only in the in-world editor. Dragging is the interface — there are no rows for them.</dd></div>
+                <div><dt>I cannot find the animation checkboxes</dt><dd>They are in the Designer's <strong>Anim</strong> drawer, and nowhere else. Motions and fills are sets, and no other screen has a control that can express a set.</dd></div>
+                <div><dt>Every menu is unreadable</dt><dd>The Enchant font. Press Right Shift and use <strong>Restore Font</strong> in the bottom-right of the editor.</dd></div>
+            </dl>
+
+            <div class="callout" style="margin-top:34px">
+                <div class="callout__label">Still stuck</div>
+                <p>Open an issue on <a class="link-rule" href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues" target="_blank" rel="noopener">GitHub</a> with your Minecraft version, the mod version and, if it is a layout problem, a share code. A code reproduces the exact state you are seeing.</p>
+            </div>
+        </section>
+
+        <footer class="site-footer" style="border-top:0">
+            <div>
+                <div class="wordmark" style="margin-bottom:14px">
+                    <img src="assets/icon-96.png" alt="" width="20" height="20" style="width:20px;height:20px">
+                    <span>Eymistaken's HUD</span>
+                </div>
+                <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.1–26.2</p>
+            </div>
+            <div>
+                <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" rel="noopener">Modrinth</a>
+                <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" rel="noopener">CurseForge</a>
+                <a href="https://linktr.ee/Eymistaken" target="_blank" rel="noopener">Linktree</a>
+            </div>
+        </footer>
+
+    </main>
+</div>
+
+<script src="js/scripts.js"></script>
+</body>
+</html>

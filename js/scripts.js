@@ -749,6 +749,404 @@
         syncCombo();
     }
 
+    /* -----------------------------------------------------
+       Guide search
+
+       Indexes the two guide pages. The page you are on comes
+       from the live DOM; the other one is fetched once, the
+       first time you touch the box, and parsed with DOMParser.
+
+       Nothing is hand-maintained: there is no build step here,
+       and an index file listing sections by hand would go stale
+       the first time a heading was renamed. If the fetch fails
+       (opened over file://, say) it quietly indexes this page
+       alone rather than showing an error.
+       ----------------------------------------------------- */
+    function initSearch() {
+        var root = document.querySelector('[data-search]');
+        if (!root) return;
+
+        var input = root.querySelector('.search__input');
+        var panel = root.querySelector('.search__panel');
+        if (!input || !panel) return;
+
+        var GUIDES = [
+            { file: 'user-guide.html', label: 'User Guide' },
+            { file: 'full-guide.html', label: 'Full Guide' }
+        ];
+        var MAX_HITS = 8;
+
+        var here = location.pathname.split('/').pop() || 'index.html';
+        var records = [];
+        var indexed = {};
+        var fetched = false;
+        var active = -1;
+        var hits = [];
+
+        /* The box is useless without JS, so the markup ships hidden. */
+        root.removeAttribute('hidden');
+
+        function norm(s) {
+            return (s || '').replace(/\s+/g, ' ').trim();
+        }
+
+        /* textContent runs adjacent cells together — "Full config code" and
+           "Keystrokes code" come out as one word — so block boundaries get a
+           space first. innerText would do it, but it needs a rendered tree and
+           the other guide is parsed detached. */
+        var BLOCKS = 'p, li, dt, dd, td, th, tr, div, h1, h2, h3, h4';
+        function textOf(el, dropHeading) {
+            var clone = el.cloneNode(true);
+            if (dropHeading) {
+                /* The section number and its title are already the result's
+                   own heading; leaving them in opens every snippet with
+                   "18 Share codes Share codes…". */
+                var lead = clone.querySelectorAll(':scope > .eyebrow, :scope > h2');
+                for (var j = 0; j < lead.length; j++) lead[j].remove();
+            }
+            var blocks = clone.querySelectorAll(BLOCKS);
+            for (var i = 0; i < blocks.length; i++) {
+                blocks[i].appendChild(document.createTextNode(' '));
+            }
+            return norm(clone.textContent);
+        }
+
+        /* Text belonging to one sub-heading: everything up to the next one. */
+        function textAfter(heading) {
+            var out = '';
+            var node = heading.nextElementSibling;
+            while (node && !/^H[234]$/.test(node.tagName)) {
+                out += textOf(node) + ' ';
+                node = node.nextElementSibling;
+            }
+            return norm(out);
+        }
+
+        function indexDoc(doc, guide) {
+            if (indexed[guide.file]) return;
+            indexed[guide.file] = true;
+
+            var sections = doc.querySelectorAll('.docs__main .doc-section[id]');
+            Array.prototype.forEach.call(sections, function (section) {
+                var h2 = section.querySelector('h2');
+                var title = h2 ? norm(h2.textContent) : section.id;
+                var keywords = section.getAttribute('data-keywords') || '';
+
+                records.push({
+                    file: guide.file,
+                    page: guide.label,
+                    hash: section.id,
+                    title: title,
+                    crumb: '',
+                    keywords: keywords,
+                    text: textOf(section, true),
+                    top: true
+                });
+
+                /* Sub-headings carry no keywords of their own: inheriting the
+                   section's would score all five of them identically and bury
+                   everything else. They match on their own title and text. */
+                var subs = section.querySelectorAll('h3[id], h4[id]');
+                Array.prototype.forEach.call(subs, function (sub) {
+                    records.push({
+                        file: guide.file,
+                        page: guide.label,
+                        hash: sub.id,
+                        title: norm(sub.textContent),
+                        crumb: title,
+                        keywords: '',
+                        text: textAfter(sub),
+                        top: false
+                    });
+                });
+            });
+        }
+
+        function indexOthers() {
+            if (fetched) return;
+            fetched = true;
+
+            GUIDES.forEach(function (guide) {
+                if (indexed[guide.file]) return;
+                fetch(guide.file)
+                    .then(function (res) {
+                        if (!res.ok) throw new Error(res.status);
+                        return res.text();
+                    })
+                    .then(function (html) {
+                        indexDoc(new DOMParser().parseFromString(html, 'text/html'), guide);
+                        if (input.value) render(input.value);
+                    })
+                    .catch(function () {
+                        /* Whatever we already have still searches. */
+                    });
+            });
+        }
+
+        var WORDCHAR = /[a-z0-9]/;
+
+        /* A whole word beats a substring, or searching "board" ranks "Mouse and
+           keyboard" above the Board setting. Returns 2 for a word hit, 1 for a
+           substring, 0 for nothing. */
+        function match(hay, w) {
+            var i = hay.indexOf(w);
+            if (i < 0) return 0;
+            while (i > -1) {
+                var before = i === 0 ? ' ' : hay.charAt(i - 1);
+                var after = i + w.length >= hay.length ? ' ' : hay.charAt(i + w.length);
+                if (!WORDCHAR.test(before) && !WORDCHAR.test(after)) return 2;
+                i = hay.indexOf(w, i + 1);
+            }
+            return 1;
+        }
+
+        function score(record, words, whole) {
+            var title = record.title.toLowerCase();
+            var keys = record.keywords.toLowerCase();
+            var text = record.text.toLowerCase();
+            var total = record.top ? 5 : 0;
+
+            for (var i = 0; i < words.length; i++) {
+                var w = words[i];
+                var inTitle = match(title, w);
+                var inKeys = match(keys, w);
+                var inText = match(text, w);
+
+                if (inTitle === 2) total += title.indexOf(w) === 0 ? 90 : 70;
+                else if (inTitle === 1) total += 25;
+
+                if (inKeys === 2) total += 30;
+                else if (inKeys === 1) total += 10;
+
+                if (inText === 2) total += 12;
+                else if (inText === 1) total += 3;
+
+                /* Every word has to turn up somewhere, or "reach timeout"
+                   would match every section that says "timeout". */
+                if (!inTitle && !inKeys && !inText) return 0;
+            }
+
+            /* The query as one contiguous phrase. In data-keywords that means
+               the author wrote down this exact search, which is the strongest
+               signal there is — it is what puts "full HUD config export" on
+               Share codes rather than on every section that says "HUD". */
+            var titlePhrase = match(title, whole);
+            var keysPhrase = match(keys, whole);
+
+            if (title === whole) total += 140;
+            else if (titlePhrase === 2) total += 90;
+            else if (titlePhrase === 1) total += 15;
+
+            if (keysPhrase === 2) total += 120;
+            else if (keysPhrase === 1) total += 20;
+
+            return total;
+        }
+
+        function search(query) {
+            var whole = query.toLowerCase().trim();
+            var words = whole.split(/\s+/).filter(function (w) { return w.length > 1; });
+            if (!words.length) return [];
+
+            var scored = [];
+            records.forEach(function (record) {
+                var s = score(record, words, whole);
+                if (s > 0) scored.push({ record: record, score: s, word: words[0] });
+            });
+
+            scored.sort(function (a, b) { return b.score - a.score; });
+            return scored.slice(0, MAX_HITS);
+        }
+
+        /* Built as text nodes and one <mark>; nothing fetched ever reaches
+           innerHTML. */
+        function snippet(record, word) {
+            var text = record.text;
+            /* When the title already carries the match, hunting for the word in
+               the body drops you into the middle of a sentence for no gain. The
+               opening line says what the section is, which is what you want. */
+            var at = record.title.toLowerCase().indexOf(word) > -1
+                ? -1
+                : text.toLowerCase().indexOf(word);
+            var frag = document.createDocumentFragment();
+
+            if (at < 0) {
+                frag.appendChild(document.createTextNode(text.slice(0, 150) + (text.length > 150 ? '…' : '')));
+                return frag;
+            }
+
+            var from = Math.max(0, at - 70);
+            var to = Math.min(text.length, at + word.length + 90);
+            var lead = (from > 0 ? '…' : '') + text.slice(from, at);
+            var tail = text.slice(at + word.length, to) + (to < text.length ? '…' : '');
+
+            var mark = document.createElement('mark');
+            mark.textContent = text.slice(at, at + word.length);
+
+            frag.appendChild(document.createTextNode(lead));
+            frag.appendChild(mark);
+            frag.appendChild(document.createTextNode(tail));
+            return frag;
+        }
+
+        function buildHit(result, i) {
+            var record = result.record;
+            var a = document.createElement('a');
+            a.className = 'search__hit';
+            a.id = 'search-hit-' + i;
+            a.setAttribute('role', 'option');
+            a.setAttribute('aria-selected', 'false');
+            a.href = (record.file === here ? '' : record.file) + '#' + record.hash;
+
+            var top = document.createElement('div');
+            top.className = 'search__hit-top';
+
+            var title = document.createElement('span');
+            title.className = 'search__hit-title';
+            title.textContent = record.title;
+            top.appendChild(title);
+
+            if (record.crumb) {
+                var crumb = document.createElement('span');
+                crumb.className = 'search__hit-crumb';
+                crumb.textContent = 'in ' + record.crumb;
+                top.appendChild(crumb);
+            }
+
+            var page = document.createElement('span');
+            page.className = 'search__hit-page';
+            page.textContent = record.page;
+            top.appendChild(page);
+
+            var body = document.createElement('p');
+            body.className = 'search__hit-snippet';
+            body.appendChild(snippet(record, result.word));
+
+            a.appendChild(top);
+            a.appendChild(body);
+            return a;
+        }
+
+        function setActive(i) {
+            if (hits[active]) {
+                hits[active].classList.remove('is-active');
+                hits[active].setAttribute('aria-selected', 'false');
+            }
+            active = i;
+            if (hits[active]) {
+                hits[active].classList.add('is-active');
+                hits[active].setAttribute('aria-selected', 'true');
+                input.setAttribute('aria-activedescendant', hits[active].id);
+                hits[active].scrollIntoView({ block: 'nearest' });
+            } else {
+                input.removeAttribute('aria-activedescendant');
+            }
+        }
+
+        function close() {
+            panel.hidden = true;
+            panel.textContent = '';
+            panel.classList.remove('is-keying');
+            input.setAttribute('aria-expanded', 'false');
+            input.removeAttribute('aria-activedescendant');
+            hits = [];
+            active = -1;
+        }
+
+        function render(query) {
+            var results = search(query);
+            panel.textContent = '';
+            hits = [];
+            active = -1;
+            input.removeAttribute('aria-activedescendant');
+
+            if (!query.trim()) {
+                close();
+                return;
+            }
+
+            if (!results.length) {
+                var empty = document.createElement('p');
+                empty.className = 'search__empty';
+                empty.textContent = 'Nothing matched “' + query.trim() + '”.';
+                panel.appendChild(empty);
+            } else {
+                results.forEach(function (result, i) {
+                    var hit = buildHit(result, i);
+                    hits.push(hit);
+                    panel.appendChild(hit);
+                });
+            }
+
+            panel.hidden = false;
+            input.setAttribute('aria-expanded', 'true');
+        }
+
+        /* Three triggers for one lazy fetch, because a focus event is not
+           guaranteed to arrive: pointerdown starts it as the pointer lands on
+           the box, and input is the backstop for keyboard and paste. Whichever
+           fires first wins; indexOthers() runs once. */
+        root.addEventListener('pointerdown', indexOthers);
+        input.addEventListener('focus', indexOthers);
+        input.addEventListener('input', function () {
+            indexOthers();
+            render(input.value);
+        });
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (!hits.length) return;
+                e.preventDefault();
+                panel.classList.add('is-keying');
+                var next = active + (e.key === 'ArrowDown' ? 1 : -1);
+                if (next < 0) next = hits.length - 1;
+                if (next >= hits.length) next = 0;
+                setActive(next);
+            } else if (e.key === 'Enter') {
+                if (hits[active]) {
+                    e.preventDefault();
+                    hits[active].click();
+                }
+            } else if (e.key === 'Escape') {
+                if (!panel.hidden) {
+                    close();
+                } else if (input.value) {
+                    input.value = '';
+                }
+            }
+        });
+
+        panel.addEventListener('mousemove', function () {
+            panel.classList.remove('is-keying');
+        });
+
+        /* Following a hit on this page leaves the panel hanging over the
+           section it just scrolled to. */
+        panel.addEventListener('click', function () { close(); });
+
+        document.addEventListener('click', function (e) {
+            if (!root.contains(e.target)) close();
+        });
+
+        /* "/" focuses the box from anywhere on the page — the only way to
+           reach it once you have scrolled past the hero. */
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+            var el = document.activeElement;
+            if (el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return;
+            if (el && el.isContentEditable) return;
+            e.preventDefault();
+            input.focus();
+            input.select();
+            /* scroll-padding-top keeps it clear of the sticky header. */
+            input.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'auto' : 'smooth' });
+        });
+
+        GUIDES.forEach(function (guide) {
+            if (guide.file === here) indexDoc(document, guide);
+        });
+    }
+
     function boot() {
         initNav();
         initToc();
@@ -756,6 +1154,7 @@
         initCopy();
         initMedia();
         initHudPreview();
+        initSearch();
     }
 
     if (document.readyState === 'loading') {
