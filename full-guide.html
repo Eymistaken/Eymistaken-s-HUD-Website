@@ -115,13 +115,14 @@
         </div>
 
         <!-- ── 01 Where settings live ───────────────────────── -->
-        <section class="doc-section" id="files" data-keywords="config file json location folder path save backup atomic simplecps.json presets directory legacy fields">
+        <section class="doc-section" id="files" data-keywords="config file json location folder path save backup atomic simplecps.json presets directory legacy fields stats best combo record simplecps_stats.json">
             <p class="eyebrow eyebrow--brass">01</p>
             <h2 class="h3">Where your settings live</h2>
             <p class="body prose" style="margin:0 0 30px">Everything is stored client-side, in your Minecraft <code>config</code> folder. Nothing is sent anywhere and no server ever sees it.</p>
 
             <dl class="rowlist">
                 <div><dt><code>simplecps.json</code></dt><dd>The live config — one flat file holding every setting for every module.</dd></div>
+                <div><dt><code>simplecps_stats.json</code></dt><dd>Your best combo, stored as <code>{"bestCombo": N}</code>. It is kept apart from the config, so presets, server configs and share codes never carry it, and only <strong>Reset Best</strong> clears it.</dd></div>
                 <div><dt><code>simplecps_presets/</code></dt><dd>Your named presets, one <code>.json</code> per preset. The file name <em>is</em> the name you see in-game.</dd></div>
                 <div><dt><code>simplecps_server_presets/</code></dt><dd>Per-server configs, one <code>.json</code> per server. The file name <em>is</em> the server address.</dd></div>
                 <div><dt><code>_labels.json</code></dt><dd>Inside the server folder — the friendly names you gave your servers. Not a server itself.</dd></div>
@@ -137,8 +138,11 @@
             <dl class="rowlist rowlist--narrow">
                 <div><dt><code>keystrokesEffectMode</code></dt><dd>Read once when an old config is loaded, to work out which animations you had. Never written back.</dd></div>
                 <div><dt><code>keystrokesMotion</code><br><code>keystrokesFill</code></dt><dd>The single-animation predecessors of the current lists. Same story — migration only.</dd></div>
+                <div><dt><code>comboHeatmap</code><br><code>comboRainbow</code></dt><dd>The two switches Color Mode replaced. Read once, the first time an old config is loaded, to work out which Color Mode you had.</dd></div>
+                <div><dt><code>comboText</code></dt><dd>The old combo suffix. Read once, the first time an old config is loaded, to turn it into your Format: a suffix of <code>X</code> becomes <code>{combo} X</code>.</dd></div>
                 <div><dt><code>showLCTRL</code><br><code>showLSHIFT</code><br><code>showSpace</code></dt><dd>Left over from before the layout was freely editable. Nothing reads them; add or remove those keys in the designer instead.</dd></div>
             </dl>
+            <p class="note" style="margin-top:26px"><code>comboResetOnAnyDamage</code> is not one of them: it is Break on Any Damage, which kept its key when it was renamed.</p>
         </section>
 
         <!-- ── 02 The four surfaces ─────────────────────────── -->
@@ -170,7 +174,7 @@
                 </div>
                 <div>
                     <h3 class="h4">Only in the settings screen</h3>
-                    <p class="body-sm" style="margin:0">The settings search, each row's default and per-row reset, the live preview, Reset All Settings, Discard Changes, the preset card and the typed share-code field.</p>
+                    <p class="body-sm" style="margin:0">The settings search, each row's default and per-row reset, the live preview, Reset All Settings, Discard Changes, Combo's Reset Best button, the preset card and the typed share-code field.</p>
                 </div>
             </div>
         </section>
@@ -257,7 +261,7 @@
             <h3 class="h4" id="settings-parts" style="font-size:20px">What is on the screen</h3>
             <dl class="rowlist rowlist--narrow" style="margin-top:22px">
                 <div><dt>Search settings</dt><dd>Filters every row on every page into a single results page. Faster than remembering which tab a setting is on.</dd></div>
-                <div><dt>Preview</dt><dd>A live render of whichever module you are looking at, updating as you change things.</dd></div>
+                <div><dt>Preview</dt><dd>A live render of whichever module you are looking at, updating as you change things. On the Combo page it plays a looping demo fight, so the sliders, the line, the colors and the style can be tried without landing a hit — see <a class="link-rule" href="#combo-preview">the Combo preview</a>.</dd></div>
                 <div><dt>Info</dt><dd>The description of the row you last touched, plus its default value and a button to put it back.</dd></div>
                 <div><dt>Presets</dt><dd>Your saved configs. Click one to load it, or <strong>Save Current</strong> to add one.</dd></div>
                 <div><dt>Share code</dt><dd>A field with <strong>Export</strong> and <strong>Import</strong>. Import falls back to your clipboard if the field is empty.</dd></div>
@@ -352,22 +356,26 @@
         </section>
 
         <!-- ── 09 Combo ─────────────────────────────────────── -->
-        <section class="doc-section" id="combo" data-keywords="combo counter hits streak heatmap shake timeout combat mode classic modern cooldown decay target switch">
+        <section class="doc-section" id="combo" data-keywords="combo counter hits streak heatmap shake timeout combat mode classic modern cooldown decay target switch server confirmed hit detection client break on any damage min display best record reset best new best received landed on you negative divider hitstop freeze impact shake jolt animation line timeout bar hits strip sprint critical color mode static rainbow heatmap custom tiers mid color top color format placeholder big style label linger preview demo">
             <p class="eyebrow eyebrow--brass">09</p>
             <h2 class="h3">Combo</h2>
-            <p class="body prose" style="margin:0 0 30px">Counts consecutive hits. Off by default. This is the module with the most behavior to tune, because "what counts as a combo" genuinely differs between servers.</p>
+            <p class="body prose" style="margin:0 0 30px">Counts consecutive hits. Off by default. A hit counts once the server confirms it landed — unless you set Hit Detection to Client — and a combo someone lands on you is counted too, shown as a negative number on a line of its own. This is the module with the most behavior to tune, because "what counts as a combo" genuinely differs between servers.</p>
 
             <h3 class="h4" id="combo-behavior" style="font-size:20px">Behavior</h3>
             <div class="table-wrap" style="max-width:920px;margin-top:22px">
                 <table class="table">
                     <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
                     <tbody>
-                        <tr><td>Combat Mode</td><td>Modern</td><td>Classic, Modern</td><td><strong>Classic</strong> counts every hit, the way 1.8 PvP works. <strong>Modern</strong> only counts a hit when your attack cooldown has recharged to 90% or more, so spam-clicking does not inflate the count.</td></tr>
-                        <tr><td>Reset on Any Damage</td><td>On</td><td></td><td><strong>On</strong> is the classic rule: taking any damage resets you to zero. <strong>Off</strong> switches to advanced mode, where the combo decays and a distance check applies instead.</td></tr>
-                        <tr><td>Only Players</td><td>On</td><td></td><td>Hits on mobs do not count.</td></tr>
-                        <tr><td>Continue On Target Switch</td><td>On</td><td></td><td>Keeps the combo alive when you start hitting someone else. Turn it off if a combo should mean one opponent.</td></tr>
-                        <tr><td>Timeout</td><td>3 s</td><td>1 to 10 s</td><td>Seconds of not hitting anything before the combo resets.</td></tr>
-                        <tr><td>Hide When Inactive</td><td>Off</td><td></td><td>Hides the display entirely while the combo is zero.</td></tr>
+                        <tr><td>Hit Detection</td><td>Server</td><td>Server, Client</td><td><strong>Server</strong> counts a hit once the server confirms it landed. <strong>Client</strong> counts every attack you send, the way the counter used to.</td></tr>
+                        <tr><td>Combat Mode</td><td>Modern</td><td>Classic, Modern</td><td><strong>Classic</strong> counts every hit, the way 1.8 PvP works. <strong>Modern</strong> only counts a hit when your attack cooldown has recharged to 90% or more, so spam-clicking does not inflate the count. Both apply under either Hit Detection setting.</td></tr>
+                        <tr><td>Break on Any Damage</td><td>On</td><td></td><td><strong>On</strong>: any damage breaks the combo, falls and lava included. <strong>Off</strong>: only hits from someone you are fighting do. Thorns never breaks it.</td></tr>
+                        <tr><td>Only Players</td><td>On</td><td></td><td>Only hits landed on players count toward the combo. Turned off, hits on mobs count as well, and so does a combo a mob lands on you.</td></tr>
+                        <tr><td>Continue On Target Switch</td><td>On</td><td></td><td>Keeps the combo alive when you start hitting someone else. Turn it off if a combo should mean one opponent: hitting a different target then ends the combo and starts a new one.</td></tr>
+                        <tr><td>Timeout</td><td>3 s</td><td>1 to 10 s</td><td>Seconds without a counted hit before the combo ends, or starts draining with Decay.</td></tr>
+                        <tr><td>Hide When Inactive</td><td>Off</td><td></td><td>Hides the display while there is no combo to show.</td></tr>
+                        <tr><td>Min Display</td><td>2</td><td>1 to 5</td><td>The smallest count worth showing, for your combo and for one landed on you. Always Show — Hide When Inactive off — keeps yours on screen anyway.</td></tr>
+                        <tr><td>Reset Best</td><td><em>(button)</em></td><td></td><td>Your best combo is kept between sessions, and beating it from the second heatmap tier on flashes <strong>BEST</strong> on the counter. This forgets it, after asking you to confirm.</td></tr>
+                        <tr><td>Decay</td><td>Off</td><td></td><td>A broken or timed-out combo drains one hit per second instead of ending. Landing a counted hit stops the drain.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -377,14 +385,17 @@
                 <table class="table">
                     <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
                     <tbody>
-                        <tr><td>Suffix Text</td><td><code>Combo</code></td><td>64 chars</td><td>Text after the number.</td></tr>
-                        <tr><td>Heatmap Mode</td><td>Off</td><td></td><td>Colors the text from blue through red to black as the combo climbs, and shakes it at the top tier. <strong>Overrides Rainbow.</strong></td></tr>
-                        <tr><td>Heatmap Difficulty</td><td>Medium</td><td>Easy, Medium, Hard</td><td>How many hits each color tier takes. <strong>Changing this resets the running combo.</strong></td></tr>
-                        <tr><td>Text Color</td><td>White</td><td></td><td>Ignored while the heatmap is on.</td></tr>
-                        <tr><td>Rainbow</td><td>Off</td><td></td><td></td></tr>
-                        <tr><td>Show Background</td><td>Off</td><td></td><td></td></tr>
-                        <tr><td>Background Color</td><td>Black</td><td></td><td></td></tr>
-                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td></td></tr>
+                        <tr><td>Format</td><td><code>{combo} Combo</code></td><td>64 chars</td><td>What your count reads. <code>{combo}</code> is the count, negative for a combo landed on you, and <code>{best}</code> is your best combo. Without <code>{combo}</code>, the count goes in front.</td></tr>
+                        <tr><td>Style</td><td>Text</td><td>Text, Big</td><td><strong>Text</strong> keeps the count and the rest of the format on one line. <strong>Big</strong> draws the count twice as large, with the rest of the format under it.</td></tr>
+                        <tr><td>Line</td><td>Timeout</td><td>Timeout, Hits, Both, Off</td><td>The thin line under your count. <strong>Timeout</strong> shrinks with the time left before the combo ends. <strong>Hits</strong> shows your last 8 hits: gray, white for a sprint hit, gold for a critical one. <strong>Both</strong> puts the hits under the timeout. When a combo landed on you stacks under yours, the line becomes the divider between them.</td></tr>
+                        <tr><td>Color Mode</td><td>Static</td><td>Static, Rainbow, Heatmap</td><td><strong>Static</strong> keeps your count in the text color. <strong>Rainbow</strong> cycles it through every hue. <strong>Heatmap</strong> turns it from the text color to the mid color and on to the top color as it climbs the heatmap tiers.</td></tr>
+                        <tr><td>Text Color</td><td>White</td><td></td><td>Color of the text. Heatmap keeps it up to tier 1 and blends from it toward the mid color; only Rainbow ignores it.</td></tr>
+                        <tr><td>Heatmap Difficulty</td><td>Medium</td><td>Easy, Medium, Hard, Custom</td><td>Hits per tier: where the heatmap colors change, where your count starts to shake, and how fast a combo landed on you darkens and shakes. <strong>Custom</strong> uses the three custom tiers below. <strong>Changing this resets the running combo.</strong></td></tr>
+                        <tr><td>Custom Tier 1</td><td>5</td><td>1 to 98</td><td>With Custom difficulty: the hit where your count starts turning toward the mid color. Each tier stays above the one before it.</td></tr>
+                        <tr><td>Custom Tier 2</td><td>8</td><td>2 to 99</td><td>With Custom difficulty: the hit where your count reaches the mid color, and from which a new best flashes.</td></tr>
+                        <tr><td>Custom Tier 3</td><td>12</td><td>3 to 100</td><td>With Custom difficulty: the hit where your count reaches the top color and starts to shake.</td></tr>
+                        <tr><td>Heatmap Mid Color</td><td><code>#FF0000</code></td><td></td><td>The heatmap color at the second tier.</td></tr>
+                        <tr><td>Heatmap Top Color</td><td><code>#550000</code></td><td></td><td>The heatmap color at the top tier. The count's edge warms to a dim red as it darkens, so even black stays readable.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -397,10 +408,149 @@
                         <tr><td>Easy</td><td>3 hits</td><td>5 hits</td><td>7 hits</td></tr>
                         <tr><td>Medium <em>(default)</em></td><td>5 hits</td><td>8 hits</td><td>12 hits</td></tr>
                         <tr><td>Hard</td><td>10 hits</td><td>40 hits</td><td>60 hits</td></tr>
+                        <tr><td>Custom</td><td>Custom Tier 1 <em>(default 5)</em></td><td>Custom Tier 2 <em>(default 8)</em></td><td>Custom Tier 3 <em>(default 12)</em></td></tr>
                     </tbody>
                 </table>
             </div>
-            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable Combo, <strong>Always Show</strong> (the inverse of Hide When Inactive), Text Color, Suffix Text.</p>
+
+            <h3 class="h4" id="combo-animation" style="font-size:20px;margin-top:44px">Animation</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Impact %</td><td>100</td><td>0 to 200</td><td>How hard hits land on your count: how far it punches up, and how long it freezes on a new tier, a new best, a kill, a broken combo and every hit past the top tier. 0 turns both off.</td></tr>
+                        <tr><td>Shake %</td><td>100</td><td>0 to 200</td><td>How hard your count shakes past the top tier, and a combo landed on you as it grows. 0 keeps both still, whatever the heatmap settings.</td></tr>
+                        <tr><td>Hit Jolt %</td><td>100</td><td>0 to 200</td><td>How far a combo landed on you jolts with each hit you take. 0 turns it off.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="h4" id="combo-background" style="font-size:20px;margin-top:44px">Background</h3>
+            <div class="table-wrap" style="max-width:920px;margin-top:22px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Show Background</td><td>Off</td><td></td><td>Draws a box behind the text.</td></tr>
+                        <tr><td>Background Color</td><td>Black</td><td></td><td>Color of the box.</td></tr>
+                        <tr><td>Background Opacity</td><td>128</td><td>0 to 255</td><td>0 is invisible, 255 is solid.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="h4" id="combo-hits" style="font-size:20px;margin-top:44px">What counts as a hit</h3>
+            <p class="body prose" style="margin:0 0 22px">Hit Detection decides when a hit is counted, Combat Mode whether it was strong enough to count, and Only Players what it has to land on.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Server</dt><dd>The default. Attacking only records a pending hit, which counts when the server sends the damage event for that target. The mod waits roughly 200 ms plus your ping for it, and never longer than a second. The server sends that event only for a fresh hit that actually landed, so hits into the target's invulnerability frames, hits blocked by a shield, arrows and sweep damage do not add to the combo.</dd></div>
+                <div><dt>Client</dt><dd>The old behavior: every attack you send counts.</dd></div>
+                <div><dt>Combat Mode</dt><dd>Applies under either detection mode. <strong>Modern</strong> counts only full-strength hits, made with the attack cooldown at least 90% recharged, and <strong>Classic</strong> counts every hit. Under Modern, spam-clicking right after a full-strength hit does not turn that hit into a weak one while the server is about to confirm it.</dd></div>
+                <div><dt>Only Players</dt><dd>On by default, so only hits on players count. Turned off, hits on mobs count too, and so do mobs that land a combo on you.</dd></div>
+            </dl>
+            <div class="callout" style="margin-top:30px">
+                <div class="callout__label">Note</div>
+                <p>Some servers never say who dealt the damage — older versions joined through a protocol translator, for instance. On those, the hit you have just sent is taken as the cause, and damage you take is attributed to whatever last swung within 6 blocks of you. As soon as the server reports an attacker once, that guesswork switches off.</p>
+            </div>
+
+            <h3 class="h4" id="combo-ends" style="font-size:20px;margin-top:44px">When a combo ends</h3>
+            <dl class="rowlist rowlist--narrow" style="margin-top:22px">
+                <div><dt>Timeout</dt><dd>No counted hit for as long as the Timeout, and the combo ends — or starts draining, if Decay is on.</dd></div>
+                <div><dt>Distance</dt><dd>A target more than 20 blocks away counts as a timeout. This check always applies.</dd></div>
+                <div><dt>Target switch</dt><dd>With Continue On Target Switch off, hitting a different target ends the combo and starts a new one.</dd></div>
+                <div><dt>Finisher</dt><dd>A target that dies within a second of your last hit on it plays the finisher moment — see <a class="link-rule" href="#combo-impact">How hits land</a>. With Continue On Target Switch off the combo ends there; with it on, the combo carries on.</dd></div>
+                <div><dt>Damage</dt><dd>With Break on Any Damage on, any damage you take breaks the combo, falls and lava included. Turned off, only damage from someone you are fighting does: anything you have landed a counted hit on within the Timeout. Thorns never breaks it.</dd></div>
+                <div><dt>World change</dt><dd>Changing world or dimension resets the tracking.</dd></div>
+            </dl>
+            <p class="body prose" style="margin:30px 0 24px"><strong>Decay is a setting of its own</strong>, and the distance check applies whether it is on or not. With Decay on, a combo that breaks or times out drains one hit per second instead of ending. A counted hit stops the drain, and the combo carries on from the count it had reached. An old config that had Break on Any Damage off arrives with Decay switched on.</p>
+            <p class="body prose" style="margin:0 0 24px"><strong>Min Display</strong>, 2 by default, is the smallest count shown at all, both for your combo and for one landed on you. Always Show — Hide When Inactive turned off — keeps your own line on screen regardless.</p>
+            <p class="body prose" style="margin:0">A combo that ends on a timeout, the distance check or a finisher, at a count of at least Min Display, lingers with its final count for 1.2 seconds: full brightness for the first 0.3 seconds, then down to 45% opacity over the next 0.25. After that it disappears if Hide When Inactive is on, or drops back to 0 if it is off. A new combo, yours or one landed on you, takes over right away.</p>
+
+            <h3 class="h4" id="combo-received" style="font-size:20px;margin-top:44px">A combo landed on you</h3>
+            <p class="body prose" style="margin:0 0 22px">Hits the same attacker lands on you in a row are counted as well, and shown as a negative number: <code>{combo}</code> in your Format is written with a minus sign, so the default reads <code>-5 Combo</code>.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>What counts</dt><dd>Hits from players, and from mobs too if Only Players is off. Melee and projectile hits both count, arrows included. Thorns and environmental damage with no attacker do not.</dd></div>
+                <div><dt>New attacker</dt><dd>A hit from a different attacker starts the count again from 1.</dd></div>
+                <div><dt>When it ends</dt><dd>When you land a counted hit on that attacker, when the attacker dies, or when the Timeout passes after their last hit.</dd></div>
+            </dl>
+            <p class="body prose" style="margin:30px 0 24px">If you have a combo of your own at the same time, the two stack: yours on top, a short 1 px divider 60% as long as the wider line, and the negative line underneath. With no combo of your own, the negative line takes the main line's place. Stacking only happens with Decay on or Break on Any Damage off; otherwise the first hit you take has already ended your combo. For as long as a negative line can appear, its space is reserved up front, so modules on the same edge do not jump every time you are hit.</p>
+            <p class="body prose" style="margin:0">Its color deepens with the count, blending smoothly from yellow to orange at tier 1 and red at tier 2, then through dark red to nearly black at tier 3 and beyond. As the text darkens its edge turns a dim red, so a black number never disappears. These colors ignore Color Mode. The line shakes harder as its count grows, up to its strongest at tier 3, and every hit you take gives it a short jolt.</p>
+
+            <h3 class="h4" id="combo-impact" style="font-size:20px;margin-top:44px">How hits land</h3>
+            <p class="body prose" style="margin:0 0 24px">Every counted hit punches the number up and lets it settle back with a slight bounce. On the big moments the counter also freezes for an instant, like hitstop in a fighting game: the punch, the shake on both lines, the negative line's color blend and the divider all stop together, then carry on from where they were. No freeze ever lasts longer than 160 ms. The figures below are at Impact 100%.</p>
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Moment</th><th scope="col">Punch</th><th scope="col">Freeze</th></tr></thead>
+                    <tbody>
+                        <tr><td>A normal hit</td><td>8%, settling in 140 ms</td><td>None</td></tr>
+                        <tr><td>A new tier</td><td>18%</td><td>60 ms</td></tr>
+                        <tr><td>Each hit past tier 3</td><td>10%, rising to 16%</td><td>30 ms, plus 3 ms per hit past tier 3, up to 90 ms</td></tr>
+                        <tr><td>A new best</td><td>22%</td><td>90 ms</td></tr>
+                        <tr><td>A finisher — killing the target</td><td>20%, plus 1% per hit in the combo, up to 40%</td><td>70 ms, plus 4 ms per hit, up to 160 ms</td></tr>
+                        <tr><td>A broken combo, with Decay off and the count at tier 1 or higher</td><td>None</td><td>50 ms, plus 3 ms per hit, up to 120 ms. The broken count stays frozen, then gives way to the negative line.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:30px 0 24px">Your own count starts to shake at tier 3, by 1 px. Past tier 3 the shake builds to 3 px over as many hits as separate tier 2 from tier 3 — four on Medium — at Shake 100%. Freezes hold the shake too, and a combo that has ended does not shake.</p>
+            <p class="body prose" style="margin:0 0 22px">The <a class="link-rule" href="#combo-animation">Animation</a> tab, between Style and Background, tunes these separately, because a single intensity setting could not, say, keep the freezes and turn the shake off.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Impact %</dt><dd>The punch scales in direct proportion and freezes more gently: at 150% the punch is 1.5 times as big and a freeze about 1.3 times as long. At 0 there is no punch and no freeze, and a broken combo gives way without freezing. The gold BEST flash and its label show at any value.</dd></div>
+                <div><dt>Shake %</dt><dd>Your count's shake past tier 3, and the negative line's growing shake. At 0 both stay still, whatever the heatmap settings.</dd></div>
+                <div><dt>Hit Jolt %</dt><dd>The negative line's jolt on each hit you take: 1.5 px at 100%, fading out over 300 ms. It is independent of Shake.</dd></div>
+            </dl>
+
+            <h3 class="h4" id="combo-best" style="font-size:20px;margin-top:44px">Your best combo</h3>
+            <p class="body prose" style="margin:0 0 24px">Your best combo is kept between sessions, in <code>simplecps_stats.json</code> beside <code>simplecps.json</code> in your Minecraft <code>config</code> folder, as <code>{"bestCombo": N}</code>. It is written when a combo ends, or as the game closes if you quit mid-combo. With an empty or corrupt file, the record starts from 0.</p>
+            <p class="body prose" style="margin:0 0 24px">The record is not part of the config. Presets, server configs and share codes do not carry it, and neither Reset Settings nor Reset All Settings clears it.</p>
+            <p class="body prose" style="margin:0 0 24px"><strong>A new best</strong> plays once per combo, when the combo passes the record as it stood when the combo began and reaches at least tier 2. The number lands a little harder, turns gold (<code>#FFB800</code>) for the freeze, and fades back to its own color over 0.4 seconds. A small gold <strong>BEST</strong> label appears beside it: half the number's size, level with its top, on the side away from the anchor — to the right on a left or center anchor, to the left on a right anchor. The label stays for 1.6 seconds and fades out over the last 0.3. It grows, shakes and freezes with the number, and never changes the module's size.</p>
+            <p class="body prose" style="margin:0 0 24px">A short combo that beats a low record is not announced until it reaches tier 2. On a fresh install the record is 0, so the first combo to reach tier 2 gets announced.</p>
+            <p class="body prose" style="margin:0"><strong>Reset Best</strong>, on the Behavior tab, forgets the record. It asks first, in a <em>Reset Best Combo</em> window that shows your current best. The settings screen's Cancel cannot bring it back, since the record is not part of the config.</p>
+
+            <h3 class="h4" id="combo-line" style="font-size:20px;margin-top:44px">The line under the count</h3>
+            <p class="body prose" style="margin:0 0 22px">While your line is on its own, <strong>Line</strong> draws a 1 px line under the count.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Timeout</dt><dd>The default. A bar in the count's color at 75% opacity that shortens with the time the combo has left and refills on every counted hit. It is hidden while a combo drains with Decay, lingers at its end or breaks. It shows the real timeout, so it keeps moving through freezes.</dd></div>
+                <div><dt>Hits</dt><dd>Your last 8 counted hits, one segment each: gray for a normal hit, white for a sprint hit, gold for a critical one. A critical is confirmed by the server's critical-hit notification, and a critical that kills still shows gold. A new segment flashes white for a moment. The newest sits at the right end, and with fewer than 8 hits the segments gather on the anchor side. The strip fades while a combo drains with Decay, and through a combo's end it stays up with that combo's hits.</dd></div>
+                <div><dt>Both</dt><dd>The timeout bar on top, and the hit strip 1 px below it.</dd></div>
+                <div><dt>Off</dt><dd>No line.</dd></div>
+            </dl>
+            <p class="body prose" style="margin:30px 0 24px">When a negative line stacks under yours, the line turns into the short divider between them: the bar shortens and takes on the divider's color, and the strip fades out. It comes back when the negative line goes. The divider shows even with Line set to Off.</p>
+            <div class="callout">
+                <div class="callout__label">Note</div>
+                <p>Room for the line is reserved up front — 2 px, or 4 px with Both — so modules on the same edge do not jump as it comes and goes. Because the line is on by default, those modules move down 2 px once after updating.</p>
+            </div>
+
+            <h3 class="h4" id="combo-heatmap" style="font-size:20px;margin-top:44px">Heatmap colors and custom tiers</h3>
+            <p class="body prose" style="margin:0 0 22px"><strong>Color Mode</strong> takes the place of the separate heatmap and rainbow switches, which could both be on at once, with the heatmap quietly winning. One setting with three values leaves nothing to conflict.</p>
+            <dl class="rowlist rowlist--narrow">
+                <div><dt>Static</dt><dd>Your count stays in the Text Color.</dd></div>
+                <div><dt>Rainbow</dt><dd>Your count cycles through every hue. Text Color is not used.</dd></div>
+                <div><dt>Heatmap</dt><dd>Text Color up to tier 1. From tier 1 to tier 2 it blends from Text Color to <strong>Heatmap Mid Color</strong>, from tier 2 to tier 3 on to <strong>Heatmap Top Color</strong>, and from tier 3 on it stays Top Color. The defaults, <code>#FF0000</code> and <code>#550000</code>, take it from the text color to red and then to dark red — no blue, and no black.</dd></div>
+            </dl>
+            <p class="body prose" style="margin:30px 0 24px">As the count darkens its edge warms to a dim red, so it stays readable even if you pick black. An old config loads as Heatmap if its heatmap switch was on, as Rainbow if only its rainbow switch was, and as Static if neither was.</p>
+            <p class="body prose" style="margin:0 0 24px"><strong>Heatmap Difficulty</strong> sets the tiers — see the <a class="link-rule" href="#heatmap-tiers">tier table</a> above — and they decide more than color: where your count starts to shake (tier 3), where a new best can flash (tier 2), and the steps in a negative line's color and shake. That holds even when Color Mode is not Heatmap. Changing the difficulty resets a running combo, and so does changing a custom tier while Custom is selected.</p>
+            <p class="body prose" style="margin:0"><strong>Custom Tier 1, 2 and 3</strong> always stay in order, each at least 1 above the one before it. Changing one moves the others out of its way: raising Tier 1 past Tier 2 pushes Tier 2 up, and Tier 3 as well if it has to; lowering Tier 3 pulls the others down.</p>
+
+            <h3 class="h4" id="combo-format" style="font-size:20px;margin-top:44px">Format and Style</h3>
+            <p class="body prose" style="margin:0 0 24px"><strong>Format</strong> replaces the old suffix: rather than text after the number, you write the whole readout, up to 64 characters, with two placeholders. <code>{combo}</code> is the count, with a minus sign on a combo landed on you (<code>-5</code>), and <code>{best}</code> is your all-time best. Leave <code>{combo}</code> out and the count is added at the front with a space, so editing the format can never lose the number; an empty format shows the count alone. An old config keeps its look: a suffix of <code>X</code> becomes the format <code>{combo} X</code>.</p>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th scope="col">Format</th><th scope="col">Reads</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>{combo} Combo</code></td><td><code>12 Combo</code></td></tr>
+                        <tr><td><code>x{combo}</code></td><td><code>x12</code></td></tr>
+                        <tr><td><code>{combo} hits (best {best})</code></td><td><code>12 hits (best 30)</code></td></tr>
+                        <tr><td><code>Hits</code></td><td><code>12 Hits</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:30px 0 24px"><strong>Style</strong> sets how that readout is drawn. <strong>Text</strong> puts the count and the rest of the format on one line. <strong>Big</strong> draws the count twice as large, with the format minus <code>{combo}</code> under it at normal size: <code>{combo} Combo</code> becomes a big <code>12</code> over <code>Combo</code>, <code>x{combo}</code> a big <code>12</code> over <code>x</code>, and a format of only <code>{combo}</code> leaves nothing underneath. A negative line uses the same style.</p>
+            <p class="body prose" style="margin:0 0 24px">In Big, the punch, the shake and the freezes apply to the big number alone, so the text under it stays still and readable. Color, the gold flash and fading cover that text too, and the BEST label sits beside the big number at normal text size.</p>
+            <p class="body prose" style="margin:0">There is no separate badge or minimal style: Show Background with a Line gives the badge look, and a format of <code>x{combo}</code> the minimal one.</p>
+
+            <h3 class="h4" id="combo-preview" style="font-size:20px;margin-top:44px">The preview and the editor</h3>
+            <p class="body prose" style="margin:0 0 24px">On the Combo page, the settings screen's preview plays a looping demo fight. The count climbs through the tiers with half a second between hits, pauses briefly in the middle while the timeout bar drains, goes three hits past tier 3 and ends on a finisher, with sprint and critical hits along the way. A combo landed on you shows up too: under yours during the last hits when stacking is possible, after your combo ends when it is not. The sliders, colors, line and style can all be tried without joining a world.</p>
+            <p class="body prose" style="margin:0 0 24px">The demo starts over whenever Heatmap Difficulty or a custom tier, Decay, Break on Any Damage or Timeout changes.</p>
+            <p class="body prose" style="margin:0">The Right Shift editor shows a still sample instead: <code>8 Combo</code> on Medium, with <code>-5 Combo</code> under it when stacking is possible, and a sample line. Nothing moves in the editor.</p>
+
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Enable Combo, <strong>Always Show</strong> (the inverse of Hide When Inactive), <strong>Color Mode</strong>, <strong>Style</strong>, Text Color, <strong>Format</strong>.</p>
         </section>
 
         <!-- ── 10 Reach ─────────────────────────────────────── -->
@@ -710,7 +860,7 @@
                 <li><strong>Right-click</strong> to rename it — a name already in use is refused rather than overwriting</li>
                 <li>The <strong>bin icon</strong> deletes it</li>
             </ul>
-            <p class="body prose" style="margin:24px 0 0">A preset is validated before anything is applied, so a corrupt or hand-edited file cannot leave you with a half-replaced config.</p>
+            <p class="body prose" style="margin:24px 0 0">A preset is validated before anything is applied, so a corrupt or hand-edited file cannot leave you with a half-replaced config. Your best combo is not a setting and has a file of its own, so no preset carries it.</p>
 
             <h3 class="h4" id="server-configs" style="font-size:20px;margin-top:44px">Server configs</h3>
             <p class="body prose" style="margin:22px 0 24px">On by default. There is nothing to press: while you are in a world, every save is mirrored into that server's own file, so "how my HUD looks here" is simply remembered. Join a server that already has one and it is applied silently.</p>
@@ -718,6 +868,7 @@
                 <li>All your single-player worlds share one config</li>
                 <li><code>mc.example.net</code> and <code>mc.example.net:25565</code> are treated as the same server</li>
                 <li>Realms are keyed by their display name, since they have no usable address</li>
+                <li>Your best combo is not in a server config either — it has a file of its own</li>
             </ul>
             <div class="callout" style="margin-top:26px">
                 <div class="callout__label">Note</div>
@@ -730,14 +881,14 @@
         <section class="doc-section" id="share-codes" data-keywords="share code export import EYMHUD1 clipboard copy paste send friend transfer full hud config export keystrokes code backup version mismatch">
             <p class="eyebrow eyebrow--brass">18</p>
             <h2 class="h3">Share codes</h2>
-            <p class="body prose" style="margin:0 0 30px">Your whole HUD, packed into one line of text you can paste into Discord. Codes start with <code>EYMHUD1-</code>.</p>
+            <p class="body prose" style="margin:0 0 30px">Your whole HUD, packed into one line of text you can paste into Discord. Codes start with <code>EYMHUD1-</code>. Your best combo stays behind: it is not a setting, so no code carries it.</p>
 
             <h3 class="h4" id="two-code-types" style="font-size:20px">Two kinds of code</h3>
             <div class="table-wrap" style="max-width:920px;margin-top:22px">
                 <table class="table">
                     <thead><tr><th scope="col"></th><th scope="col">Full config code</th><th scope="col">Keystrokes code</th></tr></thead>
                     <tbody>
-                        <tr><td>Carries</td><td>Every setting of every module, including third-party ones</td><td>The whole Keystrokes look</td></tr>
+                        <tr><td>Carries</td><td>Every setting of every module, including third-party ones, but not your best combo</td><td>The whole Keystrokes look</td></tr>
                         <tr><td>Export from</td><td>Settings screen, or the editor's <strong>Export Code</strong></td><td>The Designer's <strong>Export</strong></td></tr>
                         <tr><td>Import at</td><td>Settings screen, or the editor's <strong>Import Code</strong></td><td>The Designer's <strong>Import</strong></td></tr>
                         <tr><td>Backup taken</td><td><strong>Yes</strong> — a timestamped preset before anything is applied</td><td>No — the Designer's undo covers it</td></tr>
@@ -772,16 +923,17 @@
         <section class="doc-section" id="resets" data-keywords="reset layout reset all settings reset position reset settings undo start over defaults scope">
             <p class="eyebrow eyebrow--brass">19</p>
             <h2 class="h3">What each reset actually resets</h2>
-            <p class="body prose" style="margin:0 0 30px">Four buttons say some form of "reset" and none of them mean the same thing. This is the single most common source of surprise, so it gets its own table.</p>
+            <p class="body prose" style="margin:0 0 30px">Five buttons say some form of "reset" and none of them mean the same thing. This is the single most common source of surprise, so it gets its own table.</p>
 
             <div class="table-wrap" style="max-width:920px">
                 <table class="table">
                     <thead><tr><th scope="col">Button</th><th scope="col">Where</th><th scope="col">What it touches</th></tr></thead>
                     <tbody>
                         <tr><td><strong>Reset HUD Layout</strong></td><td>General tab, and the editor's <em>Reset HUD</em></td><td>Anchors, offsets and scales only. Colors and behavior are untouched, and Prevent Overlap goes back on.</td></tr>
-                        <tr><td><strong>Reset Settings</strong></td><td>A module's right-click menu</td><td>That one module's visual settings. Nothing else moves.</td></tr>
+                        <tr><td><strong>Reset Settings</strong></td><td>A module's right-click menu</td><td>That one module's visual settings. Nothing else moves. On <strong>Combo</strong> it covers every setting except the anchor, the offsets and the on/off switch, so Scale % and the Behavior tab reset too. Your best combo does not.</td></tr>
+                        <tr><td><strong>Reset Best</strong></td><td>Combo page → Behavior tab</td><td>Only your best combo. Asks for confirmation first; Cancel cannot bring it back, since the record is not part of the config.</td></tr>
                         <tr><td><strong>Reset Layout</strong></td><td>The Designer's toolbar</td><td>The stock nine keys <em>and</em> the design, animation, palette and every per-key override.</td></tr>
-                        <tr><td><strong>Reset All Settings</strong></td><td>The settings screen</td><td>Everything. <strong>Saved presets and third-party module data are kept.</strong> Cannot be undone.</td></tr>
+                        <tr><td><strong>Reset All Settings</strong></td><td>The settings screen</td><td>Everything. <strong>Saved presets, third-party module data and your best combo are kept.</strong> Cannot be undone.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -798,7 +950,12 @@
                 <div><dt>Keystrokes has no background toggle</dt><dd>Set Background Opacity to <code>0</code>. That is how the Frame, Bar and Segment designs get their transparent look.</dd></div>
                 <div><dt>Ping has no rainbow, Armor has no colors</dt><dd>Neither is an oversight. Armor draws items rather than text, so there is nothing to tint; the slot backgrounds are its equivalent switch.</dd></div>
                 <div><dt>Picking a design changed my colors</dt><dd>That is the design. A palette is what makes a style legible, so choosing one brings its own — along with its animations, and its arrangement if it has one. Export your layout before browsing the gallery if you want it back.</dd></div>
-                <div><dt>Changing heatmap difficulty dropped my combo</dt><dd>Expected — the tiers moved underneath it, so the count is reset rather than reinterpreted.</dd></div>
+                <div><dt>Changing heatmap difficulty dropped my combo</dt><dd>Expected — the tiers moved underneath it, so the count is reset rather than reinterpreted. Changing a custom tier while Custom is selected does the same.</dd></div>
+                <div><dt>A hit did not count</dt><dd>With Hit Detection on Server, a hit counts only once the server confirms it landed, so hits into a target's invulnerability frames or onto a shield, arrows and sweep damage never count. For the old count-every-attack behavior, set Hit Detection to <strong>Client</strong>.</dd></div>
+                <div><dt>A negative number appeared under my combo</dt><dd>That is a combo landed on you. It only stacks under yours with Decay on or Break on Any Damage off; otherwise the first hit you take ends your combo, and the negative line takes its place.</dd></div>
+                <div><dt>My custom tiers moved on their own</dt><dd>Each tier stays above the one before it, so changing one pushes the others out of its way.</dd></div>
+                <div><dt>BEST did not flash</dt><dd>It plays once per combo, and only once the combo that beats your record reaches tier 2.</dd></div>
+                <div><dt>The timeout bar keeps moving during a freeze</dt><dd>It shows the real time left, and a combo's timeout does not stop for freezes.</dd></div>
                 <div><dt>The timeout slider stops at 10 seconds</dt><dd>The slider covers 1 to 10, but the config itself accepts 0.1 to 60. A hand-edited file or an imported code can carry a value the slider cannot reach or display exactly.</dd></div>
                 <div><dt>Scaling in the editor saved without asking</dt><dd>Scroll-to-scale writes immediately, because there is no drag to release. Use undo in the Designer, or a preset, if you want a way back.</dd></div>
                 <div><dt>I cannot find the armor slot offsets</dt><dd>They exist only after <strong>Ungroup</strong>, and only in the in-world editor. Dragging is the interface — there are no rows for them.</dd></div>

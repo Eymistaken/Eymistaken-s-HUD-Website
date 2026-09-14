@@ -183,7 +183,7 @@
             <article class="ug-module">
                 <p class="eyebrow eyebrow--tight">Combat</p>
                 <h3 class="h4" id="mod-combo" style="font-size:22px">Combo</h3>
-                <p class="body prose">A hit-streak counter with a heatmap: the number changes color as your streak climbs and shakes at the top tier. Three difficulty curves decide where the tiers sit. You choose whether the combo breaks on any damage taken, whether it survives switching targets, and how long it lingers before timing out.</p>
+                <p class="body prose">A hit-streak counter that counts hits once the server confirms them, and shows a combo landed on you as a negative line. A new tier or a kill freezes the counter for an instant, and beating your saved best combo plays a short BEST moment. Color it Static, Rainbow or Heatmap, with three preset difficulties or your own tiers; write the readout with <code>{combo}</code> and <code>{best}</code>, switch the count to Big, and put a timeout bar or your last hits under it. You choose whether the combo breaks on any damage taken, whether it survives switching targets, and how long it lingers before timing out.</p>
                 <figure class="media" data-media>
                     <div class="media__ph">
                     <span class="media__label">Loading Combo demo</span>
@@ -202,10 +202,11 @@
                             <tr><td>Easy</td><td>3 hits</td><td>5 hits</td><td>7 hits</td></tr>
                             <tr><td>Medium <em>(default)</em></td><td>5 hits</td><td>8 hits</td><td>12 hits</td></tr>
                             <tr><td>Hard</td><td>10 hits</td><td>40 hits</td><td>60 hits</td></tr>
+                            <tr><td>Custom</td><td>Your own <em>(default 5)</em></td><td>Your own <em>(default 8)</em></td><td>Your own <em>(default 12)</em></td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p class="body prose" style="margin:22px 0 0"><strong>Classic</strong> mode counts every swing; <strong>Modern</strong> mode respects the 1.9+ attack cooldown so spam clicking does not inflate your streak.</p>
+                <p class="body prose" style="margin:22px 0 0">With Hit Detection on <strong>Server</strong>, the default, only hits the server confirms are counted. <strong>Classic</strong> mode counts every one of those; <strong>Modern</strong> counts only full-strength hits, respecting the 1.9+ attack cooldown so spam clicking does not inflate your streak.</p>
             </article>
 
             <article class="ug-module">
@@ -333,8 +334,10 @@
                     <ul class="list list--tight" style="margin:0">
                         <li>Enable Combo <span style="color:var(--brass)">[ON/OFF]</span></li>
                         <li>Always Show <span style="color:var(--brass)">[ON/OFF]</span></li>
+                        <li>Color Mode <span style="color:var(--brass)">[cycle, 3 modes]</span></li>
+                        <li>Style <span style="color:var(--brass)">[cycle, Text / Big]</span></li>
                         <li>Text Color <span style="color:var(--brass)">[color picker]</span></li>
-                        <li>Suffix Text <span style="color:var(--brass)">[text input]</span></li>
+                        <li>Format <span style="color:var(--brass)">[text input]</span></li>
                     </ul>
                 </div>
                 <div>
