@@ -133,6 +133,11 @@
                 <p>Saves are atomic: the mod writes a temporary file and then moves it into place. A crash halfway through a save cannot leave you with a broken config.</p>
             </div>
 
+            <div class="callout" style="margin-top:26px">
+                <div class="callout__label">Note</div>
+                <p><strong>Coming from 26.2 or earlier?</strong> Minecraft 26.3 numbers keys and mouse buttons differently, so the first time you launch v1.2.3 your existing <code>simplecps.json</code> is translated in place — your keystrokes layout, its key bindings and its per-key settings all come through as they were. There is nothing to do by hand.</p>
+            </div>
+
             <h3 class="h4" id="legacy-fields" style="font-size:20px;margin-top:40px">Fields you may see but that do nothing</h3>
             <p class="body prose" style="margin:0 0 24px">If you open <code>simplecps.json</code> in a text editor you will find a few keys the current build never reads. They are kept because a field name is a key on disk — deleting them from the mod would silently drop settings out of everyone's existing file.</p>
             <dl class="rowlist rowlist--narrow">
@@ -915,7 +920,7 @@
             </dl>
             <div class="callout" style="margin-top:26px">
                 <div class="callout__label">Note</div>
-                <p>Keystrokes codes made before v1.2.1 still import — they simply carry no look of their own and arrive wearing your design. Codes exported from 1.2.1 onward are rejected by earlier builds, so someone still on 1.2.0 needs to update before your layout will reach them.</p>
+                <p>Keystrokes codes made before v1.2.1 still import — they simply carry no look of their own and arrive wearing your design. Codes exported from 1.2.1 onward are rejected by earlier builds, so someone still on 1.2.0 needs to update before your layout will reach them. v1.2.3 draws the same line again for a different reason: Minecraft 26.3 renumbered keys and mouse buttons, so a code written by 1.2.2 or earlier has its key numbers translated on the way in, while a 1.2.3 code is refused outright by older builds rather than applied to the wrong keys.</p>
             </div>
         </section>
 
@@ -975,7 +980,7 @@
                     <img src="assets/icon-96.png" alt="" width="20" height="20" style="width:20px;height:20px">
                     <span>Eymistaken's HUD</span>
                 </div>
-                <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.1–26.2</p>
+                <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.3</p>
             </div>
             <div>
                 <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" rel="noopener">GitHub</a>

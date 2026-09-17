@@ -28,7 +28,7 @@ coordinate, read a working module example, and judge API maturity.
 ## Product Purpose
 
 Marketing and documentation site for Eymistaken's HUD, a modular, customizable
-HUD mod for Minecraft 26.2 (Fabric). The site is the project's only owned
+HUD mod for Minecraft 26.3 (Fabric). The site is the project's only owned
 surface; every other touchpoint (Modrinth, CurseForge, GitHub) is a rented
 storefront with someone else's design language.
 

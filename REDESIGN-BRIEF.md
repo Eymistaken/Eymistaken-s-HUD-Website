@@ -12,7 +12,7 @@ kendi başına karara bağlama.
 
 ## Ürün ne?
 
-**Eymistaken's HUD**, Minecraft 26.2 için bir Fabric HUD modu. Oyun içinde CPS, FPS, ping,
+**Eymistaken's HUD**, Minecraft 26.3 için bir Fabric HUD modu. Oyun içinde CPS, FPS, ping,
 combo sayacı, zırh göstergesi, reach mesafesi ve tuş vuruşları gibi modülleri ekrana basıyor.
 Ayırt edici tarafları:
 
@@ -125,7 +125,7 @@ farklı yerde tekrarlanınca bu bir marka sistemi değil, iskele oluyor.
 **Şablon desenleri.** Ana sayfada altı adet birbirinin tıpatıp aynı kart (ikon kutusu +
 büyük harf başlık + paragraf + "LEARN MORE →"), ve dördü aynı sayfaya gidiyor. Bir de
 dört sütunlu büyük-sayı istatistik çubuğu var, ama dört değerin ikisi zaten sayı değil
-("26.2" bir sürüm, "API" bir kelime).
+("26.3" bir sürüm, "API" bir kelime).
 
 **Yapısal delikler.** Bunlar görsel değil, ama yeni tasarımın tekrar etmemesi gereken
 şeyler: mobilde navigasyon menüsü hiç yok (bağlantılar gizleniyor, yerine bir şey konmuyor),

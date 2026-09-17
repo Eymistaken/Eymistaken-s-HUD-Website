@@ -402,7 +402,7 @@
             <p class="body prose" style="margin:0 0 18px"><strong>Export Code</strong> packs your whole setup into a single line of text starting with <code>EYMHUD1-</code> and copies it to your clipboard — paste it into Discord, a forum post, wherever. <strong>Import Code</strong> reads one back off your clipboard. The Keystrokes Designer has its own <strong>EXPORT</strong> and <strong>IMPORT</strong> for the keystrokes module on its own — the key layout together with the design, animation and palette it was drawn with, without the rest of your HUD. Where it goes on your screen is left out on purpose: that corner is yours, not the sender's.</p>
             <ul class="list prose">
                 <li>Imports are fully validated before anything is applied. A full-config import saves your current setup as a timestamped backup config first, so a code you did not like is one click away from being undone; a keystrokes import is a single <code>Ctrl+Z</code> in the designer instead</li>
-                <li>Codes made with a different version of the mod still work, and the status line tells you which version one came from. One exception, and it runs only one way: a keystrokes code written by v1.2.1 or later carries a design and palette that earlier builds have no field for, so those refuse it outright rather than import half of it</li>
+                <li>Codes made with a different version of the mod still work, and the status line tells you which version one came from — a code from 1.2.2 or earlier has its key numbers translated to 26.3's on the way in. The exceptions run one way only: a keystrokes code written by v1.2.1 or later carries a design and palette earlier builds have no field for, and any code written by v1.2.3 uses 26.3's key numbering — older builds refuse both outright rather than import half of it or bind the wrong keys</li>
                 <li>A code from someone running an addon module you do not have imports fine — their settings for it ride along untouched, and the reverse holds too</li>
             </ul>
 
@@ -472,7 +472,7 @@
                     <img src="assets/icon-96.png" alt="" width="20" height="20" style="width:20px;height:20px">
                     <span>Eymistaken's HUD</span>
                 </div>
-                <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.1–26.2</p>
+                <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.3</p>
             </div>
             <div>
                 <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" rel="noopener">GitHub</a>
