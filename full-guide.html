@@ -225,7 +225,7 @@
                 <div><dt>Scroll wheel</dt><dd>Scale the module under the cursor by 5% per notch, from 50% to 300%. This saves immediately — there is no drag to release.</dd></div>
                 <div><dt>Drag on empty space</dt><dd>Marquee select. Everything inside the box is selected.</dd></div>
                 <div><dt>Arrow keys</dt><dd>Nudge the selection one pixel.</dd></div>
-                <div><dt>Right-click a module</dt><dd>Its own context menu.</dd></div>
+                <div><dt>Right-click a module</dt><dd>Its own context menu. Text settings in it open a field that works like any other: arrow keys and clicks move the cursor, drag, Shift or Ctrl+A select, and Ctrl+C, Ctrl+X and Ctrl+V copy, cut and paste. Enter saves, Escape cancels.</dd></div>
                 <div><dt>Right-click empty space</dt><dd>The global menu.</dd></div>
             </dl>
 
@@ -244,7 +244,7 @@
                 <div><dt>Prevent Overlap</dt><dd>Toggles collision handling for the whole HUD.</dd></div>
                 <div><dt>Grid</dt><dd>Left-click toggles the grid. <strong>Right-click cycles its size</strong> through 4, 8, 16 and 32 pixels.</dd></div>
                 <div><dt>Save Config</dt><dd>Saves everything as a preset called <code>Config 1</code>, <code>Config 2</code>, and so on — the first free number.</dd></div>
-                <div><dt>Configs</dt><dd>Hover for your saved presets. Left-click a name to load it, the bin icon to delete it, right-click to rename it.</dd></div>
+                <div><dt>Configs</dt><dd>Hover for your saved presets. Left-click a name to load it, the bin icon to delete it, right-click to rename it. Heading for the list on a diagonal keeps it open even when the cursor crosses the rows below.</dd></div>
                 <div><dt>Server Configs</dt><dd>Hover for your per-server configs. The title row switches the whole feature on and off.</dd></div>
                 <div><dt>Export Code</dt><dd>Copies your whole HUD to the clipboard as a share code. The row reads <em>Copied!</em> for a moment.</dd></div>
                 <div><dt>Import Code</dt><dd>Opens a text box you can paste into with Ctrl+V. Your current config is backed up to a preset first.</dd></div>
@@ -585,7 +585,7 @@
         </section>
 
         <!-- ── 11 Armor HUD ─────────────────────────────────── -->
-        <section class="doc-section" id="armor" data-keywords="armor helmet chestplate leggings boots main hand off hand durability damage flash vertical group ungroup slots">
+        <section class="doc-section" id="armor" data-keywords="armor helmet chestplate leggings boots main hand off hand durability damage flash damage effects hit shake sparks warning corners chip damage low durability warning badge tremble heartbeat red pulse effects ghost empty slot placeholder vertical group ungroup slots">
             <p class="eyebrow eyebrow--brass">11</p>
             <h2 class="h3">Armor HUD</h2>
             <p class="body prose" style="margin:0 0 30px">Your four armor pieces and your held items, with durability. Off by default, and the only module that starts in the <strong>bottom left</strong> rather than the top left.</p>
@@ -600,10 +600,30 @@
                         <tr><td>Show Off Hand</td><td>Off</td><td>Includes your off-hand item.</td></tr>
                         <tr><td>Show Background Slots</td><td>Off</td><td>Draws a semi-transparent inventory slot behind each item.</td></tr>
                         <tr><td>Durability Text</td><td>Off</td><td>Prints the exact number next to each item instead of relying on the bar.</td></tr>
-                        <tr><td>Damage Flash</td><td>On</td><td>Flashes an item red for a moment when it loses durability.</td></tr>
                     </tbody>
                 </table>
             </div>
+
+            <h3 class="h4" id="armor-effects" style="font-size:20px;margin-top:44px">Hit and wear effects</h3>
+            <p class="body prose" style="margin:0 0 24px">The <strong>EFFECTS</strong> tab, next to STYLE, decides how items react. Every effect is its own slider from 0 to 200% of its stock size, where 0 turns it off, and any number of them can run at once. Every motion is timed rather than random, so the same hit always plays the same way, and the PREVIEW card takes a pretend hit every two seconds while you are on the tab.</p>
+            <div class="table-wrap" style="max-width:920px">
+                <table class="table">
+                    <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">What it does</th></tr></thead>
+                    <tbody>
+                        <tr><td>Damage Effects</td><td>On</td><td>Plays the four hit effects below when an item loses durability. Off silences all four, whatever their sliders say. This was Damage Flash before 1.2.4, and it keeps your old choice.</td></tr>
+                        <tr><td>Hit Shake %</td><td>100</td><td>Knocks the hit item up and over for an instant, then lets it settle with a shake that dies away.</td></tr>
+                        <tr><td>Hit Sparks %</td><td>0</td><td>Throws red sparks out of the hit item. The slider sets how far they travel.</td></tr>
+                        <tr><td>Warning Corners %</td><td>0</td><td>Blinks red brackets around the slot twice, closing in on the second blink. The slider sets their length.</td></tr>
+                        <tr><td>Chip Damage %</td><td>0</td><td>Keeps the durability the hit took on the bar in white for a moment before it drains away, so even a small loss shows. The slider sets how long.</td></tr>
+                        <tr><td>Low Durability At %</td><td>25</td><td>5 to 50. The durability left under which the four warnings below start. They grow stronger and faster as the item nears breaking.</td></tr>
+                        <tr><td>Warning Badge %</td><td>100</td><td>A small red "!" on the item's corner that hops and wiggles now and then. The slider sets how much.</td></tr>
+                        <tr><td>Tremble %</td><td>0</td><td>The item grows a little and shivers in bursts that come closer together.</td></tr>
+                        <tr><td>Heartbeat %</td><td>0</td><td>The item beats in a double pulse whose tempo climbs from 60 to 150 a minute.</td></tr>
+                        <tr><td>Red Pulse %</td><td>0</td><td>A red glow breathes behind the item.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="body prose" style="margin:24px 0 0">The warnings only apply to items that can wear out. A hit is a drop in durability on the same item: switching to a more worn one, such as a second sword on your hotbar, does not count.</p>
 
             <div class="callout" style="margin-top:30px">
                 <div class="callout__label">Note</div>
@@ -613,11 +633,12 @@
             <h3 class="h4" id="armor-slots" style="font-size:20px;margin-top:44px">Splitting the slots apart</h3>
             <p class="body prose" style="margin:0 0 24px">Right-click the Armor HUD in the editor and choose <strong>Ungroup</strong>. The six pieces — Helmet, Chestplate, Leggings, Boots, Main Hand, Off Hand — become independently draggable, each with its own offset, so you can put your boots somewhere entirely different from your helmet.</p>
             <p class="body prose" style="margin:0 0 24px">Right-click any detached slot and choose <strong>Group</strong> to snap everything back into the stack and clear all twelve offsets at once.</p>
+            <p class="body prose" style="margin:0 0 24px">Empty slots are not drawn in game, so the editor stands in for them. With nothing equipped in the group, every slot shows as a ghost — a dark, sunken slot holding a gray copy of the diamond piece that goes there, or the empty off-hand silhouette — so there is still something to drag. As soon as the group holds anything, only the real items show, because that is what your HUD will look like. A detached slot keeps its ghost whenever it is empty. The ghosts are made from your resource pack's textures.</p>
             <div class="callout">
                 <div class="callout__label">Note</div>
                 <p>Those per-slot offsets exist <em>only</em> in the in-world editor. There are no rows for them in the settings screen — dragging is the interface.</p>
             </div>
-            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Ungroup, Enable Armor, Scale %, Vertical, Show Background, Durability Text, Damage Flash, Show Main Hand, Show Off Hand.</p>
+            <p class="note" style="margin-top:26px">In the editor's right-click menu: Reset Settings, Ungroup, Enable Armor, Scale %, Vertical, Show Background, Durability Text, Damage Effects, Show Main Hand, Show Off Hand. The effect sliders are only in the settings screen.</p>
         </section>
 
         <!-- ── 12 Keystrokes settings ───────────────────────── -->
