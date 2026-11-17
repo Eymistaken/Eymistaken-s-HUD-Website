@@ -1,318 +1,266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eymistaken's HUD</title>
-<meta name="description" content="A modular, client-side HUD for Minecraft 26.3 on Fabric. Seven modules, a live drag-and-drop editor, share codes and a plugin API.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eymistaken&#x27;s HUD</title>
+<meta name="description" content="A competitive HUD for Minecraft 26.3 on Fabric: seven PvP modules, an in-game editor that snaps them into place, and layouts you can share as one line of text.">
 <link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/">
-<meta name="theme-color" content="#1c1f1a">
+<meta name="theme-color" content="#F6F6F3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eymistaken's HUD">
-<meta property="og:title" content="Eymistaken's HUD">
-<meta property="og:description" content="A modular, client-side HUD for Minecraft 26.3 on Fabric. Seven modules, a live drag-and-drop editor, share codes and a plugin API.">
+<meta property="og:title" content="Eymistaken&#x27;s HUD">
+<meta property="og:description" content="A competitive HUD for Minecraft 26.3 on Fabric: seven PvP modules, an in-game editor that snaps them into place, and layouts you can share as one line of text.">
 <meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/">
-<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eymistaken's HUD">
-<meta name="twitter:description" content="A modular, client-side HUD for Minecraft 26.3 on Fabric. Seven modules, a live drag-and-drop editor, share codes and a plugin API.">
-<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eymistaken&#x27;s HUD">
+<meta name="twitter:description" content="A competitive HUD for Minecraft 26.3 on Fabric: seven PvP modules, an in-game editor that snaps them into place, and layouts you can share as one line of text.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
 <link rel="icon" href="assets/icon-96.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
 </head>
-<body>
+<body class="page-home">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
-    <a class="wordmark" href="index.html">
-        <img src="assets/icon-96.png" alt="" width="22" height="22">
-        <span>Eymistaken's HUD</span>
-    </a>
-
-    <nav class="nav" aria-label="Primary">
-        <a href="user-guide.html">User Guide</a>
-        <a href="full-guide.html">Full Guide</a>
-        <a href="api-guide.html">API Guide</a>
-        <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
-    </nav>
-
-    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
-        <span class="visually-hidden">Menu</span>
-        <svg class="icon-open" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14"/></svg>
-        <svg class="icon-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
-    </button>
-</header>
-
-<div class="nav-panel" id="nav-panel">
-    <a href="index.html" aria-current="page">Home</a>
-    <a href="user-guide.html">User Guide</a>
-    <a href="full-guide.html">Full Guide</a>
-    <a href="api-guide.html">API Guide</a>
-    <a class="btn btn--brass" href="downloads.html">Download</a>
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
 </div>
+</header>
 
 <main id="main">
 
-<!-- ── Hero ─────────────────────────────────────────────── -->
-<section class="hero">
-    <h1 class="display hero__title">A competitive HUD you place yourself.</h1>
-    <div class="hero__foot">
-        <p class="lede">A modular, client-side HUD for Minecraft 26.3 on Fabric. Seven modules, a live drag-and-drop editor and a plugin API, all stored in one config file you can share as a line of text.</p>
-        <div class="hero__actions">
-            <a class="btn btn--brass" href="downloads.html">Download</a>
-            <a class="btn btn--ghost" href="user-guide.html">User Guide</a>
-        </div>
-    </div>
+<section class="hero wrap" aria-labelledby="hero-title">
+<h1 class="hero__title" id="hero-title">A competitive HUD you place yourself.</h1>
+<p class="lede">Seven PvP modules, an in-game editor that snaps them into place, and a whole layout you can hand to a friend as one line of text.</p>
+<div class="actions">
+<a class="btn btn--primary" href="downloads.html"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4 7.5 8 11.5 12 7.5M2.5 14h11"/></svg><span>Download 1.2.5</span></a>
+<a class="btn btn--secondary" href="user-guide.html">Read the User Guide</a>
+</div>
+<p class="hero__note">For Minecraft 26.3 on Fabric, and it runs on your client only. Writing an addon? <a href="api-guide.html">The API quick start</a> gets a module on screen in three files.</p>
 </section>
 
-<!-- ── Modules ──────────────────────────────────────────── -->
-<section aria-labelledby="modules-heading">
-    <div class="section-head">
-        <h2 class="h2" id="modules-heading">The modules</h2>
-        <span class="section-count">01 — 07</span>
-    </div>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">01</span>
-                <h3 class="module__name">CPS</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">Left and right click counters with a configurable separator and free-text prefixes and suffixes, so you can render <code>12 | 4</code>, <code>CPS: 12</code>, or anything else you like.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading CPS demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/cps-demo.mp4" muted loop playsinline preload="none" aria-label="The CPS module counting left and right clicks in game"></video>
-            </figure>
-        </div>
-    </article>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">02</span>
-                <h3 class="module__name">Keystrokes</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">Not a fixed WASD block. The bundled designer lets you draw your own layout: add any key or mouse button, resize it, drag its label independently, recolor individual keys, and dress the whole thing in one of eleven designs — Neon, Wedge, Hex, Pixel Bevel and the rest. Any key can carry its own CPS counter.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading Keystrokes demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/keystrokes-demo.mp4" muted loop playsinline preload="none" aria-label="A custom keystrokes layout lighting up as keys are pressed"></video>
-            </figure>
-        </div>
-    </article>
+<section class="wrap" aria-label="The HUD in game">
+<figure class="media media--hero">
+<div class="media__frame"><img class="media__still" src="assets/hero.jpg" alt="Minecraft at dusk with all seven modules stacked in the top-left corner: CPS reads 0 | 0, FPS 164, ping 0 ms, the combo counter 0, the keystrokes layout below it, the reach module showing No Hit, and the armor HUD in the bottom-left corner. The right side of the frame is darkened." width="1920" height="1080" decoding="async"></div>
+<figcaption>All seven modules, stacked in the top-left corner where they snap by default.</figcaption>
+</figure>
 </section>
 
-<!-- ── The designer ─────────────────────────────────────── -->
-<section class="band" aria-labelledby="designer-heading">
-    <div class="section-head">
-        <h2 class="h2" id="designer-heading">The Keystrokes Designer</h2>
-    </div>
+<section class="modules wrap" aria-labelledby="modules-title">
+<div class="section-head">
+<h2 class="title-section" id="modules-title">Seven modules</h2>
+<p>Each carries its own color, scale, background and anchor. CPS is on from the start; switch on the rest as you need them.</p>
+</div>
 
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <p class="body" style="max-width:48ch;margin:0">A visual editor for the keystrokes layout with pixel-perfect snapping, context menus, drag-and-drop, per-key colors and unlimited undo and redo. Browse the eleven designs in a gallery whose cards animate themselves, then stack motions and fills on top — and let any single key override any of it. Not a module of its own — it is where the Keystrokes layout above is drawn.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading Designer demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/designer-demo.mp4" muted loop playsinline preload="none" aria-label="The Keystrokes Designer being used to build a custom layout"></video>
-            </figure>
-        </div>
-    </article>
+<article class="feature" aria-labelledby="m-keys">
+<figure class="media">
+<div class="media__frame media__frame--4x3 clip--keystrokes" data-clip="keystrokes">
+<img class="media__still" src="assets/keystrokes-still.jpg" alt="The keystrokes layout at night, with W and Ctrl lit in green as they are held." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/keystrokes-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the keystrokes clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:18</span></span>
+</div>
+</figure>
+<div class="feature__text">
+<h3 class="feature__title" id="m-keys">Keystrokes</h3>
+<p>Not a fixed WASD block. Add any key or mouse button, resize and recolor each one, and put a CPS counter on any key you like. Press animations stack: tick as many as you want.</p>
+<p>Eleven designs to start from, from the plain Baseline and Frame to Neon, Hex and Pixel Bevel. Wedge and Hex bring their own arrangement of the keys.</p>
+</div>
+</article>
+
+<article class="designer-block" aria-labelledby="m-designer">
+<div class="section-head">
+<h3 class="feature__title" id="m-designer">The Keystrokes Designer</h3>
+<p>Where the keystrokes layout is drawn. Keys snap to their neighbors and to even gaps, every key has its own inspector, and undo covers the design and colors as well as the keys. Open it by right-clicking Keystrokes in the editor.</p>
+</div>
+<figure class="media">
+<div class="media__frame" data-clip="designer">
+<img class="media__still" src="assets/designer-still.jpg" alt="The Keystrokes Designer: an element palette and layer list on the left, the layout canvas in the middle with a safe area, and the inspector with geometry, label settings and a shortcut list on the right." width="1600" height="900" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/designer-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the designer clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>1:51</span></span>
+</div>
+<figcaption>The Neon design with the Glow animation, the space bar selected in the inspector.</figcaption>
+</figure>
+</article>
+
+<div class="pair">
+<article aria-labelledby="m-combo">
+<figure class="media">
+<div class="media__frame media__frame--4x3 clip--combo" data-clip="combo">
+<img class="media__still" src="assets/combo-still.jpg" alt="A duel with the combo counter reading 1 Combo beneath the opponent." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/combo-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the combo clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:12</span></span>
+</div>
+</figure>
+<h3 class="pair__title" id="m-combo">Combo</h3>
+<p>Counts a hit once the server confirms it, shows a combo landed on you as a negative line, and remembers your best. Colors climb through heatmap tiers at 5, 8 and 12 hits by default.</p>
+</article>
+<article aria-labelledby="m-armor">
+<figure class="media media--left-bottom">
+<div class="media__frame media__frame--4x3" data-clip="armor">
+<img class="media__still" src="assets/armor-still.jpg" alt="A night forest with the armor HUD in the bottom-left: helmet, chestplate, leggings, boots and the held item, each with a durability bar." width="1280" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/armor-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the armor clip"></button>
+<span class="media__badge media__badge--right" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:07</span></span>
+</div>
+</figure>
+<h3 class="pair__title" id="m-armor">Armor HUD</h3>
+<p>Four armor slots, main hand and off hand, with durability bars and exact numbers. Items shake when they take a hit and show a red <code>!</code> before they break. Every slot can be placed on its own, even with nothing equipped.</p>
+</article>
+</div>
+
+<div class="readouts">
+<h3 class="readouts__title">The readouts</h3>
+<article class="readout" aria-labelledby="m-cps">
+<img class="readout__thumb" src="assets/cps-still.jpg" alt="A player in a forest with the CPS counter reading 5 | 0." width="960" height="720" loading="lazy" decoding="async">
+<div class="readout__text">
+<h4 id="m-cps">CPS</h4>
+<p>Left and right clicks over the last second. Write it as <code>12 | 4</code>, <code>CPS: 12</code> or anything else.</p>
+</div>
+</article>
+<article class="readout" aria-labelledby="m-reach">
+<img class="readout__thumb" src="assets/reach-still.jpg" alt="An opponent in diamond armor with the reach readout showing 2,05 blocks." width="960" height="720" loading="lazy" decoding="async">
+<div class="readout__text">
+<h4 id="m-reach">Reach</h4>
+<p>The distance of your last hit in blocks, to 2 decimal places. It can count players only, and show a label of your own before the first hit.</p>
+</div>
+</article>
+<article class="readout" aria-labelledby="m-fps">
+<img class="readout__thumb" src="assets/fps-still.jpg" alt="A river valley with the FPS readout showing 165 FPS." width="1280" height="720" loading="lazy" decoding="async">
+<div class="readout__text">
+<h4 id="m-fps">FPS</h4>
+<p>Frames per second, updated every tick, for when you want the number without opening F3.</p>
+</div>
+</article>
+<article class="readout" aria-labelledby="m-ping">
+<div class="readout__thumb ping-still"><img src="assets/ping-demo.png" alt="The ping module reading 143 ms." width="164" height="69" loading="lazy"></div>
+<div class="readout__text">
+<h4 id="m-ping">Ping</h4>
+<p>Your latency in milliseconds: the same value the tab list shows, refreshed with every server update.</p>
+</div>
+</article>
+</div>
 </section>
 
-<!-- ── Modules, resumed ─────────────────────────────────── -->
-<section aria-labelledby="modules-heading" style="border-bottom:1px solid var(--line)">
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">03</span>
-                <h3 class="module__name">Combo</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">A hit-streak counter with a heatmap. It waits for the server to confirm each hit, shows a combo landed on you as a negative line, freezes for an instant on a kill or a new tier, and saves your best combo — beat it and the counter flashes BEST.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading Combo demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/combo-demo.mp4" muted loop playsinline preload="none" aria-label="The combo counter climbing through its color tiers"></video>
-            </figure>
-        </div>
-    </article>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">04</span>
-                <h3 class="module__name">Reach</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">The exact distance of your last hit, to 2 decimal places. Optionally filters to players only, and can stay on screen with a custom no-hit-yet label instead of disappearing.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading Reach demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/reach-demo.mp4" muted loop playsinline preload="none" aria-label="The reach readout showing hit distance in blocks"></video>
-            </figure>
-        </div>
-    </article>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">05</span>
-                <h3 class="module__name">Armor</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">Your armor, main hand and off hand as item icons with durability bars. Vertical or horizontal, hotbar-style slot backgrounds and exact durability numbers. Items react when they take a hit and warn you before they break, and every slot is independently placeable — even with nothing equipped.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading Armor demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/armor-demo.mp4" muted loop playsinline preload="none" aria-label="The armor module showing equipped items and durability bars"></video>
-            </figure>
-        </div>
-    </article>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">06</span>
-                <h3 class="module__name">FPS</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">Frames per second, updated every tick, with custom suffix text, color, scale, rainbow mode and a background — for when you want the number without opening F3.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media" data-media>
-                <div class="media__ph">
-                    <span class="media__label">Loading FPS demo</span>
-                    <span class="media__spinner" aria-hidden="true"></span>
-                </div>
-                <video data-src="assets/fps-demo.mp4" muted loop playsinline preload="none" aria-label="The FPS readout updating in game"></video>
-            </figure>
-        </div>
-    </article>
-
-    <article class="split module-row rise">
-        <div class="module__copy">
-            <div class="module__title">
-                <span class="module__num">07</span>
-                <h3 class="module__name">Ping</h3>
-            </div>
-            <p class="body" style="max-width:48ch;margin:0">Server latency in milliseconds, taken from your own player-list entry and refreshed whenever the server sends a latency update. Custom color, scale and background.</p>
-        </div>
-        <div class="media-frame">
-            <figure class="media media--still">
-                <img src="assets/ping-demo.png" alt="The ping module rendered in game, reading 18 ms" width="164" height="69" decoding="async">
-            </figure>
-        </div>
-    </article>
-
+<section class="editor-section wrap" aria-labelledby="editor-title">
+<div class="split">
+<div class="split__text">
+<p class="key-lead"><kbd>Right Shift</kbd></p>
+<h2 class="title-section" id="editor-title">The editor is the HUD.</h2>
+<p>The editor draws over your live HUD, so what you drag is the real thing at its real size. Line an edge up with another module and a magenta guide appears; let go and it glides into place.</p>
+<p class="muted">Select two or more and a toolbar aligns or distributes them. A 4, 8, 16 or 32 px grid is a right-click away.</p>
+<a class="more" href="user-guide.html#editor">Everything the editor does</a>
+</div>
+<div class="split__side">
+<table class="keys">
+<caption>In the editor</caption>
+<tbody>
+<tr><th scope="row">Left-click and drag</th><td>Move a module, or a single armor slot</td></tr>
+<tr><th scope="row">Drag on empty space</th><td>Select several at once</td></tr>
+<tr><th scope="row"><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd></th><td>Nudge the selection one pixel</td></tr>
+<tr><th scope="row">Hold <kbd>Shift</kbd></th><td>Ignore snapping while you drag</td></tr>
+<tr><th scope="row">Scroll wheel</th><td>Scale from 50% to 300%</td></tr>
+<tr><th scope="row">Right-click a module</th><td>Its own settings, without leaving the screen</td></tr>
+<tr><th scope="row">Right-click empty space</th><td>Presets, share codes, grid and reset</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<figure class="media">
+<div class="media__frame"><img class="media__still" src="assets/editor-drag.jpg" alt="The HUD editor over a dark landscape: Keystrokes is selected in a cyan box and being dragged, two magenta guide lines cross at its top-left corner, and the other modules sit in the top-left." width="1920" height="1080" loading="lazy" decoding="async"></div>
+<figcaption>Mid-drag. The magenta guides show the edges Keystrokes has lined up with. Potion HUD, top right, is an addon module built on the plugin API, and the editor treats it like the built-in seven.</figcaption>
+</figure>
 </section>
 
-<!-- ── The editor ───────────────────────────────────────── -->
-<section class="split band" aria-labelledby="editor-heading">
-    <div class="section section--lead section--tall">
-        <p class="eyebrow">Press Right Shift</p>
-        <h2 class="h2" id="editor-heading" style="margin-bottom:22px">The editor is the HUD.</h2>
-        <p class="body" style="max-width:46ch;margin:0 0 34px">Everything you see in the editor is live. Drag a module — or a single armor slot — to place it exactly. Right-click it for its own settings without leaving the screen.</p>
-        <a class="btn btn--ghost" href="user-guide.html">Read the user guide</a>
-    </div>
-    <div>
-        <div class="section" style="padding:28px;border-bottom:1px solid var(--line-soft)">
-            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Multi-select and align</h3>
-            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Align left / center / right, top / middle / bottom, and distribute two or more elements evenly.</p>
-        </div>
-        <div class="section" style="padding:28px;border-bottom:1px solid var(--line-soft)">
-            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Snapping and grid</h3>
-            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Snaps to other modules' edges with a magenta guide, gliding into place instead of jumping. Optional 4 / 8 / 16 / 32 pixel grid, arrow-key nudging, and scroll to scale from 50% to 300%.</p>
-        </div>
-        <div class="section" style="padding:28px">
-            <h3 class="h4" style="font-size:17px;font-weight:500;margin-bottom:6px">Prevent overlap</h3>
-            <p class="body-sm" style="margin:0;color:var(--fg-dim)">Keeps two modules from ever covering the same pixels, resolving to the nearest free rectangle.</p>
-        </div>
-    </div>
+<section class="layouts-section wrap" aria-labelledby="layouts-title">
+<div class="split">
+<div class="split__text">
+<h2 class="title-section" id="layouts-title">Layouts that travel.</h2>
+<p class="layouts-lead">Save the whole HUD under a name, let each server remember its own, or send everything to a friend as one line of text.</p>
+<div class="code-sample">
+<p class="code-sample__label">Export Code copies a line like this</p>
+<p class="code-sample__code mono">EYMHUD1-<span aria-label="and the rest of the code">…</span></p>
+</div>
+</div>
+<dl class="term-rows split__side">
+<div><dt>Presets</dt><dd>Named snapshots of every position, scale, color and setting, stored as plain JSON in <code>simplecps_presets/</code>.</dd></div>
+<div><dt>Server configs</dt><dd>Join a server again and the HUD you used there comes back by itself. Nothing to press.</dd></div>
+<div><dt>Share codes</dt><dd>The whole HUD, or just the keystrokes look. A code is checked before anything changes, and your current setup is backed up first.</dd></div>
+</dl>
+</div>
 </section>
 
-<!-- ── Layouts ──────────────────────────────────────────── -->
-<section class="split" aria-labelledby="layouts-heading">
-    <div class="section section--lead">
-        <h2 class="h2 h2--sm" id="layouts-heading" style="margin-bottom:20px">Layouts that travel.</h2>
-        <p class="body" style="max-width:46ch;margin:0">Save the whole HUD under a name, let each server remember its own, or export everything as one <code>EYMHUD1-…</code> string and paste it to a friend. Imports are validated before anything is applied, and a timestamped backup is taken first.</p>
-    </div>
-    <dl class="rowlist" style="border-top:0;margin:0">
-        <div style="padding:26px var(--gutter)">
-            <dt>Presets</dt>
-            <dd class="body-sm">Named layouts stored as plain JSON in <code>simplecps_presets/</code>.</dd>
-        </div>
-        <div style="padding:26px var(--gutter)">
-            <dt>Per-server</dt>
-            <dd class="body-sm">Join a server you have configured and its layout loads silently.</dd>
-        </div>
-        <div style="padding:26px var(--gutter)">
-            <dt>Share codes</dt>
-            <dd class="body-sm">The whole HUD, or the whole keystrokes look, as one copyable string.</dd>
-        </div>
-        <div style="padding:26px var(--gutter)">
-            <dt>Text outline</dt>
-            <dd class="body-sm">A thin black outline instead of the vanilla drop shadow, for HUD text over snow and sand.</dd>
-        </div>
-    </dl>
-</section>
-
-<!-- ── For developers ───────────────────────────────────── -->
-<section class="split" aria-labelledby="dev-heading">
-    <div class="section section--lead">
-        <p class="eyebrow">For developers</p>
-        <h2 class="h2 h2--sm" id="dev-heading" style="margin-bottom:20px">Register a module, get everything else free.</h2>
-        <p class="body" style="max-width:46ch;margin:0 0 30px">A module registered through the <code>eymistaken_hud</code> entrypoint gets a settings page, a slot in the editor, and its state carried inside presets, server configs and share codes.</p>
-        <a class="btn btn--brass" href="api-guide.html">Read the API guide</a>
-    </div>
-    <div class="codeblock" style="margin:0;border:0;border-left:1px solid var(--line-soft)">
-        <button class="copy-btn" type="button" aria-label="Copy code">
-            <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-            <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-        </button>
-        <div class="codeblock__scroll"><pre><code>public class MyPlugin implements EymistakenHudPlugin {
-    @Override
-    public void registerHudModules(HudModuleManager manager) {
-        manager.registerModule(new MyHudModule());
+<section class="band" aria-labelledby="dev-title">
+<div class="band__inner wrap">
+<div class="band__text">
+<p class="band__label">For mod developers</p>
+<h2 class="title-section" id="dev-title">Build your own module.</h2>
+<p>Register a module through the <code>eymistaken_hud</code> entrypoint and it gets a place in the editor, a generated page in the settings screen, and, when you opt in, a seat in presets, server configs and share codes.</p>
+<p class="muted">Every hook added since the API first shipped has a default, so an addon built against an older release keeps running on a newer one.</p>
+<div class="actions">
+<a class="btn btn--primary btn--md" href="api-guide.html">API quick start</a>
+<a class="btn btn--secondary btn--on-inset btn--md" href="api-guide-hudmodule.html">HudModule reference</a>
+</div>
+</div>
+<div class="band__code">
+<figure class="code-card">
+<figcaption>build.gradle</figcaption>
+<div class="code-card__body code-card__body--short"><pre><code><span class="k">implementation</span> <span class="s">'com.github.Eymistaken:Eymistaken-s-HUD:main-SNAPSHOT'</span></code></pre></div>
+</figure>
+<figure class="code-card">
+<figcaption>MyPluginInit.java</figcaption>
+<div class="code-card__body"><pre><code><span class="k">public</span> <span class="k">class</span> MyPluginInit <span class="k">implements</span> EymistakenHudPlugin {
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> registerHudModules(HudModuleManager manager) {
+        manager.registerModule(<span class="k">new</span> MyCustomModule());
     }
 
-    @Override
-    public void registerEvents(EymistakenHudEventBus bus) {
-        bus.subscribe(ComboStreakEvent.class, event -&gt; {
-            if (event.level() &gt;= 2) playHypeSound();
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> registerEvents(EymistakenHudEventBus bus) {
+        bus.subscribe(ComboStreakEvent.<span class="k">class</span>, event -&gt; {
+            <span class="k">if</span> (event.level() &gt;= <span class="n">2</span>) playHypeSound();
         });
     }
 }</code></pre></div>
-    </div>
+</figure>
+</div>
+</div>
+</section>
+
+<section class="get-section wrap" aria-labelledby="get-title">
+<div class="split">
+<div class="split__text">
+<h2 class="title-section" id="get-title">Get it for Minecraft 26.3</h2>
+<p>Needs Fabric Loader 0.19.5 or newer and Fabric API. It runs entirely on your client, so there is nothing to install on a server.</p>
+<p>On 26.1 or 26.2? Version 1.2.2 is still up on all three. <a href="downloads.html">Installation steps</a></p>
+</div>
+<ul class="store-links split__side">
+<li><a class="store-link" href="https://modrinth.com/mod/eymistakenshud"><img src="assets/modrinth-logo-128.png" alt="" width="28" height="28"><span class="store-link__text"><span class="store-link__name">Modrinth</span><span class="store-link__desc">Every release with its full version history. Recommended.</span></span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11 11 5M6 5h5v5"/></svg></a></li>
+<li><a class="store-link" href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud"><img src="assets/curseforge-logo-128.png" alt="" width="28" height="28"><span class="store-link__text"><span class="store-link__name">CurseForge</span><span class="store-link__desc">The same releases, for the CurseForge app.</span></span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11 11 5M6 5h5v5"/></svg></a></li>
+<li><a class="store-link" href="https://github.com/Eymistaken/Eymistaken-s-HUD"><img src="assets/github-logo-128.png" alt="" width="28" height="28"><span class="store-link__text"><span class="store-link__name">GitHub</span><span class="store-link__desc">Source, release jars, early builds and the issue tracker.</span></span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11 11 5M6 5h5v5"/></svg></a></li>
+</ul>
+</div>
+<p class="site-note">MIT licensed. Made by Eymistaken.</p>
 </section>
 
 </main>
 
-<script src="js/scripts.js"></script>
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
 </body>
 </html>

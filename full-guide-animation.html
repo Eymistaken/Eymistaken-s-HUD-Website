@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The animation system, Full Guide</title>
+<meta name="description" content="How a key looks at rest and what it does when pressed are separate. Animations attach to any design, so there is no list of named combined effects: there are three axes, and you combine them freely.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-animation.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="The animation system, Full Guide">
+<meta property="og:description" content="How a key looks at rest and what it does when pressed are separate. Animations attach to any design, so there is no list of named combined effects: there are three axes, and you combine them freely.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-animation.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The animation system, Full Guide">
+<meta name="twitter:description" content="How a key looks at rest and what it does when pressed are separate. Animations attach to any design, so there is no list of named combined effects: there are three axes, and you combine them freely.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html" aria-current="true">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">The animation system</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html" aria-current="true"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="player" hidden>
+<label class="visually-hidden" for="guide-search">Search the guides</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="guide-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search every setting" role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="Full Guide pages">
+<p class="side-group">Basics</p>
+<ul class="side-list">
+<li><a href="full-guide.html" data-page>Where your settings live</a></li>
+<li><a href="full-guide-surfaces.html" data-page>The four surfaces</a></li>
+<li><a href="full-guide-placement.html" data-page>Placement and layout</a></li>
+<li><a href="full-guide-editor.html" data-page>The HUD editor</a></li>
+<li><a href="full-guide-settings-screen.html" data-page>The settings screen</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="full-guide-cps.html" data-page>CPS</a></li>
+<li><a href="full-guide-ping.html" data-page>Ping</a></li>
+<li><a href="full-guide-fps.html" data-page>FPS</a></li>
+<li><a href="full-guide-combo.html" data-page>Combo</a></li>
+<li><a href="full-guide-reach.html" data-page>Reach</a></li>
+<li><a href="full-guide-armor.html" data-page>Armor HUD</a></li>
+<li><a href="full-guide-keystrokes.html" data-page>Keystrokes</a></li>
+</ul>
+<p class="side-group">Keystrokes in depth</p>
+<ul class="side-list">
+<li><a href="full-guide-designs.html" data-page>The design catalog</a></li>
+<li><a href="full-guide-animation.html" data-page aria-current="page">The animation system</a></li>
+<li><a href="full-guide-designer.html" data-page>The Keystrokes Designer</a></li>
+</ul>
+<p class="side-group">Layouts</p>
+<ul class="side-list">
+<li><a href="full-guide-appearance.html" data-page>Outline and menu scale</a></li>
+<li><a href="full-guide-presets.html" data-page>Presets and server configs</a></li>
+<li><a href="full-guide-share-codes.html" data-page>Share codes</a></li>
+</ul>
+<p class="side-group">When something is off</p>
+<ul class="side-list">
+<li><a href="full-guide-resets.html" data-page>What each reset resets</a></li>
+<li><a href="full-guide-gotchas.html" data-page>Gotchas</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="Full Guide" data-keywords="animation motion fill direction squish kick sink nudge ripple sweep cascade hold ring edge run glow clockwise counter clockwise center out edges in combine">
+<p class="page-eyebrow">Keystrokes in depth</p>
+<h1 class="page-title">The animation system</h1>
+<p class="page-lede">How a key looks at rest and what it does when pressed are separate. Animations attach to any design, so there is no list of named combined effects: there are three axes, and you combine them freely.</p>
+<p class="page-meta">Motions and fills are sets, not single choices. Several run at once, and ticking them lives only in the Designer's ANIM drawer: a control that shows one value at a time cannot express a set, so the settings screen and the in-world editor deliberately do not offer it.</p>
+<section class="doc-section" aria-labelledby="motions">
+<h2 id="motions">Motion: how the key moves</h2>
+<div class="table-scroll"><table class="t t--mid"><thead><tr><th scope="col">Motion</th><th scope="col">Effect</th></tr></thead><tbody><tr><th scope="row" class="plain">Squish</th><td>The key shrinks to 85% while held.</td></tr><tr><th scope="row" class="plain">Kick</th><td>Shrinks to 88%, then springs past its size to 106% on release.</td></tr><tr><th scope="row" class="plain">Sink</th><td>The key drops 3 pixels, like a real keycap.</td></tr><tr><th scope="row" class="plain">Nudge</th><td>The key slides 5 pixels along the direction its keybind implies: W moves up, A moves left.</td></tr></tbody></table></div>
+<p>Sink and Nudge add together: tick both and the key sinks and slides. Squish and Kick both drive the scale, so Kick wins when both are ticked. Ticking nothing means no motion.</p>
+</section>
+<section class="doc-section" aria-labelledby="fills">
+<h2 id="fills">Fill: how the key is painted</h2>
+<div class="table-scroll"><table class="t t--mid"><thead><tr><th scope="col">Fill</th><th scope="col">Effect</th><th scope="col">Reads direction</th></tr></thead><tbody><tr><th scope="row" class="plain">Ripple</th><td>Color spreads outward from the press.</td><td>No</td></tr><tr><th scope="row" class="plain">Sweep</th><td>A wave of color crosses the key.</td><td>Linear</td></tr><tr><th scope="row" class="plain">Cascade</th><td>The key fills row by row.</td><td>Linear</td></tr><tr><th scope="row" class="plain">Hold Ring</th><td>A ring travels around the border while you hold.</td><td>Rotational only</td></tr><tr><th scope="row" class="plain">Edge Run</th><td>A light runs along the perimeter.</td><td>Rotational only</td></tr><tr><th scope="row" class="plain">Glow</th><td>The key brightens from within.</td><td>No</td></tr></tbody></table></div>
+<p>Several fills stack, and they are always painted in the order above, whatever order you ticked them in.</p>
+</section>
+<section class="doc-section" aria-labelledby="directions">
+<h2 id="directions">Direction: where a fill starts</h2>
+<p>Eight directions: right, left, up, down, center out, edges in, clockwise and counter-clockwise. One direction is shared by every active fill and adapted to each fill as it is drawn. That is what lets a sweep going up and a ring going clockwise run under a single setting.</p>
+<p>The picker only offers Clockwise and Counter-clockwise while a perimeter fill is selected, and only the first six otherwise. A pairing that cannot work, such as a ring told to go up, is mapped to the nearest sensible one rather than sitting still and looking broken.</p>
+<div class="note" role="note"><p><strong>The release trail is a switch, not a fill.</strong> It fires when you let go rather than while you hold, so it has its own setting.</p></div>
+<div class="note" role="note"><p><strong>A per-key override replaces the set.</strong> A key's own animation names one animation and means only that one. That is how a single key opts out of an effect its neighbors have.</p></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="full-guide-designs.html"><span class="pager__label">Previous</span><span class="pager__title">The design catalog</span></a>
+<a class="pager__next" href="full-guide-designer.html"><span class="pager__label">Next</span><span class="pager__title">The Keystrokes Designer</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#motions">Motion</a></li>
+<li><a href="#fills">Fill</a></li>
+<li><a href="#directions">Direction</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

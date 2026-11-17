@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keystrokes, Full Guide</title>
+<meta name="description" content="The key display. These are the settings for the whole cluster; anything about a single key lives in the Keystrokes Designer.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-keystrokes.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Keystrokes, Full Guide">
+<meta property="og:description" content="The key display. These are the settings for the whole cluster; anything about a single key lives in the Keystrokes Designer.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-keystrokes.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Keystrokes, Full Guide">
+<meta name="twitter:description" content="The key display. These are the settings for the whole cluster; anything about a single key lives in the Keystrokes Designer.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html" aria-current="true">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Keystrokes</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html" aria-current="true"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="player" hidden>
+<label class="visually-hidden" for="guide-search">Search the guides</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="guide-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search every setting" role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="Full Guide pages">
+<p class="side-group">Basics</p>
+<ul class="side-list">
+<li><a href="full-guide.html" data-page>Where your settings live</a></li>
+<li><a href="full-guide-surfaces.html" data-page>The four surfaces</a></li>
+<li><a href="full-guide-placement.html" data-page>Placement and layout</a></li>
+<li><a href="full-guide-editor.html" data-page>The HUD editor</a></li>
+<li><a href="full-guide-settings-screen.html" data-page>The settings screen</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="full-guide-cps.html" data-page>CPS</a></li>
+<li><a href="full-guide-ping.html" data-page>Ping</a></li>
+<li><a href="full-guide-fps.html" data-page>FPS</a></li>
+<li><a href="full-guide-combo.html" data-page>Combo</a></li>
+<li><a href="full-guide-reach.html" data-page>Reach</a></li>
+<li><a href="full-guide-armor.html" data-page>Armor HUD</a></li>
+<li><a href="full-guide-keystrokes.html" data-page aria-current="page">Keystrokes</a></li>
+</ul>
+<p class="side-group">Keystrokes in depth</p>
+<ul class="side-list">
+<li><a href="full-guide-designs.html" data-page>The design catalog</a></li>
+<li><a href="full-guide-animation.html" data-page>The animation system</a></li>
+<li><a href="full-guide-designer.html" data-page>The Keystrokes Designer</a></li>
+</ul>
+<p class="side-group">Layouts</p>
+<ul class="side-list">
+<li><a href="full-guide-appearance.html" data-page>Outline and menu scale</a></li>
+<li><a href="full-guide-presets.html" data-page>Presets and server configs</a></li>
+<li><a href="full-guide-share-codes.html" data-page>Share codes</a></li>
+</ul>
+<p class="side-group">When something is off</p>
+<ul class="side-list">
+<li><a href="full-guide-resets.html" data-page>What each reset resets</a></li>
+<li><a href="full-guide-gotchas.html" data-page>Gotchas</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="Full Guide" data-keywords="keystrokes keys wasd mouse buttons pressed color rainbow target board release trail ghost scale background opacity">
+<p class="page-eyebrow">Modules</p>
+<h1 class="page-title">Keystrokes</h1>
+<p class="page-lede">The key display. These are the settings for the whole cluster; anything about a single key lives in <a href="full-guide-designer.html">the Keystrokes Designer</a>.</p>
+<p class="page-meta">Off by default, and at 80% scale rather than 100%, because the stock cluster is large. Four tabs: Style, Animation, Background, Layout. In the editor's right-click menu: Enable Keystrokes, Design, Board, Open Designer. This module has no Reset Settings row. The layout holds up to 256 keys.</p>
+<figure class="media page-media">
+<div class="media__frame media__frame--4x3 clip--keystrokes" data-clip="keystrokes">
+<img class="media__still" src="assets/keystrokes-still.jpg" alt="The keystrokes layout at night, with W and Ctrl lit in green as they are held." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/keystrokes-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the keystrokes clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:18</span></span>
+</div>
+<figcaption>W and Ctrl held, lit in the layout's press color.</figcaption>
+</figure>
+<section class="doc-section" aria-labelledby="style">
+<h2 id="style">Style</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Text Color</th><td class="v">White</td><td class="r"></td><td class="d">Color of the key labels at rest.</td></tr><tr><th scope="row">Pressed Color</th><td class="v">Green</td><td class="r"></td><td class="d">Color used while a key is held.</td></tr><tr><th scope="row">Rainbow</th><td class="v">Off</td><td class="r"></td><td class="d">Cycles the colors through every hue.</td></tr><tr><th scope="row">Rainbow Target</th><td class="v">Text</td><td class="r">Text, Background</td><td class="d">Whether the rainbow paints the labels or the key bodies.</td></tr><tr><th scope="row">Design</th><td class="v">Baseline</td><td class="r">11 designs</td><td class="d">The look of a key at rest. Picking one also applies its animation and palette; see <a href="full-guide-designs.html">the design catalog</a>.</td></tr></tbody></table></div>
+<div class="note note--warn" role="note"><p><strong>Design is not just a texture.</strong> Choosing one rewrites your animations, all four colors and, for Wedge and Hex, the positions of your keys. Everything stays editable afterwards, but export your layout first if you have one you want to keep.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="animation">
+<h2 id="animation">Animation</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Fill Direction</th><td class="v">Right</td><td class="r">8 directions</td><td class="d">Which side a directional fill starts from. Fills with no direction ignore it.</td></tr><tr><th scope="row">Release Trail</th><td class="v">Off</td><td class="r"></td><td class="d">Leaves a fading outline behind when you let a key go.</td></tr><tr><th scope="row">Board</th><td class="v">Off</td><td class="r"></td><td class="d">Frames the whole cluster with an ornamented board.</td></tr></tbody></table></div>
+<p class="small">Which motions and fills run is not set here. They are a set, and only the Designer's animation drawer can tick a set; see <a href="full-guide-animation.html">the animation system</a>.</p>
+</section>
+<section class="doc-section" aria-labelledby="background">
+<h2 id="background">Background</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Background Color</th><td class="v">Black</td><td class="r"></td><td class="d">Color of the key bodies.</td></tr><tr><th scope="row">Background Opacity</th><td class="v">128</td><td class="r">0–255</td><td class="d">0 is invisible, 255 is solid.</td></tr></tbody></table></div>
+<div class="note" role="note"><p><strong>There is no Show Background toggle.</strong> Set Background Opacity to <code>0</code> to remove the key bodies and leave only the labels. That is how the Frame, Bar and Segment designs get their look.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="layout">
+<h2 id="layout">Layout</h2>
+<p>The Layout tab holds one button, Keystroke Designer, which opens <a href="full-guide-designer.html">the Designer</a>. Every key's position, size, label, keybind and colors are set there.</p>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="full-guide-armor.html"><span class="pager__label">Previous</span><span class="pager__title">Armor HUD</span></a>
+<a class="pager__next" href="full-guide-designs.html"><span class="pager__label">Next</span><span class="pager__title">The design catalog</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#style">Style</a></li>
+<li><a href="#animation">Animation</a></li>
+<li><a href="#background">Background</a></li>
+<li><a href="#layout">Layout</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

@@ -6,3 +6,6 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Design reference for the redesign: not part of the deployed site
+redesign/

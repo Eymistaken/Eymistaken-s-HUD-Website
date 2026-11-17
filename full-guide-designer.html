@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Keystrokes Designer, Full Guide</title>
+<meta name="description" content="A free canvas where you place, resize, rename and restyle every key. It draws real designs rather than neutral editor boxes, so what you arrange is what the HUD will actually render.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-designer.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="The Keystrokes Designer, Full Guide">
+<meta property="og:description" content="A free canvas where you place, resize, rename and restyle every key. It draws real designs rather than neutral editor boxes, so what you arrange is what the HUD will actually render.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-designer.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Keystrokes Designer, Full Guide">
+<meta name="twitter:description" content="A free canvas where you place, resize, rename and restyle every key. It draws real designs rather than neutral editor boxes, so what you arrange is what the HUD will actually render.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html" aria-current="true">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">The Keystrokes Designer</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html" aria-current="true"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="player" hidden>
+<label class="visually-hidden" for="guide-search">Search the guides</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="guide-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search every setting" role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="Full Guide pages">
+<p class="side-group">Basics</p>
+<ul class="side-list">
+<li><a href="full-guide.html" data-page>Where your settings live</a></li>
+<li><a href="full-guide-surfaces.html" data-page>The four surfaces</a></li>
+<li><a href="full-guide-placement.html" data-page>Placement and layout</a></li>
+<li><a href="full-guide-editor.html" data-page>The HUD editor</a></li>
+<li><a href="full-guide-settings-screen.html" data-page>The settings screen</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="full-guide-cps.html" data-page>CPS</a></li>
+<li><a href="full-guide-ping.html" data-page>Ping</a></li>
+<li><a href="full-guide-fps.html" data-page>FPS</a></li>
+<li><a href="full-guide-combo.html" data-page>Combo</a></li>
+<li><a href="full-guide-reach.html" data-page>Reach</a></li>
+<li><a href="full-guide-armor.html" data-page>Armor HUD</a></li>
+<li><a href="full-guide-keystrokes.html" data-page>Keystrokes</a></li>
+</ul>
+<p class="side-group">Keystrokes in depth</p>
+<ul class="side-list">
+<li><a href="full-guide-designs.html" data-page>The design catalog</a></li>
+<li><a href="full-guide-animation.html" data-page>The animation system</a></li>
+<li><a href="full-guide-designer.html" data-page aria-current="page">The Keystrokes Designer</a></li>
+</ul>
+<p class="side-group">Layouts</p>
+<ul class="side-list">
+<li><a href="full-guide-appearance.html" data-page>Outline and menu scale</a></li>
+<li><a href="full-guide-presets.html" data-page>Presets and server configs</a></li>
+<li><a href="full-guide-share-codes.html" data-page>Share codes</a></li>
+</ul>
+<p class="side-group">When something is off</p>
+<ul class="side-list">
+<li><a href="full-guide-resets.html" data-page>What each reset resets</a></li>
+<li><a href="full-guide-gotchas.html" data-page>Gotchas</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="Full Guide" data-keywords="keystrokes designer canvas inspector layers presets undo redo snap import export gallery anim drawer keybind label line width per key color shortcuts">
+<p class="page-eyebrow">Keystrokes in depth</p>
+<h1 class="page-title">The Keystrokes Designer</h1>
+<p class="page-lede">A free canvas where you place, resize, rename and restyle every key. It draws real designs rather than neutral editor boxes, so what you arrange is what the HUD will actually render.</p>
+<p class="page-meta">Open it from the Keystrokes page's Layout tab, or right-click Keystrokes in the editor and choose Open Designer.</p>
+<figure class="media page-media">
+<div class="media__frame" data-clip="designer">
+<img class="media__still" src="assets/designer-still.jpg" alt="The Keystrokes Designer: an element palette and layer list on the left, the layout canvas in the middle with a safe area, and the inspector with geometry, label settings and a shortcut list on the right." width="1600" height="900" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/designer-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the designer clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>1:51</span></span>
+</div>
+<figcaption>From the settings screen into the Designer: keys moved and restyled, then checked in game.</figcaption>
+</figure>
+<section class="doc-section" aria-labelledby="designer-toolbar">
+<h2 id="designer-toolbar">Toolbar</h2>
+<table class="t"><tbody><tr><th scope="row" class="w-term">Undo and Redo</th><td class="d">Sixty steps. Each step is a snapshot of the whole look, not just the key list: picking a design rewrites your colors too, and an undo that put the keys back while leaving the colors changed would be worse than none.</td></tr><tr><th scope="row">Snap</th><td class="d">Snapping while you drag. On by default, and not saved: it belongs to the session, not to your layout.</td></tr><tr><th scope="row">Reset Layout</th><td class="d">Restores the stock nine keys and the shipping design, animation, palette and per-key overrides. Putting back only the positions would leave the previous design painted over a default grid, which does not read as a reset.</td></tr><tr><th scope="row">Import</th><td class="d">Paste a keystrokes share code with <kbd>Ctrl</kbd> <kbd>V</kbd>.</td></tr><tr><th scope="row">Export</th><td class="d">Copies your whole keystrokes look to the clipboard.</td></tr><tr><th scope="row">Design</th><td class="d">The gallery: all eleven designs on screen at once. Each card previews the stock keys in miniature over a backdrop that stands in for the world behind the HUD, and animates itself, because a design cannot be judged from its resting state alone. The footer names the design, says in a line what it is, ending in Own layout if it will move your keys, and tags the press animation it ships with. The design in use is marked IN USE.</td></tr><tr><th scope="row">Anim</th><td class="d">The animation drawer, the only place motions and fills are ticked.</td></tr></tbody></table>
+</section>
+<section class="doc-section" aria-labelledby="designer-rail">
+<h2 id="designer-rail">The left rail</h2>
+<table class="t"><tbody><tr><th scope="row" class="w-term">Add element</th><td class="d">Click to place a Key (21 × 21), a Modifier (33 × 13), Mouse L or Mouse R (33 × 21), or a Space Bar (67 × 13).</td></tr><tr><th scope="row">Layers</th><td class="d">One row per key. The dot hides and shows a key; click to select it, and hold <kbd>Ctrl</kbd> while clicking to add to the selection.</td></tr><tr><th scope="row">Presets</th><td class="d">WASD is the stock nine keys. Full adds Q, E and both mouse buttons. Mouse is the two mouse buttons on their own.</td></tr></tbody></table>
+<p>The canvas shows a safe area of 400 × 300 pixels: anything laid out inside it fits on screen at any sensible scale.</p>
+<p>The canvas ground is a mid gray by default, so the stock translucent-black keys and the gaps between them stay visible. The BG switch above the canvas cycles gray, light and dark for designs that are themselves very light or very dark. A selected key is tinted blue with a 1 px edge on its own outline, which leaves the gaps to its neighbors in view.</p>
+</section>
+<section class="doc-section" aria-labelledby="designer-inspector">
+<h2 id="designer-inspector">The inspector: per-key settings</h2>
+<p>Select a key and every one of these becomes available, grouped under Key, Box, Label, Color, Design and Behavior. None of them exist on any other screen.</p>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Keybind</th><td class="v"></td><td class="r"></td><td class="d">Press a key to bind it; <kbd>Esc</kbd> cancels. Binding also renames the label. Mouse buttons read as Mouse L, Mouse R or Mouse followed by a number.</td></tr><tr><th scope="row">Label</th><td class="v"></td><td class="r">64 chars</td><td class="d">The text drawn on the key.</td></tr><tr><th scope="row">Position X and Y</th><td class="v"></td><td class="r">±10000</td><td class="d">Where the key sits in the cluster.</td></tr><tr><th scope="row">Size W and H</th><td class="v"></td><td class="r">1–1024</td><td class="d">Width and height of the key.</td></tr><tr><th scope="row">Content</th><td class="v">Text</td><td class="r">Text, Line</td><td class="d">Line draws a solid bar instead of the label, which is what a space bar actually wants.</td></tr><tr><th scope="row">Placement</th><td class="v">Centered</td><td class="r"></td><td class="d">Where the label sits inside the key. Centered until you drag it; the Center button puts it back.</td></tr><tr><th scope="row">Text size</th><td class="v">100%</td><td class="r">50–400</td><td class="d">Label size. In line mode the row is Thickness, and sets the thickness of the bar.</td></tr><tr><th scope="row">Length</th><td class="v">100%</td><td class="r">10–100</td><td class="d">Bar length as a share of the key's inner width. Only shown in line mode.</td></tr><tr><th scope="row">Style</th><td class="v">Shadow on</td><td class="r">B, I, U, S</td><td class="d">Bold, italic, underline and shadow. In line mode only the shadow applies.</td></tr><tr><th scope="row">Normal color</th><td class="v">Global</td><td class="r"></td><td class="d">Overrides the module color for this key. Use Global puts it back.</td></tr><tr><th scope="row">Pressed color</th><td class="v">Global</td><td class="r"></td><td class="d">The same, for the held state.</td></tr><tr><th scope="row">Design</th><td class="v">Global</td><td class="r">10 designs</td><td class="d">Gives this one key a different look. Timeline is not offered, since it is global only.</td></tr><tr><th scope="row">Motion and Fill</th><td class="v">Global</td><td class="r"></td><td class="d">One animation for this key, replacing the module's whole set.</td></tr><tr><th scope="row">Direction</th><td class="v">Global</td><td class="r"></td><td class="d">Only appears when the active fill actually reads a direction.</td></tr><tr><th scope="row">Show CPS</th><td class="v">Off</td><td class="r"></td><td class="d">Draws a live click counter on the button. Mouse keys only.</td></tr><tr><th scope="row">Animation</th><td class="v">On</td><td class="r"></td><td class="d">Switches every animation off for this key alone.</td></tr></tbody></table></div>
+</section>
+<section class="doc-section" aria-labelledby="designer-shortcuts">
+<h2 id="designer-shortcuts">Shortcuts</h2>
+<div class="table-scroll"><table class="t t--mid"><thead><tr><th scope="col">Action</th><th scope="col">Binding</th></tr></thead><tbody><tr><th scope="row" class="plain">Multi-select</th><td><kbd>Ctrl</kbd> and click</td></tr><tr><th scope="row" class="plain">Box select</th><td>Drag on the canvas</td></tr><tr><th scope="row" class="plain">Edit label</th><td>Double-click, or <kbd>F2</kbd></td></tr><tr><th scope="row" class="plain">Move label</th><td>Right-drag. It snaps to the left, center or right, and to the top, middle or bottom.</td></tr><tr><th scope="row" class="plain">Resize</th><td>Scroll wheel, 2 px per notch, from the center</td></tr><tr><th scope="row" class="plain">Text size</th><td><kbd>Ctrl</kbd> and the scroll wheel</td></tr><tr><th scope="row" class="plain">Nudge</th><td>Arrow keys, 1 px at a time, or 5 px with <kbd>Shift</kbd></td></tr><tr><th scope="row" class="plain">Duplicate</th><td><kbd>Ctrl</kbd> <kbd>D</kbd></td></tr><tr><th scope="row" class="plain">Delete</th><td><kbd>Delete</kbd></td></tr><tr><th scope="row" class="plain">Undo</th><td><kbd>Ctrl</kbd> <kbd>Z</kbd></td></tr><tr><th scope="row" class="plain">Redo</th><td><kbd>Ctrl</kbd> <kbd>Y</kbd></td></tr><tr><th scope="row" class="plain">Quick actions</th><td>Right-click a key</td></tr><tr><th scope="row" class="plain">Clear the selection, or close a panel</th><td><kbd>Esc</kbd></td></tr></tbody></table></div>
+<p class="small">The footer tells you whether anything is unsaved. Closing the Designer saves automatically; Cancel puts back what you started with.</p>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="full-guide-animation.html"><span class="pager__label">Previous</span><span class="pager__title">The animation system</span></a>
+<a class="pager__next" href="full-guide-appearance.html"><span class="pager__label">Next</span><span class="pager__title">Outline and menu scale</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#designer-toolbar">Toolbar</a></li>
+<li><a href="#designer-rail">The left rail</a></li>
+<li><a href="#designer-inspector">Inspector</a></li>
+<li><a href="#designer-shortcuts">Shortcuts</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

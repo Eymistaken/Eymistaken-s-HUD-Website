@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Armor HUD, Full Guide</title>
+<meta name="description" content="Your four armor pieces and your held items, with durability. It is the only module that starts in the bottom left rather than the top left.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-armor.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Armor HUD, Full Guide">
+<meta property="og:description" content="Your four armor pieces and your held items, with durability. It is the only module that starts in the bottom left rather than the top left.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-armor.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Armor HUD, Full Guide">
+<meta name="twitter:description" content="Your four armor pieces and your held items, with durability. It is the only module that starts in the bottom left rather than the top left.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html" aria-current="true">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Armor HUD</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html" aria-current="true"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="player" hidden>
+<label class="visually-hidden" for="guide-search">Search the guides</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="guide-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search every setting" role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="Full Guide pages">
+<p class="side-group">Basics</p>
+<ul class="side-list">
+<li><a href="full-guide.html" data-page>Where your settings live</a></li>
+<li><a href="full-guide-surfaces.html" data-page>The four surfaces</a></li>
+<li><a href="full-guide-placement.html" data-page>Placement and layout</a></li>
+<li><a href="full-guide-editor.html" data-page>The HUD editor</a></li>
+<li><a href="full-guide-settings-screen.html" data-page>The settings screen</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="full-guide-cps.html" data-page>CPS</a></li>
+<li><a href="full-guide-ping.html" data-page>Ping</a></li>
+<li><a href="full-guide-fps.html" data-page>FPS</a></li>
+<li><a href="full-guide-combo.html" data-page>Combo</a></li>
+<li><a href="full-guide-reach.html" data-page>Reach</a></li>
+<li><a href="full-guide-armor.html" data-page aria-current="page">Armor HUD</a></li>
+<li><a href="full-guide-keystrokes.html" data-page>Keystrokes</a></li>
+</ul>
+<p class="side-group">Keystrokes in depth</p>
+<ul class="side-list">
+<li><a href="full-guide-designs.html" data-page>The design catalog</a></li>
+<li><a href="full-guide-animation.html" data-page>The animation system</a></li>
+<li><a href="full-guide-designer.html" data-page>The Keystrokes Designer</a></li>
+</ul>
+<p class="side-group">Layouts</p>
+<ul class="side-list">
+<li><a href="full-guide-appearance.html" data-page>Outline and menu scale</a></li>
+<li><a href="full-guide-presets.html" data-page>Presets and server configs</a></li>
+<li><a href="full-guide-share-codes.html" data-page>Share codes</a></li>
+</ul>
+<p class="side-group">When something is off</p>
+<ul class="side-list">
+<li><a href="full-guide-resets.html" data-page>What each reset resets</a></li>
+<li><a href="full-guide-gotchas.html" data-page>Gotchas</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="Full Guide" data-keywords="armor helmet chestplate leggings boots main hand off hand durability damage flash damage effects hit shake sparks warning corners chip damage low durability warning badge tremble heartbeat red pulse effects ghost empty slot placeholder vertical group ungroup slots">
+<p class="page-eyebrow">Modules</p>
+<h1 class="page-title">Armor HUD</h1>
+<p class="page-lede">Your four armor pieces and your held items, with durability. It is the only module that starts in the bottom left rather than the top left.</p>
+<p class="page-meta">Off by default. Three tabs: Layout, Style, Effects. In the editor's right-click menu: Reset Settings, Ungroup, Enable Armor, Scale %, Vertical, Show Background, Durability Text, Damage Effects, Show Main Hand, Show Off Hand. The effect sliders are only in the settings screen.</p>
+<figure class="media media--left-bottom page-media">
+<div class="media__frame media__frame--4x3" data-clip="armor">
+<img class="media__still" src="assets/armor-still.jpg" alt="A night forest with the armor HUD in the bottom-left: helmet, chestplate, leggings, boots and the held item, each with a durability bar." width="1280" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/armor-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the armor clip"></button>
+<span class="media__badge media__badge--right" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:07</span></span>
+</div>
+<figcaption>A night fight with a warden: the slots in the bottom left flash red as they lose durability.</figcaption>
+</figure>
+<section class="doc-section" aria-labelledby="layout">
+<h2 id="layout">Layout</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Vertical Orientation</th><td class="v">On</td><td class="d">Stacks the items in a column. Off lays them in a row.</td></tr><tr><th scope="row">Show Main Hand</th><td class="v">On</td><td class="d">Includes the item you are holding.</td></tr><tr><th scope="row">Show Off Hand</th><td class="v">Off</td><td class="d">Includes your off-hand item.</td></tr></tbody></table></div>
+</section>
+<section class="doc-section" aria-labelledby="style">
+<h2 id="style">Style</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Show Background Slots</th><td class="v">Off</td><td class="d">Draws a semi-transparent inventory slot behind each item.</td></tr><tr><th scope="row">Durability Text</th><td class="v">Off</td><td class="d">Prints the exact number next to each item instead of relying on the bar.</td></tr></tbody></table></div>
+<div class="note" role="note"><p><strong>No colors and no background box.</strong> Armor draws items, not text, so there is nothing to tint; the slot backgrounds are the equivalent switch.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="armor-effects">
+<h2 id="armor-effects">Hit and wear effects</h2>
+<p>The Effects tab decides how items react. Every effect is its own slider from 0 to 200% of its stock size, where 0 turns it off, and any number of them can run at once. Every motion is timed rather than random, so the same hit always plays the same way, and the preview card takes a pretend hit every 2 seconds while you are on the tab.</p>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Damage Effects</th><td class="v">On</td><td class="r"></td><td class="d">Plays the four hit effects below when an item loses durability. Off silences all four, whatever their sliders say. This was Damage Flash before 1.2.4, and it keeps your old choice.</td></tr><tr><th scope="row">Hit Shake %</th><td class="v">100</td><td class="r">0–200</td><td class="d">Knocks the hit item up and over for an instant, then lets it settle with a shake that dies away.</td></tr><tr><th scope="row">Hit Sparks %</th><td class="v">0</td><td class="r">0–200</td><td class="d">Throws red sparks out of the hit item. The slider sets how far they travel.</td></tr><tr><th scope="row">Warning Corners %</th><td class="v">0</td><td class="r">0–200</td><td class="d">Blinks red brackets around the slot twice, closing in on the second blink. The slider sets their length.</td></tr><tr><th scope="row">Chip Damage %</th><td class="v">0</td><td class="r">0–200</td><td class="d">Keeps the durability the hit took on the bar in white for a moment before it drains away, so even a small loss shows. The slider sets how long.</td></tr><tr><th scope="row">Low Durability At %</th><td class="v">25</td><td class="r">5–50</td><td class="d">The durability left under which the four warnings below start. They grow stronger and faster as the item nears breaking.</td></tr><tr><th scope="row">Warning Badge %</th><td class="v">100</td><td class="r">0–200</td><td class="d">A small red <code>!</code> on the item's corner that hops and wiggles now and then. The slider sets how much.</td></tr><tr><th scope="row">Tremble %</th><td class="v">0</td><td class="r">0–200</td><td class="d">The item grows a little and shivers in bursts that come closer together.</td></tr><tr><th scope="row">Heartbeat %</th><td class="v">0</td><td class="r">0–200</td><td class="d">The item beats in a double pulse whose tempo climbs from 60 to 150 a minute.</td></tr><tr><th scope="row">Red Pulse %</th><td class="v">0</td><td class="r">0–200</td><td class="d">A red glow breathes behind the item.</td></tr></tbody></table></div>
+<p>The warnings only apply to items that can wear out. A hit is a drop in durability on the same item: switching to a more worn one, such as a second sword on your hotbar, does not count.</p>
+</section>
+<section class="doc-section" aria-labelledby="armor-slots">
+<h2 id="armor-slots">Splitting the slots apart</h2>
+<p>Right-click the Armor HUD in the editor and choose Ungroup. The six pieces, Helmet, Chestplate, Leggings, Boots, Main Hand and Off Hand, become independently draggable, each with its own offset, so your boots can sit somewhere entirely different from your helmet.</p>
+<p>Right-click any detached slot and choose Group to snap everything back into the stack and clear all twelve offsets at once.</p>
+<p>Empty slots are not drawn in game, so the editor stands in for them. With nothing equipped in the group, every slot shows as a ghost: a dark, sunken slot holding a gray copy of the diamond piece that goes there, or the empty off-hand silhouette, so there is still something to drag. As soon as the group holds anything only the real items show, because that is what your HUD will look like. A detached slot keeps its ghost whenever it is empty. The ghosts are made from your resource pack's textures.</p>
+<div class="note" role="note"><p><strong>Slot offsets live only in the editor.</strong> There are no rows for the twelve per-slot offsets in the settings screen: dragging is the interface.</p></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="full-guide-reach.html"><span class="pager__label">Previous</span><span class="pager__title">Reach</span></a>
+<a class="pager__next" href="full-guide-keystrokes.html"><span class="pager__label">Next</span><span class="pager__title">Keystrokes</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#layout">Layout</a></li>
+<li><a href="#style">Style</a></li>
+<li><a href="#armor-effects">Effects</a></li>
+<li><a href="#armor-slots">Splitting the slots</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

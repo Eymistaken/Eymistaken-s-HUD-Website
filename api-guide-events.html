@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events, API Guide</title>
+<meta name="description" content="Addons can react to things happening inside the HUD through EymistakenHudEventBus, which your plugin is handed in registerEvents(). That is called once at client init, right after registerHudModules().">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-events.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Events, API Guide">
+<meta property="og:description" content="Addons can react to things happening inside the HUD through EymistakenHudEventBus, which your plugin is handed in registerEvents(). That is called once at client init, right after registerHudModules().">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-events.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Events, API Guide">
+<meta name="twitter:description" content="Addons can react to things happening inside the HUD through EymistakenHudEventBus, which your plugin is handed in registerEvents(). That is called once at client init, right after registerHudModules().">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Events</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page aria-current="page">Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="events event bus subscribe registerevents combostreakevent combo streak tier level heatmap combo heatmap handler listener">
+<p class="page-eyebrow">Data and events</p>
+<h1 class="page-title">Events</h1>
+<p class="page-lede">Addons can react to things happening inside the HUD through <code>EymistakenHudEventBus</code>, which your plugin is handed in <code>registerEvents()</code>. That is called once at client init, right after <code>registerHudModules()</code>.</p>
+<section class="doc-section" aria-labelledby="subscribe">
+<h2 id="subscribe">Subscribing</h2>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyPluginInit.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyPluginInit.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="k">import</span> com.eymistaken.simplecps.HudModuleManager;
+<span class="k">import</span> com.eymistaken.simplecps.api.EymistakenHudEventBus;
+<span class="k">import</span> com.eymistaken.simplecps.api.EymistakenHudPlugin;
+<span class="k">import</span> com.eymistaken.simplecps.api.event.ComboStreakEvent;
+
+<span class="k">public</span> <span class="k">class</span> MyPluginInit <span class="k">implements</span> EymistakenHudPlugin {
+
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> registerHudModules(HudModuleManager manager) {
+        manager.registerModule(<span class="k">new</span> MyCustomModule());
+    }
+
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> registerEvents(EymistakenHudEventBus bus) {
+        bus.subscribe(ComboStreakEvent.<span class="k">class</span>, event -&gt; {
+            <span class="k">if</span> (event.level() &gt;= <span class="n">2</span>) {
+                playHitSound(event.target());
+            }
+        });
+    }
+}</code></pre></div>
+</figure>
+<div class="note note--warn" role="note"><p><strong>Handlers run on the client thread, inline with whatever caused the event.</strong> Keep them short, because anything slow stutters the game. A handler that throws is logged and skipped; it never takes the rest of the mod down with it.</p></div>
+<div class="note" role="note"><p><strong>Dispatch is by exact class.</strong> Subscribing to a supertype does not receive its subclasses. Subscribing is safe at any point after client init, not just from <code>registerEvents()</code>.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="available">
+<h2 id="available">Available events</h2>
+<p>Events live in <code>com.eymistaken.simplecps.api.event</code>.</p>
+<table class="t"><tbody><tr><th scope="row" class="w-term"><code>ComboStreakEvent</code></th><td class="d">Fired when a counted hit pushes the combo into a higher heatmap tier, so once per tier rather than once per hit. See <a href="api-guide-combostreakevent.html">its reference</a>.</td></tr></tbody></table>
+</section>
+<section class="doc-section" aria-labelledby="levels">
+<h2 id="levels">Levels and tiers</h2>
+<p>Levels come from <code>ComboHeatmap</code> and follow the player's Heatmap Difficulty, so <code>level()</code> means the same to you as it does to the on-screen color. The event fires whether or not heatmap coloring is on: that setting decides how the counter looks, not whether the streak happened.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyPluginInit.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyPluginInit.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="k">import</span> com.eymistaken.simplecps.api.ComboHeatmap;
+
+<span class="c">// The thresholds behind the levels, if you want to show them yourself</span>
+ComboHeatmap heat = ComboHeatmap.of(SimpleCPSConfig.instance.comboHeatmapMode);
+<span class="k">int</span> tier1 = heat.tier1();       <span class="c">// EASY 3, MEDIUM 5, HARD 10</span>
+<span class="k">int</span> tier2 = heat.tier2();       <span class="c">// EASY 5, MEDIUM 8, HARD 40</span>
+<span class="k">int</span> tier3 = heat.tier3();       <span class="c">// EASY 7, MEDIUM 12, HARD 60</span>
+<span class="k">int</span> level = heat.levelFor(<span class="n">17</span>);  <span class="c">// 0 (cold) through 3 (top tier)</span></code></pre></div>
+</figure>
+<p class="small">With Custom difficulty, the three tiers are the player's own, read from the config on every call.</p>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-plugin-state.html"><span class="pager__label">Previous</span><span class="pager__title">Plugin state</span></a>
+<a class="pager__next" href="api-guide-hudmodule.html"><span class="pager__label">Next</span><span class="pager__title">HudModule</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#subscribe">Subscribing</a></li>
+<li><a href="#available">Available events</a></li>
+<li><a href="#levels">Levels and tiers</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

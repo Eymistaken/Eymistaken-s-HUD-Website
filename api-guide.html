@@ -1,832 +1,243 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API Guide — Eymistaken's HUD</title>
-<meta name="description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick start, API Guide</title>
+<meta name="description" content="Build a module for Eymistaken&#x27;s HUD in three files: add the JitPack dependency, extend HudModule, and register it through the eymistaken_hud entrypoint.">
 <link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide.html">
-<meta name="theme-color" content="#1c1f1a">
+<meta name="theme-color" content="#F6F6F3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eymistaken's HUD">
-<meta property="og:title" content="API Guide — Eymistaken's HUD">
-<meta property="og:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
+<meta property="og:title" content="Quick start, API Guide">
+<meta property="og:description" content="Build a module for Eymistaken&#x27;s HUD in three files: add the JitPack dependency, extend HudModule, and register it through the eymistaken_hud entrypoint.">
 <meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide.html">
-<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="API Guide — Eymistaken's HUD">
-<meta name="twitter:description" content="Build third-party HUD modules with the EymistakenHudPlugin API: modules, sub-elements, editor integration, settings, live previews, plugin state and events.">
-<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/icon-96.png">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quick start, API Guide">
+<meta name="twitter:description" content="Build a module for Eymistaken&#x27;s HUD in three files: add the JitPack dependency, extend HudModule, and register it through the eymistaken_hud entrypoint.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
 <link rel="icon" href="assets/icon-96.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
 </head>
-<body>
+<body class="page-guide">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
-    <a class="wordmark" href="index.html">
-        <img src="assets/icon-96.png" alt="" width="22" height="22">
-        <span>Eymistaken's HUD</span>
-    </a>
-
-    <nav class="nav" aria-label="Primary">
-        <a href="user-guide.html">User Guide</a>
-        <a href="full-guide.html">Full Guide</a>
-        <a href="api-guide.html" aria-current="page">API Guide</a>
-        <a class="btn btn--brass btn--sm" href="downloads.html">Download</a>
-    </nav>
-
-    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
-        <span class="visually-hidden">Menu</span>
-        <svg class="icon-open" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14"/></svg>
-        <svg class="icon-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
-    </button>
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="page">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
 </header>
 
-<div class="nav-panel" id="nav-panel">
-    <a href="index.html">Home</a>
-    <a href="user-guide.html">User Guide</a>
-    <a href="full-guide.html">Full Guide</a>
-    <a href="api-guide.html" aria-current="page">API Guide</a>
-    <a class="btn btn--brass" href="downloads.html">Download</a>
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Quick start</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="page"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
 </div>
-
-<div class="docs">
-
-    <aside class="docs__aside">
-        <div class="docs__aside-inner">
-            <p class="toc-label">Contents</p>
-            <nav class="toc" data-toc aria-label="On this page">
-                <span class="toc__bar" aria-hidden="true"></span>
-                <a href="#architecture">Modular Architecture</a>
-                <a href="#dependency">Adding the Dependency</a>
-                <a href="#implementing-module">Creating a Module</a>
-                <a href="#sub-elements">Sub-Elements</a>
-                <a href="#editor-integration">HUD Editor</a>
-                <a href="#context-menu">Context Menu</a>
-                <a href="#settings-screen">Settings Screen</a>
-                <a href="#preview">Live Preview</a>
-                <a href="#plugin-state">Plugin State</a>
-                <a href="#events">Events</a>
-                <a href="#registering">Registering</a>
-            </nav>
-            <div class="docs__aside-links">
-                <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" rel="noopener">Source on GitHub →</a>
-                <a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" rel="noopener">Latest release →</a>
-            </div>
-        </div>
-    </aside>
-
-    <main class="docs__main" id="main">
-
-        <div class="bleed" style="padding:80px 56px 56px;border-bottom:1px solid var(--line)">
-            <p class="eyebrow">For developers</p>
-            <h1 class="display" style="margin-bottom:24px">API Guide</h1>
-            <p class="lede" style="max-width:58ch;margin:0">Eymistaken's HUD was engineered with extensibility at its core. Use the <code>EymistakenHudPlugin</code> API to inject custom modules seamlessly into the HUD rendering and ticking engines — no core modification required.</p>
-        </div>
-
-        <!-- ── 01 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="architecture">
-            <p class="eyebrow eyebrow--brass">01</p>
-            <h2 class="h3">Modular Architecture</h2>
-            <p class="body" style="margin:0 0 18px">The entire HUD system is orchestrated by <code>HudModuleManager</code>. On initialization it registers the 7 built-in modules. Via the <code>eymistaken_hud</code> Fabric entrypoint, third-party addons can register additional modules that are loaded and managed alongside the core ones automatically, and subscribe to <a class="link-rule" href="#events">HUD events</a>.</p>
-            <p class="body" style="margin:0">Each module extends <code>HudModule</code>, which handles render position injection, rainbow color cycling, and the settings contract behind both the editor's context menu and your module's own <a class="link-rule" href="#settings-screen">settings screen page</a>. On each client tick, <code>SimpleCPSClient</code> calls <code>HudModuleManager#tickAll(Minecraft)</code>; during HUD rendering, it calls <code>renderAll(GuiGraphicsExtractor, float)</code>. The render pipeline runs through the client-side HUD registry — modules receive a <code>GuiGraphicsExtractor</code> context and implement <code>extractRenderState(GuiGraphicsExtractor, float)</code> to draw their content. Automatic stacking is handled for TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, and BOTTOM_RIGHT; CENTER modules are centered rather than stacked, so multiple centered modules can overlap unless your addon offsets them.</p>
-        </section>
-
-        <!-- ── 02 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="dependency">
-            <p class="eyebrow eyebrow--brass">02</p>
-            <h2 class="h3">Adding the Dependency</h2>
-            <p class="body" style="margin:0 0 22px">Use <strong>JitPack</strong> to compile your addon mod against Eymistaken's HUD 26.3. Add the following to your <code>build.gradle</code>:</p>
-
-            <div class="codeblock">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>repositories {
-    maven { url 'https://jitpack.io' }
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page aria-current="page">Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="api plugin addon jitpack gradle dependency implementation modimplementation entrypoint fabric.mod.json register module quick start">
+<p class="page-eyebrow">Start here</p>
+<h1 class="page-title">Quick start</h1>
+<p class="page-lede">Three files take an empty Fabric mod to a module that is ticked and drawn alongside the built-in seven, with a page of its own in the settings screen. No core modification required.</p>
+<p class="page-meta">Written against Eymistaken's HUD 1.2.5 on Minecraft 26.3 and Java 25. Every public type lives in <code>com.eymistaken.simplecps.api</code>.</p>
+<div class="note page-intro-note" role="note"><p><strong>Safe to build on.</strong> Every hook added since the API first shipped in 1.1.0 comes with a default, so an addon compiled against an older release keeps running on a newer one.</p></div>
+<section class="doc-section" aria-labelledby="dep">
+<p class="step-label">Step 1</p>
+<h2 id="dep">Add the dependency</h2>
+<p>The API is published through JitPack. Add the repository and the dependency, then reload Gradle.</p>
+<div class="code">
+<div class="code__head code__head--tabs"><div class="code__tabs" role="tablist" aria-label="Build script"><button class="code__tab" type="button" role="tab" id="dsl-tab-0" aria-controls="dsl-panel-0" aria-selected="true">build.gradle</button><button class="code__tab" type="button" role="tab" id="dsl-tab-1" aria-controls="dsl-panel-1" aria-selected="false" tabindex="-1">build.gradle.kts</button></div><button class="code__copy" type="button" aria-label="Copy build.gradle"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body" role="tabpanel" id="dsl-panel-0" aria-labelledby="dsl-tab-0"><pre><code><span class="k">repositories</span> {
+    <span class="k">maven</span> { <span class="k">url</span> <span class="s">'https://jitpack.io'</span> }
 }
 
-dependencies {
-    implementation 'com.github.Eymistaken:Eymistaken-s-HUD:main-SNAPSHOT'
+<span class="k">dependencies</span> {
+    <span class="k">implementation</span> <span class="s">'com.github.Eymistaken:Eymistaken-s-HUD:main-SNAPSHOT'</span>
 }</code></pre></div>
-            </div>
+<div class="code__body" role="tabpanel" id="dsl-panel-1" aria-labelledby="dsl-tab-1" hidden><pre><code><span class="k">repositories</span> {
+    <span class="k">maven</span>(<span class="s">"https://jitpack.io"</span>)
+}
 
-            <p class="body" style="margin:0 0 18px">After reloading your Gradle project, the current 26.3 API classes — including <code>HudModule</code>, <code>IHudElement</code>, <code>HudModuleSetting</code>, and all six setting types — will be available in your development environment. To pin to a fixed build instead, put a release version in place of <code>main-SNAPSHOT</code> — without the leading <code>v</code>, which JitPack strips from the tag — and the <a class="link-rule" href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest" target="_blank" rel="noopener">latest release</a> page will tell you which one that is.</p>
+<span class="k">dependencies</span> {
+    <span class="k">implementation</span>(<span class="s">"com.github.Eymistaken:Eymistaken-s-HUD:main-SNAPSHOT"</span>)
+}</code></pre></div>
+</div>
+<div class="note note--warn" role="note"><p><strong>implementation, not modImplementation.</strong> Minecraft 26.x ships unobfuscated and Loom no longer remaps mods, so the mod-specific configurations are gone and <code>modImplementation</code> fails with "configuration not found".</p></div>
+<p class="small">To pin a fixed build, put a release version in place of <code>main-SNAPSHOT</code>, without the leading <code>v</code>; JitPack strips it from the tag. The <a href="https://github.com/Eymistaken/Eymistaken-s-HUD/releases/latest">latest release</a> says which one that is.</p>
+</section>
+<section class="doc-section" aria-labelledby="module">
+<p class="step-label">Step 2</p>
+<h2 id="module">Write the module</h2>
+<p>Extend <code>HudModule</code> and implement its eight abstract methods. This is the minimum.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyCustomModule.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyCustomModule.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="k">import</span> com.eymistaken.simplecps.api.HudModule;
+<span class="k">import</span> com.eymistaken.simplecps.SimpleCPSConfig;
+<span class="k">import</span> net.minecraft.client.gui.GuiGraphicsExtractor;
 
-            <p class="body" style="margin:0">The configuration is a plain <code>implementation</code>, not <code>modImplementation</code>. Minecraft 26.x ships unobfuscated, and the Loom plugin for it no longer remaps mods, so the mod-specific configurations are gone and <code>modImplementation</code> fails with “configuration not found”.</p>
-        </section>
+<span class="k">public</span> <span class="k">class</span> MyCustomModule <span class="k">extends</span> HudModule {
 
-        <!-- ── 03 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="implementing-module">
-            <p class="eyebrow eyebrow--brass">03</p>
-            <h2 class="h3">Creating a Custom Module</h2>
-            <p class="body" style="margin:0 0 22px">Every HUD element must extend <code>HudModule</code> and implement its abstract methods. Below is the minimum required implementation:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.HudModule;
-import com.eymistaken.simplecps.SimpleCPSConfig;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-
-public class MyCustomModule extends HudModule {
-
-    @Override
-    public String getName() {
-        return "My Custom Tracker";
+    <span class="a">@Override</span>
+    <span class="k">public</span> String getName() {
+        <span class="k">return</span> <span class="s">"myaddon:tracker"</span>; <span class="c">// unique, prefixed with your mod id</span>
     }
 
-    @Override
-    public SimpleCPSConfig.Position getPositionType() {
-        return SimpleCPSConfig.Position.TOP_LEFT; // Default corner alignment
+    <span class="a">@Override</span>
+    <span class="k">public</span> SimpleCPSConfig.Position getPositionType() {
+        <span class="k">return</span> SimpleCPSConfig.Position.TOP_LEFT;
     }
 
-    @Override
-    public int getXOffset() { return 0; }
+    <span class="a">@Override</span> <span class="k">public</span> <span class="k">int</span> getXOffset() { <span class="k">return</span> <span class="n">0</span>; }
+    <span class="a">@Override</span> <span class="k">public</span> <span class="k">int</span> getYOffset() { <span class="k">return</span> <span class="n">0</span>; }
 
-    @Override
-    public int getYOffset() { return 0; }
-
-    @Override
-    public boolean isEnabled() {
-        return true; // Tie to your own config
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">boolean</span> isEnabled() {
+        <span class="k">return</span> <span class="k">true</span>; <span class="c">// tie to your own config</span>
     }
 
-    @Override
-    public int getWidth() {
-        return 100; // Required for stacking layout
-    }
+    <span class="a">@Override</span> <span class="k">public</span> <span class="k">int</span> getWidth()  { <span class="k">return</span> <span class="n">100</span>; }
+    <span class="a">@Override</span> <span class="k">public</span> <span class="k">int</span> getHeight() { <span class="k">return</span> <span class="n">20</span>; }
 
-    @Override
-    public int getHeight() {
-        return 20;
-    }
-
-    @Override
-    public void extractRenderState(GuiGraphicsExtractor context, float tickDelta) {
-        float currentScale = getScale() / 100f;
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> extractRenderState(GuiGraphicsExtractor context, <span class="k">float</span> tickDelta) {
+        <span class="k">float</span> scale = getScale() / <span class="n">100f</span>;
         context.pose().pushMatrix();
-        context.pose().translate((float) this.x, (float) this.y);
-        context.pose().scale(currentScale, currentScale);
+        context.pose().translate((<span class="k">float</span>) <span class="k">this</span>.x, (<span class="k">float</span>) <span class="k">this</span>.y);
+        context.pose().scale(scale, scale);
 
-        // After translating, drawing should be done relative to 0,0 (the local origin).
-        // drawText() applies the player's Text Outline setting and the current
-        // fade alpha for you.
-        drawText(context, "Hello World", 0, 0, 0xFFFFFFFF);
+        <span class="c">// Draw relative to 0, 0. drawText() honors the player's</span>
+        <span class="c">// Text Outline setting and the current fade alpha.</span>
+        drawText(context, <span class="s">"Hello World"</span>, <span class="n">0</span>, <span class="n">0</span>, <span class="n">0xFFFFFFFF</span>);
 
         context.pose().popMatrix();
     }
+}</code></pre></div>
+</figure>
+<div class="note note--warn" role="note"><p><strong>Return a real size.</strong> <code>getWidth()</code> and <code>getHeight()</code> drive stacking. Returning <code>0</code> removes the module from the layout and makes it invisible.</p></div>
+<div class="note" role="note"><p><strong>Names are keys.</strong> <code>getName()</code> keys your layout flags and saved state. <code>registerModule()</code> refuses a name that is taken and logs an error; check first with <code>manager.isNameTaken(String)</code>.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="register">
+<p class="step-label">Step 3</p>
+<h2 id="register">Register the plugin</h2>
+<p>Implement <code>EymistakenHudPlugin</code> and declare it under the <code>eymistaken_hud</code> entrypoint.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyPluginInit.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyPluginInit.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="k">import</span> com.eymistaken.simplecps.HudModuleManager;
+<span class="k">import</span> com.eymistaken.simplecps.api.EymistakenHudPlugin;
 
-    @Override
-    public void tick(net.minecraft.client.Minecraft client) {
-        // Optional: runs every client tick (timers, click tracking, etc.)
-        super.tick(client);
+<span class="k">public</span> <span class="k">class</span> MyPluginInit <span class="k">implements</span> EymistakenHudPlugin {
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> registerHudModules(HudModuleManager manager) {
+        manager.registerModule(<span class="k">new</span> MyCustomModule());
     }
 }</code></pre></div>
-            </div>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Important:</strong> Always return accurate values from <code>getWidth()</code> and <code>getHeight()</code>. Returning <code>0</code> removes your module from the stacking layout and makes it invisible.</p>
-            </div>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Unique Name Requirement:</strong> The value returned by <code>getName()</code> must be strictly unique. It is the key for your module's layout flags <em style="font-style:normal;color:var(--brass)">and</em> its <a class="link-rule" href="#plugin-state">saved state</a>, so a collision would silently corrupt both. <code>registerModule()</code> <strong>refuses</strong> a name that is already taken and logs an error instead of registering the module. Prefix yours with your mod id — for example <code>"myaddon:tracker"</code>. Call <code>manager.isNameTaken(String)</code> beforehand if you want to check yourself.</p>
-            </div>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p><strong>Inherited Variables Note:</strong> When a module extends the <code>HudModule</code> class, the variables <code>this.client</code> (<code>Minecraft.getInstance()</code>), <code>this.x</code>, and <code>this.y</code> are automatically inherited. Developers do not need to define these manually.</p>
-            </div>
-
-            <p class="body" style="margin:0 0 18px">Three inherited helpers make your module respect the player's global appearance settings. Use them instead of drawing text directly:</p>
-            <ul class="list">
-                <li><code>drawText(context, text, x, y, color)</code> — draws in Minecraft's font, honoring the <strong>Text Outline</strong> setting and the current fade alpha</li>
-                <li><code>textWidth(text)</code> — measures a string exactly as <code>drawText</code> draws it</li>
-                <li><code>col(argb)</code> — applies the current fade alpha to any color, for anything you draw yourself</li>
-            </ul>
-
-            <p class="body" style="margin:0 0 22px">Modules opt into the smooth fade-in / fade-out that plays when they appear or disappear by overriding <code>supportsFade()</code>. It defaults to <code>false</code>, in which case your module pops in and out as before. Only override it to <code>true</code> if every color you draw goes through <code>col()</code> or <code>drawText()</code> — otherwise your module will stay fully opaque while the rest fades.</p>
-
-            <div class="codeblock" style="margin-bottom:0">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>@Override
-public boolean supportsFade() {
-    return true;
-}</code></pre></div>
-            </div>
-        </section>
-
-        <!-- ── 04 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="sub-elements">
-            <p class="eyebrow eyebrow--brass">04</p>
-            <h2 class="h3">Advanced: Sub-Elements (Complex Modules)</h2>
-            <p class="body" style="margin:0 0 22px">If a module consists of multiple independently draggable parts (such as the ArmorModule), developers can override the <code>getSubElements()</code> method inside <code>HudModule</code>. This method should return a list of objects that implement the <code>IHudElement</code> interface. This allows the HUD Editor to treat these sub-parts as independent draggable elements instead of dragging the entire main module.</p>
-
-            <div class="codeblock" style="margin-bottom:0">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>@Override
-public List&lt;IHudElement&gt; getSubElements() {
-    // Return a list of independent sub-elements (e.g., Helmet, Chestplate, etc.)
-    // If empty, the entire module is treated as a single draggable element.
-    return mySubElementsList;
-}</code></pre></div>
-            </div>
-        </section>
-
-        <!-- ── 05 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="editor-integration">
-            <p class="eyebrow eyebrow--brass">05</p>
-            <h2 class="h3">HUD Editor Integration (Drag &amp; Drop)</h2>
-            <p class="body" style="margin:0 0 22px">Override the optional setter methods to allow players to move, scale, and reset your module in the HUD Editor. <strong>Important:</strong> save all values to <em style="font-style:normal;color:var(--brass)">your own mod's config</em> — never to <code>SimpleCPSConfig</code>.</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>// Inside your MyCustomModule class:
-
-@Override
-public void setPositionType(SimpleCPSConfig.Position pos) {
-    MyAddonConfig.anchor = pos; // Save to YOUR config
-}
-
-@Override
-public void setXOffset(int x) { MyAddonConfig.xOffset = x; }
-
-@Override
-public void setYOffset(int y) { MyAddonConfig.yOffset = y; }
-
-@Override
-public void setScale(int scale) { MyAddonConfig.scale = scale; }
-
-@Override
-public int getScale() { return MyAddonConfig.scale; }
-
-@Override
-public void resetToDefaults() {
-    // Called by "Reset Position" in the context menu
-    MyAddonConfig.anchor  = SimpleCPSConfig.Position.TOP_LEFT;
-    MyAddonConfig.xOffset = 0;
-    MyAddonConfig.yOffset = 0;
-    MyAddonConfig.scale   = 100;
-}</code></pre></div>
-            </div>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p>If you skip these overrides, your module will still render correctly — but players will not be able to move or scale it via the HUD Editor.</p>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">Whenever the HUD Editor finishes moving a module, its <code>onPositionUpdated()</code> method is triggered. Developers can override this method to act as a listener, allowing them to automatically save the module's new position to their own config files.</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>@Override
-public void onPositionUpdated() {
-    // Called after a drag is released, after an arrow-key nudge,
-    // and after the align / distribute tools move the module
-    MyAddonConfig.save();
-}</code></pre></div>
-            </div>
-
-            <div class="callout" style="margin-bottom:0">
-                <div class="callout__label">Note</div>
-                <p><strong>Grid and smooth snapping:</strong> both are applied by the editor before it calls your setters, so there is nothing to implement. Your <code>setXOffset()</code> / <code>setYOffset()</code> are called once per frame with the position the module should be at right now, including while a snap animation is playing — write them straight through and let <code>onPositionUpdated()</code> decide when to persist.</p>
-            </div>
-        </section>
-
-        <!-- ── 06 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="context-menu">
-            <p class="eyebrow eyebrow--brass">06</p>
-            <h2 class="h3">Context Menu Settings</h2>
-            <p class="body" style="margin:0 0 18px">When a player right-clicks your module in the HUD Editor, a context menu appears. By default it contains <strong>Reset Position</strong>, <strong>Reset Settings</strong> and <strong>Open Settings</strong>. Extend it by overriding <code>getContextMenuSettings()</code>.</p>
-            <p class="body" style="margin:0 0 18px">Keep this menu short — it is the quick reach, not the full panel. Everything you put here <em style="font-style:normal;color:var(--brass)">also</em> shows up on your module's page in the <a class="link-rule" href="#settings-screen">settings screen</a>, so there is no need to repeat it there.</p>
-            <p class="body" style="margin:0 0 18px">Six setting types are available under <code>com.eymistaken.simplecps.api</code>:</p>
-
-            <ul class="list">
-                <li><code>BooleanSetting</code> — <strong>[ON]</strong> / <strong>[OFF]</strong> toggle</li>
-                <li><code>ColorSetting</code> — color swatch that opens the Color Picker on click</li>
-                <li><code>TextSetting</code> — shows current value, opens an inline text input on click</li>
-                <li><code>CycleSetting</code> — cycles through a predefined list of string options on click</li>
-                <li><code>ActionSetting</code> — plain clickable button with no value display. <code>new ActionSetting(label, color, action)</code> tints its label with an ARGB color (since 1.2.5), to mark a row that opens something rather than changing a value; <code>0</code>, or the two-argument constructor, keeps the default</li>
-                <li><code>SliderSetting</code> — draggable integer slider with a live value label and Reset button; takes <code>min</code>, <code>max</code>, and <code>defaultValue</code></li>
-            </ul>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
-import java.util.Arrays;
-import java.util.List;
-
-// Inside your MyCustomModule class:
-
-@Override
-public List&lt;HudModuleSetting&gt; getContextMenuSettings() {
-    List&lt;HudModuleSetting&gt; settings = new java.util.ArrayList&lt;&gt;(super.getContextMenuSettings());
-
-    // Toggle — shown as [ON] / [OFF]
-    settings.add(new BooleanSetting("Enable My Module",
-        () -&gt; MyAddonConfig.enabled,
-        val -&gt; { MyAddonConfig.enabled = val; MyAddonConfig.save(); }
-    ));
-
-    // Color — opens Color Picker on click
-    settings.add(new ColorSetting("Text Color",
-        () -&gt; MyAddonConfig.textColor,
-        color -&gt; { MyAddonConfig.textColor = color; MyAddonConfig.save(); }
-    ));
-
-    // Text — opens inline input on click
-    settings.add(new TextSetting("Suffix Text",
-        () -&gt; MyAddonConfig.suffix,
-        val -&gt; { MyAddonConfig.suffix = val; MyAddonConfig.save(); }
-    ));
-
-    // Cycle — click through options
-    settings.add(new CycleSetting("Display Mode",
-        Arrays.asList("Compact", "Full", "Minimal"),
-        () -&gt; MyAddonConfig.displayModeIndex,
-        idx -&gt; { MyAddonConfig.displayModeIndex = idx; MyAddonConfig.save(); }
-    ));
-
-    // Action — plain button, no value
-    settings.add(new ActionSetting("Reset My Settings", () -&gt; {
-        MyAddonConfig.resetVisuals();
-        MyAddonConfig.save();
-    }));
-
-    // Slider — integer range with Reset button
-    settings.add(new SliderSetting("Scale %",
-        50, 300, 100,
-        () -&gt; MyAddonConfig.scale,
-        val -&gt; { MyAddonConfig.scale = val; MyAddonConfig.save(); }
-    ));
-
-    return settings;
-}</code></pre></div>
-            </div>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p><strong>Tip:</strong> Always call <code>super.getContextMenuSettings()</code> and wrap it in a new <code>ArrayList</code> to preserve the default <strong>Reset Settings</strong> action at the top of the menu. Skip the <code>super</code> call only if you intentionally want to replace it entirely. Note: <strong>Reset Position</strong> is always present regardless — it is added directly by the HUD Editor, not by <code>getContextMenuSettings()</code>.</p>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">Override <code>resetVisualDefaults()</code> to define what <strong>Reset Settings</strong> does for your module. Reset visual and behavioral fields, but keep the enabled state and anchor offsets under the player's control. If your module treats scale as a visual preference, it is safe to reset it here, just like the built-in modules do:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>@Override
-public void resetVisualDefaults() {
-    MyAddonConfig.textColor        = 0xFFFFFF;
-    MyAddonConfig.suffix           = "";
-    MyAddonConfig.displayModeIndex = 0;
-    MyAddonConfig.scale            = 100;
-    MyAddonConfig.save();
-}</code></pre></div>
-            </div>
-
-            <div class="callout callout--warn" style="margin-bottom:0">
-                <div class="callout__label">Warning</div>
-                <p><strong>Rule:</strong> Never reset <code>enabled</code>, position, or offsets inside <code>resetVisualDefaults()</code>. Position is handled separately by <strong>Reset Position</strong>, and whether the module is on or off is always the player's choice.</p>
-            </div>
-        </section>
-
-        <!-- ── 07 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="settings-screen">
-            <p class="eyebrow eyebrow--brass">07</p>
-            <h2 class="h3">The Settings Screen</h2>
-            <p class="body" style="margin:0 0 18px">The right-click menu is not the only place your module can be configured. The moment you register it, your module also gets <em style="font-style:normal;color:var(--brass)">its own page</em> in the mod's settings screen — listed in the sidebar under <strong>PLUGINS</strong>, opened from Mod Menu or from the HUD Editor. You do not have to build it; it is generated from what your module already exposes.</p>
-            <p class="body" style="margin:0 0 18px">Declare no tabs of your own and two are assembled for you:</p>
-
-            <ul class="list">
-                <li><strong>POSITION</strong> — anchor picker, X / Y offsets and scale, driven by the same <a class="link-rule" href="#editor-integration">editor setters</a> you already implement. Nothing extra to write.</li>
-                <li><strong>SETTINGS</strong> — your settings, from the two lists below. Skipped entirely if you expose none.</li>
-            </ul>
-
-            <p class="body" style="margin:0 0 22px">Which brings us to the split. <code>getContextMenuSettings()</code> stays exactly as it was and remains the <em style="font-style:normal;color:var(--brass)">only</em> source for the editor's right-click menu — but everything it returns now appears on your settings page as well. That menu should stay short, so anything that belongs in the full screen and nowhere else goes in <code>getSettingsScreenSettings()</code>:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
-import java.util.List;
-
-// Inside your MyCustomModule class:
-
-@Override
-public List&lt;HudModuleSetting&gt; getSettingsScreenSettings() {
-    List&lt;HudModuleSetting&gt; settings = new java.util.ArrayList&lt;&gt;();
-
-    settings.add(new ColorSetting("Background Color",
-        () -&gt; MyAddonConfig.bgColor,
-        color -&gt; { MyAddonConfig.bgColor = color; MyAddonConfig.save(); }
-    ));
-
-    settings.add(new SliderSetting("Background Opacity",
-        0, 255, 128,
-        () -&gt; MyAddonConfig.bgOpacity,
-        val -&gt; { MyAddonConfig.bgOpacity = val; MyAddonConfig.save(); }
-    ));
-
-    return settings;
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">With no tabs declared, the page lists the context-menu settings first, then these — concatenated in order, using the same six setting types. It defaults to an empty list, so addons written before it existed keep working and simply show their context-menu settings on both surfaces.</p>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Nothing is de-duplicated.</strong> Put each setting in one list or the other — a setting named in both is shown twice, because the two lists are joined as-is. There is no matching by label, and therefore no hidden rule about what you may call things.</p>
-            </div>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p><strong>Two things the generated page cannot do for you.</strong> The per-row reset arrow only works for <code>SliderSetting</code>, since that is the one type that carries a <code>defaultValue</code> — for the rest it is drawn inert. And the <strong>ENABLED / DISABLED</strong> badge is read-only for addon modules, because <code>HudModule</code> has no setter for it. Expose a <code>BooleanSetting</code> if you want players to switch your module on and off from here, and an <code>ActionSetting</code> for a reset button that covers everything at once.</p>
-            </div>
-
-            <p class="body" style="margin:0 0 18px">One flat list stops being readable once it has grown past a handful of rows. When it does, override <code>getSettingsTabs()</code> and split the page yourself. A tab is a plain record — <code>SettingsTab(String id, String name, List&lt;HudModuleSetting&gt; settings)</code> — with three parts:</p>
-
-            <ul class="list">
-                <li><code>id</code> — a stable key. The screen remembers which tab you were on by it, so keep it constant between calls.</li>
-                <li><code>name</code> — the label on the tab strip. Upper-cased for you, to match the built-in pages, and it falls back to the <code>id</code> when left blank.</li>
-                <li><code>settings</code> — the rows on that tab, in order, from the same six setting types.</li>
-            </ul>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
-import java.util.Arrays;
-import java.util.List;
-
-// Inside your MyCustomModule class:
-
-@Override
-public List&lt;SettingsTab&gt; getSettingsTabs() {
-    return List.of(
-        new SettingsTab("display", "DISPLAY", List.of(
-            new ColorSetting("Text Color",
-                () -&gt; MyAddonConfig.textColor,
-                color -&gt; { MyAddonConfig.textColor = color; MyAddonConfig.save(); }
-            ),
-            new SliderSetting("Scale %",
-                50, 300, 100,
-                () -&gt; MyAddonConfig.scale,
-                val -&gt; { MyAddonConfig.scale = val; MyAddonConfig.save(); }
-            )
-        )),
-        new SettingsTab("behavior", "BEHAVIOR", List.of(
-            new CycleSetting("Display Mode",
-                Arrays.asList("Compact", "Full", "Minimal"),
-                () -&gt; MyAddonConfig.displayModeIndex,
-                idx -&gt; { MyAddonConfig.displayModeIndex = idx; MyAddonConfig.save(); }
-            )
-        ))
-    );
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">Declaring tabs does not throw the two flat lists away, it only moves them. The context-menu settings <em style="font-style:normal;color:var(--brass)">lead the first tab you declared</em> — the contract that everything on the editor's right-click menu also appears on the page still holds — and <code>getSettingsScreenSettings()</code> is no longer concatenated onto the end; it becomes a trailing <strong>SETTINGS</strong> tab of its own.</p>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p><strong>Four things the page decides for you.</strong> <strong>POSITION</strong> is always added, so do not declare placement rows yourself. A tab whose settings are all empty or of an unrecognized type is dropped rather than drawn blank. Two tabs sharing an <code>id</code> are renumbered rather than one going missing. And the tab strip does not scroll — tabs past the panel's width are simply not drawn, so keep to a handful of short names.</p>
-            </div>
-
-            <p class="body" style="margin:0">Players reach your page either from the sidebar, or straight from the editor: right-clicking your module now offers <strong>Open Settings</strong> at the bottom of its menu, which jumps directly to it. Right-clicking one of your <a class="link-rule" href="#sub-elements">sub-elements</a> lands on the same page — sub-elements do not get pages of their own.</p>
-        </section>
-
-        <!-- ── 08 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="preview">
-            <p class="eyebrow eyebrow--brass">08</p>
-            <h2 class="h3">Live Preview</h2>
-            <p class="body" style="margin:0 0 18px">Settings that change how something <em style="font-style:normal;color:var(--brass)">looks</em> are miserable to tune blind. Pick a color, close the menu, squint at the HUD, come back. Do that fifteen times and the round trip has cost more than the decisions did.</p>
-            <p class="body" style="margin:0 0 18px">The top of your page's right-hand column can carry a <strong>PREVIEW</strong> card: your module, drawn live at the size it will really be, on a checkerboard that shows transparency for what it is instead of flattering every light color against a dark panel. Edits land in it the same frame. A <strong>focus</strong> button in its header expands the card over the rest of the screen when a module is too big to judge in a sidebar.</p>
-            <p class="body" style="margin:0 0 22px">Nothing appears until you opt in. <code>getPreview()</code> returns <code>null</code> by default, and a null preview means <em style="font-style:normal;color:var(--brass)">no card at all</em> rather than an empty one — the INFO, PRESETS and SHARE cards simply move up to fill the space. There is no blank state to design around.</p>
-
-            <p class="body" style="margin:0 0 18px">A preview is three methods. Two report size in screen pixels — the same units as <code>getWidth()</code>, scale already applied — and one draws:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>package com.eymistaken.simplecps.api;
-
-public interface HudPreview {
-
-    // Size in screen pixels, the same units as HudModule.getWidth().
-    int width();
-    int height();
-
-    // Draw with the top-left corner at (0, 0).
-    void render(GuiGraphicsExtractor ctx, float tickDelta);
-
-    // A preview that is simply the module drawing itself.
-    static HudPreview ofModule(HudModule module) { ... }
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">You will rarely implement it by hand. Most previews are the module rendering exactly as it always does, with stand-in values for data the game is not currently producing — no clicks have been counted, no server is connected, and since the settings screen opens from the main menu too, there may be no player or world at all. <code>HudPreview.ofModule</code> wires the module's own render path up for you, and <code>isPreviewing()</code> is where you substitute the data:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.*;
-import java.util.List;
-
-// Inside your MyCustomModule class:
-
-@Override
-public HudPreview getPreview() {
-    return HudPreview.ofModule(this);
-}
-
-// Stand-in rows, so the card has something to show with no world loaded.
-private static final List&lt;String&gt; PREVIEW_ROWS =
-    List.of("Water Breathing 1:27", "Strength II 3:34");
-
-private List&lt;String&gt; rows() {
-    if (isPreviewing()) return PREVIEW_ROWS;
-    return client.player == null ? List.of() : liveRows();
-}
-
-@Override
-public void extractRenderState(GuiGraphicsExtractor ctx, float tickDelta) {
-    int y = 0;
-    for (String row : rows()) {
-        drawText(ctx, row, 0, y, MyAddonConfig.textColor);
-        y += client.font.lineHeight + 1;
-    }
-}
-
-@Override
-public int getWidth() {
-    // The same helper, so the card is sized for what it actually draws.
-    int w = 0;
-    for (String row : rows()) w = Math.max(w, textWidth(row));
-    return w;
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">The detail that matters is <code>rows()</code> feeding the render path <em style="font-style:normal;color:var(--brass)">and</em> the measurement. <code>isPreviewing()</code> is true for the whole pass, sizing included, precisely so the two can agree — report one size and draw another and the card is built for something it never shows.</p>
-
-            <div class="callout" style="margin-bottom:26px">
-                <div class="callout__label">Note</div>
-                <p><strong>The card owns the geometry, not you.</strong> It measures you, sizes itself, centers you, applies the transform that puts one of your pixels on one real screen pixel, and clips you to the box — so <code>render</code> draws from the origin and never translates or scales itself. The card grows downward to fit and stops before it would push the panels below it off screen; it never widens, and a module wider than the column is clipped rather than shrunk. That is deliberate: a preview scaled to fit would answer the wrong question about how much room your module takes. Focus mode is the way to see the rest of it.</p>
-            </div>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Never step animation state the live HUD reads.</strong> With the settings screen open in-game your module is drawn <em style="font-style:normal;color:var(--brass)">twice</em> a frame — once on the real HUD, once in the preview — so any per-frame counter advanced inside your render path runs at double speed for as long as the menu is up. Keep a preview-local copy, or leave the counter alone while <code>isPreviewing()</code>. The built-in keystrokes module holds separate squish and ripple maps for exactly this reason.</p>
-            </div>
-
-            <p class="body" style="margin:0 0 18px">When the preview should not be the module at all — a legend, a labeled comparison, a fixed illustration — implement the interface directly and draw whatever you like:</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>@Override
-public HudPreview getPreview() {
-    return new HudPreview() {
-        @Override public int width()  { return 96; }
-        @Override public int height() { return 28; }
-
-        @Override
-        public void render(GuiGraphicsExtractor ctx, float tickDelta) {
-            ctx.fill(0, 0, 96, 28, 0x40FFFFFF);
-            drawText(ctx, "Water Breathing 1:27", 2, 2,  MyAddonConfig.textColor);
-            drawText(ctx, "Strength II 3:34",     2, 14, MyAddonConfig.textColor);
-        }
-    };
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0"><code>getPreview()</code> is called once a frame while your page is open, so keep it cheap and prefer handing back a cached instance to building one per call. Anything that throws — the getter, either size, or the drawing — costs you the preview for that frame and nothing else; the screen carries on. And like every other hook here it is additive and defaults to nothing, so an addon compiled against an older build of the HUD keeps running untouched, simply without a card.</p>
-        </section>
-
-        <!-- ── 09 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="plugin-state">
-            <p class="eyebrow eyebrow--brass">09</p>
-            <h2 class="h3">Plugin State (Presets, Share Codes &amp; Server Configs)</h2>
-            <p class="body" style="margin:0 0 18px">Your settings live in your own config file, and that keeps working exactly as before. What it cannot do on its own is <em style="font-style:normal;color:var(--brass)">travel</em>: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken's HUD config moves — your module's settings stay behind, and the layout the player carefully built comes back half wrong.</p>
-            <p class="body" style="margin:0 0 22px">Override <code>saveState()</code> and <code>loadState()</code> to opt in. Whatever you return is stored under your <code>getName()</code> and carried through <strong>all four</strong> persistence paths for free: <code>simplecps.json</code>, named presets, <code>EYMHUD1-</code> share codes, and per-server configs.</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-// Inside your MyCustomModule class:
-
-@Override
-public JsonElement saveState() {
-    JsonObject state = new JsonObject();
-    state.addProperty("enabled",   MyAddonConfig.enabled);
-    state.addProperty("anchor",    MyAddonConfig.anchor.name());
-    state.addProperty("xOffset",   MyAddonConfig.xOffset);
-    state.addProperty("yOffset",   MyAddonConfig.yOffset);
-    state.addProperty("scale",     MyAddonConfig.scale);
-    state.addProperty("textColor", MyAddonConfig.textColor);
-    return state;
-}
-
-@Override
-public void loadState(JsonElement state) {
-    if (!state.isJsonObject()) return;
-    JsonObject obj = state.getAsJsonObject();
-
-    // Check has() on every key: the blob may come from an older or newer
-    // build of your addon, or from a player who never touched this setting.
-    if (obj.has("enabled"))   MyAddonConfig.enabled   = obj.get("enabled").getAsBoolean();
-    if (obj.has("xOffset"))   MyAddonConfig.xOffset   = obj.get("xOffset").getAsInt();
-    if (obj.has("yOffset"))   MyAddonConfig.yOffset   = obj.get("yOffset").getAsInt();
-    if (obj.has("scale"))     MyAddonConfig.scale     = obj.get("scale").getAsInt();
-    if (obj.has("textColor")) MyAddonConfig.textColor = obj.get("textColor").getAsInt();
-
-    MyAddonConfig.save();
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 18px">Both default to a no-op, so plugins written before this existed keep compiling and running unchanged.</p>
-
-            <ul class="list" style="margin-bottom:26px">
-                <li>Return <code>null</code> from <code>saveState()</code> to store nothing — that is what every built-in module does, since their settings are already fields on <code>SimpleCPSConfig</code></li>
-                <li><code>loadState()</code> is <strong>never</strong> called with <code>null</code>. When no blob is stored for your module the call is skipped entirely, so a config written by someone who does not have your addon leaves your settings untouched instead of resetting them</li>
-                <li>It runs once at registration and again on every preset, share code or server config that gets applied — so it can fire at any point after startup, not just during init</li>
-                <li>Do not put JSON nulls anywhere in the tree you return. The serializer drops them at every depth, so they will not survive a round trip — omit the key instead</li>
-                <li><code>saveState()</code> runs on every config save. Keep it cheap</li>
-            </ul>
-
-            <div class="callout">
-                <div class="callout__label">Note</div>
-                <p><strong>Your blob survives players who do not have your addon.</strong> If someone exports a preset containing your module and hands it to a player who has not installed it, the state rides along inert and lights up the day they do install it. The reverse holds too: importing a config from a player who lacks your module will not wipe your settings.</p>
-            </div>
-
-            <div class="callout callout--warn" style="margin-bottom:0">
-                <div class="callout__label">Warning</div>
-                <p>Both methods are wrapped in a try/catch by <code>HudModuleManager</code>. A throw is logged and skipped, and your module keeps its current settings — it will not take down the save or the import. Do not rely on that as error handling, but you do not have to defend against every malformed value either.</p>
-            </div>
-        </section>
-
-        <!-- ── 10 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="events">
-            <p class="eyebrow eyebrow--brass">10</p>
-            <h2 class="h3">Events</h2>
-            <p class="body" style="margin:0 0 22px">Third-party mods can react to things happening inside the HUD through <code>EymistakenHudEventBus</code> — a static singleton you subscribe to from <code>registerEvents()</code>, which is called once at client init, right after <code>registerHudModules()</code>.</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.HudModuleManager;
-import com.eymistaken.simplecps.api.EymistakenHudEventBus;
-import com.eymistaken.simplecps.api.EymistakenHudPlugin;
-import com.eymistaken.simplecps.api.event.ComboStreakEvent;
-
-public class MyPluginInit implements EymistakenHudPlugin {
-
-    @Override
-    public void registerHudModules(HudModuleManager manager) {
-        manager.registerModule(new MyCustomModule());
-    }
-
-    @Override
-    public void registerEvents(EymistakenHudEventBus bus) {
-        bus.subscribe(ComboStreakEvent.class, event -&gt; {
-            if (event.level() &gt;= 2) {
-                playHitSound(event.target());
-            }
-        });
-    }
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 18px"><strong>Available events</strong> live under <code>com.eymistaken.simplecps.api.event</code>:</p>
-
-            <ul class="list">
-                <li><code>ComboStreakEvent(int combo, int level, int previousLevel, Entity target)</code> — fired when a landed hit pushes the combo into a higher heatmap tier, so <em style="font-style:normal;color:var(--brass)">once per tier</em> rather than once per hit</li>
-            </ul>
-
-            <p class="body" style="margin:0 0 22px">Levels come from <code>ComboHeatmap</code> and follow the player's chosen heatmap mode, so <code>level()</code> means the same thing to you as it does to the on-screen color. The event fires whether or not heatmap coloring is switched on — that setting decides how the counter looks, not whether the streak happened.</p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.ComboHeatmap;
-
-// Thresholds behind the levels, if you want to display them yourself
-ComboHeatmap heat = ComboHeatmap.of(SimpleCPSConfig.instance.comboHeatmapMode);
-int tier1 = heat.tier1();       // EASY 3  | MEDIUM 5  | HARD 10
-int tier2 = heat.tier2();       // EASY 5  | MEDIUM 8  | HARD 40
-int tier3 = heat.tier3();       // EASY 7  | MEDIUM 12 | HARD 60
-int level = heat.levelFor(17);  // 0 (cold) through 3 (top tier)</code></pre></div>
-            </div>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Handlers run on the client thread, inline with whatever caused the event.</strong> Keep them short — anything slow will stutter the game. A handler that throws is logged and skipped; it never takes the rest of the mod down with it.</p>
-            </div>
-
-            <div class="callout" style="margin-bottom:0">
-                <div class="callout__label">Note</div>
-                <p><strong>Dispatch is by exact class.</strong> Subscribing to a supertype does not receive its subclasses. Subscribing is safe at any point after client init, not just from <code>registerEvents()</code>.</p>
-            </div>
-        </section>
-
-        <!-- ── 11 ───────────────────────────────────────────── -->
-        <section class="doc-section" id="registering" style="border-bottom:1px solid var(--line)">
-            <p class="eyebrow eyebrow--brass">11</p>
-            <h2 class="h3">Registering the Plugin</h2>
-            <p class="body" style="margin:0 0 22px">Declare an entrypoint implementing <code>EymistakenHudPlugin</code> in your <code>fabric.mod.json</code>. Your modules will be passed to <code>HudModuleManager#registerModule()</code> and managed alongside the built-in ones from that point forward — no core modification required.</p>
-
-            <p class="body" style="margin:0 0 14px"><strong>Implementation class:</strong></p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>import com.eymistaken.simplecps.api.EymistakenHudPlugin;
-import com.eymistaken.simplecps.HudModuleManager;
-
-public class MyPluginInit implements EymistakenHudPlugin {
-    @Override
-    public void registerHudModules(HudModuleManager manager) {
-        manager.registerModule(new MyCustomModule());
-    }
-
-    // Optional — see the Events section. Default no-op, so plugins written
-    // before it existed keep compiling and running unchanged.
-    @Override
-    public void registerEvents(EymistakenHudEventBus bus) { }
-}</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 14px"><strong>fabric.mod.json:</strong></p>
-
-            <div class="codeblock" style="margin-bottom:26px">
-                <button class="copy-btn" type="button" aria-label="Copy code">
-                    <svg class="icon-copy" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 9.5H1.5V1.5H9.5V2.5"/><rect x="4.5" y="4.5" width="8" height="8"/></svg>
-                    <svg class="icon-done" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3.5"/></svg>
-                </button>
-                <div class="codeblock__scroll"><pre><code>"entrypoints": {
-  "eymistaken_hud": [
-    "com.myname.myaddon.MyPluginInit"
+</figure>
+<figure class="code code--stacked">
+<div class="code__head"><figcaption class="code__name">fabric.mod.json</figcaption><button class="code__copy" type="button" aria-label="Copy fabric.mod.json"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="s">"entrypoints"</span>: {
+  <span class="s">"eymistaken_hud"</span>: [
+    <span class="s">"com.myname.myaddon.MyPluginInit"</span>
   ]
 }</code></pre></div>
-            </div>
-
-            <p class="body" style="margin:0 0 22px">The <code>eymistaken_hud</code> entrypoint key is processed by <code>SimpleCPSClient</code> during initialization. Every registered module is automatically included in the <code>tickAll()</code> and <code>renderAll()</code> cycles of <code>HudModuleManager</code>, and becomes fully editable in the in-game HUD Editor.</p>
-
-            <div class="callout" style="margin-bottom:0">
-                <div class="callout__label">Note</div>
-                <p><strong>Ordering:</strong> plugins are discovered <em style="font-style:normal;color:var(--brass)">after</em> the config has already been read, so <code>registerModule()</code> replays your <a class="link-rule" href="#plugin-state">stored state</a> into your module the moment it arrives — you do not have to wait for a reload or defer your own loading.</p>
-            </div>
-        </section>
-
-    </main>
+</figure>
+<p>Start the game with your addon and Eymistaken's HUD installed. Your module draws at its anchor and gets its own page in the settings screen, listed under PLUGINS. Plugins are discovered after the config is read, so stored state is replayed into your module the moment it registers.</p>
+</section>
+<section class="doc-section" aria-labelledby="contract">
+<h2 id="contract">What <code>HudModule</code> asks of you</h2>
+<p>The eight abstract methods. Everything else on the class has a default; see the <a href="api-guide-hudmodule.html">full reference</a>.</p>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">String getName()</code><span class="member__since">since 1.1.0</span></div><p>Unique key for your layout flags and saved state. Prefix it with your mod id.</p></div><div class="member"><div class="member__head"><code class="member__sig">SimpleCPSConfig.Position getPositionType()</code><span class="member__since">since 1.1.0</span></div><p>The anchor: one of the four corners, which stack automatically, or <code>CENTER</code>, which is centered rather than stacked.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getXOffset()<br>int getYOffset()</code><span class="member__since">since 1.1.0</span></div><p>Offset from the anchor in pixels. Any non-zero offset takes the module out of auto-stacking.</p></div><div class="member"><div class="member__head"><code class="member__sig">boolean isEnabled()</code><span class="member__since">since 1.1.0</span></div><p>Whether the module renders at all. Tie it to your own config.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getWidth()<br>int getHeight()</code><span class="member__since">since 1.1.0</span></div><p>The size of what you draw, with scale applied. Used by stacking, the editor and the preview card.</p></div><div class="member"><div class="member__head"><code class="member__sig">void extractRenderState(GuiGraphicsExtractor context, float tickDelta)</code><span class="member__since">since 1.1.0</span></div><p>Draw here. Translate to <code>this.x</code> and <code>this.y</code>, then draw from the local origin.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="next">
+<h2 id="next">Next</h2>
+<ul class="link-rows"><li><a href="api-guide-editor-integration.html"><span class="link-rows__title">Editor integration</span><span class="link-rows__desc">Let players drag, nudge and scale your module, and save where they put it.</span></a></li><li><a href="api-guide-context-menu.html"><span class="link-rows__title">Context menu settings</span><span class="link-rows__desc">Six setting types, shown on right-click and on your settings page.</span></a></li><li><a href="api-guide-plugin-state.html"><span class="link-rows__title">Plugin state</span><span class="link-rows__desc">Make your settings travel with presets, share codes and server configs.</span></a></li></ul>
+</section>
+<nav class="pager pager--end" aria-label="Pages">
+<a class="pager__next" href="api-guide-architecture.html"><span class="pager__label">Next</span><span class="pager__title">How the HUD is built</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#dep">Add the dependency</a></li>
+<li><a href="#module">Write the module</a></li>
+<li><a href="#register">Register the plugin</a></li>
+<li><a href="#contract">What HudModule asks</a></li>
+<li><a href="#next">Next</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
 </div>
 
-<script src="js/scripts.js"></script>
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
 </body>
 </html>

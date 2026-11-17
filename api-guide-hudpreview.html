@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HudPreview, API Guide</title>
+<meta name="description" content="The HudPreview interface of the Eymistaken&#x27;s HUD API: width, height, render and ofModule, and who owns the preview card&#x27;s geometry.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-hudpreview.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="HudPreview, API Guide">
+<meta property="og:description" content="The HudPreview interface of the Eymistaken&#x27;s HUD API: width, height, render and ofModule, and who owns the preview card&#x27;s geometry.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-hudpreview.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HudPreview, API Guide">
+<meta name="twitter:description" content="The HudPreview interface of the Eymistaken&#x27;s HUD API: width, height, render and ofModule, and who owns the preview card&#x27;s geometry.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">HudPreview</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page aria-current="page">HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="hudpreview preview interface width height render ofmodule geometry card clip focus">
+<p class="page-eyebrow">Reference</p>
+<h1 class="page-title"><code>HudPreview</code></h1>
+<p class="page-lede">A live sample of what a module looks like, drawn in the settings screen's PREVIEW card while its page is open.</p>
+<p class="page-meta"><code>public interface HudPreview</code>, in <code>com.eymistaken.simplecps.api</code>, since 1.2.0. A module returns one from <code>getPreview()</code>; <a href="api-guide-live-preview.html">Live preview</a> shows how to use it.</p>
+<section class="doc-section" aria-labelledby="members">
+<h2 id="members">Members</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">int width()</code><span class="member__since">since 1.2.0</span></div><p>Width in screen pixels, the same units as <code>HudModule.getWidth()</code>, with scale already applied.</p></div><div class="member"><div class="member__head"><code class="member__sig">int height()</code><span class="member__since">since 1.2.0</span></div><p>Height in screen pixels.</p></div><div class="member"><div class="member__head"><code class="member__sig">void render(GuiGraphicsExtractor ctx, float tickDelta)</code><span class="member__since">since 1.2.0</span></div><p>Draws the preview with its top-left corner at 0, 0. Called once a frame while the page is open, so keep it as cheap as the real render path. Throwing loses the preview for that frame, not the screen.</p></div><div class="member"><div class="member__head"><code class="member__sig">static HudPreview ofModule(HudModule module)</code><span class="member__since">since 1.2.0</span></div><p>A preview that is simply the module drawing itself, which is what every built-in module uses. The size comes from <code>getWidth()</code> and <code>getHeight()</code> and the drawing from <code>extractRenderState</code>, all under <code>isPreviewing()</code>. The module's render position is moved to the origin for the call and put back afterwards, because the editor hit-tests against it.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="geometry">
+<h2 id="geometry">Who owns the geometry</h2>
+<p>The host measures you, sizes the card, centers you, applies the transform that makes one of your pixels one real screen pixel, and clips you to the card. So <code>render</code> draws from the origin in plain screen pixels and never translates or scales itself.</p>
+<p>Anything wider than the card is clipped rather than shrunk, because the point is seeing the module at the size it will really be. The card's FOCUS button is the way to see a module too big to fit.</p>
+<div class="note note--warn" role="note"><p><strong>Keep preview animation state apart.</strong> The preview is drawn on top of a running HUD whenever the settings screen is open in game, so a per-frame counter stepped by both runs at double speed. Keep a preview-local copy, or leave it alone while <code>isPreviewing()</code>.</p></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-hudmodulesetting.html"><span class="pager__label">Previous</span><span class="pager__title">HudModuleSetting</span></a>
+<a class="pager__next" href="api-guide-settingstab.html"><span class="pager__label">Next</span><span class="pager__title">SettingsTab</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#members">Members</a></li>
+<li><a href="#geometry">Who owns the geometry</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

@@ -9,13 +9,119 @@
     'use strict';
 
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var here = location.pathname.split('/').pop() || 'index.html';
 
     /* -----------------------------------------------------
-       Mobile navigation
+       Old links into the guides
+
+       The Full Guide and the API Guide used to be one page
+       each, and changelogs and store pages link into them by
+       section. Each guide's first page kept the old URL, so
+       an old #section that now lives on a page of its own is
+       sent there. A hash that still exists here is left alone.
        ----------------------------------------------------- */
-    function initNav() {
-        var toggle = document.querySelector('[data-nav-toggle]');
-        var panel  = document.getElementById('nav-panel');
+    var MOVED = {
+        'full-guide.html': {
+            'surfaces': 'full-guide-surfaces.html',
+            'only-here': 'full-guide-surfaces.html#only-here',
+            'placement': 'full-guide-placement.html',
+            'stacking': 'full-guide-placement.html#stacking',
+            'editor': 'full-guide-editor.html',
+            'editor-gestures': 'full-guide-editor.html#editor-gestures',
+            'align': 'full-guide-editor.html#align',
+            'global-menu': 'full-guide-editor.html#global-menu',
+            'settings-screen': 'full-guide-settings-screen.html',
+            'settings-parts': 'full-guide-settings-screen.html#settings-parts',
+            'settings-buttons': 'full-guide-settings-screen.html#settings-buttons',
+            'cps': 'full-guide-cps.html',
+            'ping': 'full-guide-ping.html',
+            'fps': 'full-guide-fps.html',
+            'combo': 'full-guide-combo.html',
+            'combo-behavior': 'full-guide-combo.html#behavior',
+            'combo-style': 'full-guide-combo.html#style',
+            'heatmap-tiers': 'full-guide-combo.html#tiers',
+            'combo-animation': 'full-guide-combo.html#animation',
+            'combo-background': 'full-guide-combo.html#background',
+            'combo-hits': 'full-guide-combo.html#counts',
+            'combo-ends': 'full-guide-combo.html#ends',
+            'combo-received': 'full-guide-combo.html#against',
+            'combo-impact': 'full-guide-combo.html#land',
+            'combo-best': 'full-guide-combo.html#best',
+            'combo-line': 'full-guide-combo.html#line',
+            'combo-heatmap': 'full-guide-combo.html#tiers',
+            'combo-format': 'full-guide-combo.html#format',
+            'combo-preview': 'full-guide-combo.html#preview',
+            'reach': 'full-guide-reach.html',
+            'armor': 'full-guide-armor.html',
+            'armor-effects': 'full-guide-armor.html#armor-effects',
+            'armor-slots': 'full-guide-armor.html#armor-slots',
+            'keystrokes': 'full-guide-keystrokes.html',
+            'designs': 'full-guide-designs.html',
+            'design-rules': 'full-guide-designs.html#design-rules',
+            'animation': 'full-guide-animation.html',
+            'motions': 'full-guide-animation.html#motions',
+            'fills': 'full-guide-animation.html#fills',
+            'directions': 'full-guide-animation.html#directions',
+            'designer': 'full-guide-designer.html',
+            'designer-toolbar': 'full-guide-designer.html#designer-toolbar',
+            'designer-rail': 'full-guide-designer.html#designer-rail',
+            'designer-inspector': 'full-guide-designer.html#designer-inspector',
+            'designer-shortcuts': 'full-guide-designer.html#designer-shortcuts',
+            'appearance': 'full-guide-appearance.html',
+            'hud-font': 'full-guide-appearance.html#hud-font',
+            'text-outline': 'full-guide-appearance.html#text-outline',
+            'menu-scale': 'full-guide-appearance.html#menu-scale',
+            'presets': 'full-guide-presets.html',
+            'saved-configs': 'full-guide-presets.html#saved-configs',
+            'server-configs': 'full-guide-presets.html#server-configs',
+            'share-codes': 'full-guide-share-codes.html',
+            'two-code-types': 'full-guide-share-codes.html#two-code-types',
+            'keystrokes-code-contents': 'full-guide-share-codes.html#keystrokes-code-contents',
+            'code-limits': 'full-guide-share-codes.html#code-limits',
+            'resets': 'full-guide-resets.html',
+            'gotchas': 'full-guide-gotchas.html'
+        },
+        'api-guide.html': {
+            'architecture': 'api-guide-architecture.html',
+            'dependency': 'api-guide.html#dep',
+            'implementing-module': 'api-guide-creating-a-module.html',
+            'sub-elements': 'api-guide-sub-elements.html',
+            'editor-integration': 'api-guide-editor-integration.html',
+            'context-menu': 'api-guide-context-menu.html',
+            'settings-screen': 'api-guide-settings-screen.html',
+            'preview': 'api-guide-live-preview.html',
+            'plugin-state': 'api-guide-plugin-state.html',
+            'events': 'api-guide-events.html',
+            'registering': 'api-guide.html#register'
+        }
+    };
+
+    function followMovedAnchor() {
+        var table = MOVED[here];
+        var id = decodeURIComponent(location.hash.slice(1));
+        if (!table || !id || document.getElementById(id)) return;
+        var to = table[id];
+        if (!to) return;
+        if (to.charAt(0) === '#' || to.indexOf(here + '#') === 0) {
+            var target = to.slice(to.indexOf('#'));
+            history.replaceState(null, '', target);
+            var el = document.getElementById(target.slice(1));
+            if (el) el.scrollIntoView();
+            return;
+        }
+        location.replace(to);
+    }
+
+    /* -----------------------------------------------------
+       Guide contents on a phone
+
+       Below 900 px the sidebar folds behind one button. The
+       list ships open and only closes once this has run, so
+       nothing is out of reach without script.
+       ----------------------------------------------------- */
+    function initSideToggle() {
+        var toggle = document.querySelector('[data-side-toggle]');
+        var panel = toggle && document.getElementById(toggle.getAttribute('aria-controls'));
         if (!toggle || !panel) return;
 
         function setOpen(open) {
@@ -27,208 +133,127 @@
             setOpen(toggle.getAttribute('aria-expanded') !== 'true');
         });
 
+        // Following a link inside this page should not leave the list
+        // hanging open over the section it jumped to.
         panel.addEventListener('click', function (e) {
-            if (e.target.closest('a')) setOpen(false);
+            var a = e.target.closest('a');
+            if (a && a.getAttribute('href').charAt(0) === '#') setOpen(false);
         });
 
-        document.addEventListener('keydown', function (e) {
+        panel.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
                 setOpen(false);
                 toggle.focus();
             }
         });
-
-        // The panel is a mobile affordance; widening past the breakpoint
-        // hides it in CSS, so drop the open state with it.
-        window.matchMedia('(min-width: 900px)').addEventListener('change', function (e) {
-            if (e.matches) setOpen(false);
-        });
     }
 
     /* -----------------------------------------------------
-       Table of contents — scroll spy + sliding indicator
+       Where you are on the page
+
+       Marks the entry for the section being read, in the
+       on-this-page rail and in the User Guide's own list.
        ----------------------------------------------------- */
-    function initToc() {
-        var toc = document.querySelector('[data-toc]');
-        if (!toc) return;
+    function initSpy() {
+        document.querySelectorAll('[data-spy]').forEach(function (list) {
+            var links = Array.prototype.slice.call(list.querySelectorAll('a[href^="#"]'));
+            if (!links.length) return;
 
-        var bar   = toc.querySelector('.toc__bar');
-        var links = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
-        if (!links.length) return;
-
-        var sections = links.map(function (link) {
-            return document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
-        });
-
-        var active = null;
-        var frame  = null;
-
-        // Breathing room so the active entry never sits flush against the top
-        // or bottom edge of the scrolled column.
-        var EDGE = 16;
-
-        function apply(id) {
-            if (id === active) return;
-            active = id;
-
-            links.forEach(function (link, i) {
-                var isCurrent = sections[i] && sections[i].id === id;
-                if (isCurrent) {
-                    link.setAttribute('aria-current', 'true');
-                    if (bar) {
-                        bar.style.top    = link.offsetTop + 'px';
-                        bar.style.height = link.offsetHeight + 'px';
-                    }
-                    // Keep the active chip in view on the horizontal rail.
-                    if (toc.scrollWidth > toc.clientWidth) {
-                        var left = link.offsetLeft - (toc.clientWidth - link.offsetWidth) / 2;
-                        toc.scrollTo({ left: left, behavior: reducedMotion ? 'auto' : 'smooth' });
-                    }
-
-                    // And in the sidebar column, which scrolls once the list is
-                    // taller than the viewport. Measured against the box rather
-                    // than offsetTop, because the offset parent is .toc and the
-                    // scroller is its parent.
-                    var box = toc.closest('.docs__aside-inner');
-                    if (box && box.scrollHeight > box.clientHeight) {
-                        var lr = link.getBoundingClientRect();
-                        var br = box.getBoundingClientRect();
-                        var delta = 0;
-                        if (lr.top < br.top + EDGE) delta = lr.top - br.top - EDGE;
-                        else if (lr.bottom > br.bottom - EDGE) delta = lr.bottom - br.bottom + EDGE;
-                        if (delta) {
-                            box.scrollTo({
-                                top: box.scrollTop + delta,
-                                behavior: reducedMotion ? 'auto' : 'smooth'
-                            });
-                        }
-                    }
-                } else {
-                    link.removeAttribute('aria-current');
-                }
+            var targets = links.map(function (link) {
+                return document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
             });
-        }
 
-        function sync() {
-            if (frame) return;
-            frame = requestAnimationFrame(function () {
-                frame = null;
+            var scroller = list.closest('.guide__sticky');
+            var active = null;
+            var frame = null;
+            var EDGE = 16;
 
-                var current = sections[0];
-                sections.forEach(function (section) {
-                    if (section && section.getBoundingClientRect().top <= 140) current = section;
+            function apply(index) {
+                if (index === active) return;
+                active = index;
+                links.forEach(function (link, i) {
+                    if (i === index) link.setAttribute('aria-current', 'location');
+                    else link.removeAttribute('aria-current');
                 });
 
-                // The last section is often too short to ever reach the
-                // trigger line, so pin to it once the page bottoms out.
-                if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
-                    current = sections[sections.length - 1];
+                // The sticky column scrolls on its own once its list is taller
+                // than the window; keep the marked entry inside it.
+                var link = links[index];
+                if (scroller && link && scroller.scrollHeight > scroller.clientHeight) {
+                    var lr = link.getBoundingClientRect();
+                    var br = scroller.getBoundingClientRect();
+                    var delta = 0;
+                    if (lr.top < br.top + EDGE) delta = lr.top - br.top - EDGE;
+                    else if (lr.bottom > br.bottom - EDGE) delta = lr.bottom - br.bottom + EDGE;
+                    if (delta) scroller.scrollTop += delta;
                 }
+            }
 
-                if (current) apply(current.id);
-            });
-        }
+            function sync() {
+                if (frame) return;
+                frame = requestAnimationFrame(function () {
+                    frame = null;
+                    var current = 0;
+                    targets.forEach(function (target, i) {
+                        if (target && target.getBoundingClientRect().top <= 140) current = i;
+                    });
+                    // The last section is often too short to reach the line,
+                    // so take it once the page bottoms out.
+                    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) {
+                        current = targets.length - 1;
+                    }
+                    apply(current);
+                });
+            }
 
-        window.addEventListener('scroll', sync, { passive: true });
-        window.addEventListener('resize', function () {
-            active = null; // offsets moved — force a re-measure
+            window.addEventListener('scroll', sync, { passive: true });
+            window.addEventListener('resize', function () { active = null; sync(); });
             sync();
         });
-        sync();
     }
 
     /* -----------------------------------------------------
-       Code highlighting
-
-       Deliberately shallow: comments, strings, annotations,
-       keywords and numbers. No type or member coloring —
-       the point is to make structure skimmable, not to turn
-       the page into a rainbow.
+       Copy buttons and build-script tabs
        ----------------------------------------------------- */
-    function initHighlight() {
-        var TOKEN = new RegExp([
-            '(\\/\\/[^\\n]*)',                              // 1 line comment
-            '("(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\')', // 2 string
-            '(@[A-Za-z]\\w*)',                              // 3 annotation
-            '\\b(public|private|protected|class|interface|implements|extends|' +
-              'new|return|void|static|final|import|package|if|else|for|while|' +
-              'boolean|int|float|double|long|char|this|super|null|true|false)\\b', // 4 keyword
-            '\\b(0[xX][0-9A-Fa-f]+|\\d+)\\b'                // 5 number
-        ].join('|'), 'g');
-
-        var CLASS = { 1: 'cm', 2: 'str', 3: 'cm', 4: 'kw', 5: 'num' };
-
-        function highlight(textNode) {
-            var text = textNode.nodeValue;
-            TOKEN.lastIndex = 0;
-            if (!TOKEN.test(text)) return;
-            TOKEN.lastIndex = 0;
-
-            var frag = document.createDocumentFragment();
-            var last = 0;
-            var m;
-
-            while ((m = TOKEN.exec(text)) !== null) {
-                if (m.index > last) {
-                    frag.appendChild(document.createTextNode(text.slice(last, m.index)));
-                }
-                var group = 0;
-                for (var i = 1; i <= 5; i++) { if (m[i] !== undefined) { group = i; break; } }
-
-                var span = document.createElement('span');
-                span.className = CLASS[group];
-                span.textContent = m[0];
-                frag.appendChild(span);
-                last = m.index + m[0].length;
-            }
-            if (last < text.length) {
-                frag.appendChild(document.createTextNode(text.slice(last)));
-            }
-            textNode.parentNode.replaceChild(frag, textNode);
-        }
-
-        document.querySelectorAll('.codeblock pre code').forEach(function (code) {
-            // Walk a static list: highlight() swaps nodes out as it goes, and
-            // only direct text children are touched, so existing elements
-            // (such as the release link in the Gradle snippet) survive.
-            var nodes = [];
-            for (var n = code.firstChild; n; n = n.nextSibling) {
-                if (n.nodeType === 3) nodes.push(n);
-            }
-            nodes.forEach(highlight);
-        });
+    function announce(text) {
+        var live = document.getElementById('live-status');
+        if (!live) return;
+        live.textContent = '';
+        setTimeout(function () { live.textContent = text; }, 30);
     }
 
-    /* -----------------------------------------------------
-       Copy buttons on code blocks
-       ----------------------------------------------------- */
     function initCopy() {
-        document.querySelectorAll('.codeblock .copy-btn').forEach(function (btn) {
-            var block = btn.closest('.codeblock');
-            var pre   = block && block.querySelector('pre');
-            if (!pre) return;
+        document.querySelectorAll('.code__copy').forEach(function (btn) {
+            var block = btn.closest('.code');
+            if (!block) return;
+            var label = btn.querySelector('.code__copy-label');
 
             function flash(ok) {
                 clearTimeout(btn._timer);
                 btn.classList.toggle('is-done', ok);
-                btn.classList.toggle('is-failed', !ok);
+                if (label) label.textContent = ok ? 'Copied' : 'Copy failed';
+                announce(ok ? 'Copied to the clipboard' : 'Could not copy');
                 btn._timer = setTimeout(function () {
-                    btn.classList.remove('is-done', 'is-failed');
+                    btn.classList.remove('is-done');
+                    if (label) label.textContent = 'Copy';
                 }, 1600);
             }
 
-            // execCommand still covers file:// and older WebViews, where
-            // the async clipboard API is unavailable or rejects outright.
+            // execCommand still covers file:// and older WebViews, where the
+            // async clipboard API is unavailable or refuses outright.
             function legacyCopy(text) {
                 try {
                     var ta = document.createElement('textarea');
                     ta.value = text;
                     ta.setAttribute('readonly', '');
-                    ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+                    ta.style.position = 'fixed';
+                    ta.style.top = '0';
+                    ta.style.left = '-9999px';
                     document.body.appendChild(ta);
                     ta.select();
                     var ok = document.execCommand('copy');
                     document.body.removeChild(ta);
+                    btn.focus();
                     flash(ok);
                 } catch (err) {
                     flash(false);
@@ -236,7 +261,10 @@
             }
 
             btn.addEventListener('click', function () {
-                var text = pre.innerText;
+                var panel = block.querySelector('[role="tabpanel"]:not([hidden])') || block;
+                var pre = panel.querySelector('pre');
+                if (!pre) return;
+                var text = pre.textContent;
                 if (!navigator.clipboard || !navigator.clipboard.writeText) {
                     legacyCopy(text);
                     return;
@@ -250,53 +278,62 @@
         });
     }
 
+    function initTabs() {
+        document.querySelectorAll('.code [role="tablist"]').forEach(function (list) {
+            var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+            var block = list.closest('.code');
+            var copy = block.querySelector('.code__copy');
+
+            function select(tab, focus) {
+                tabs.forEach(function (t) {
+                    var on = t === tab;
+                    t.setAttribute('aria-selected', String(on));
+                    t.tabIndex = on ? 0 : -1;
+                    var panel = document.getElementById(t.getAttribute('aria-controls'));
+                    if (panel) panel.hidden = !on;
+                });
+                if (copy) copy.setAttribute('aria-label', 'Copy ' + tab.textContent.trim());
+                if (focus) tab.focus();
+            }
+
+            tabs.forEach(function (tab, i) {
+                tab.addEventListener('click', function () { select(tab, false); });
+                tab.addEventListener('keydown', function (e) {
+                    var next = null;
+                    if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+                    else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+                    else if (e.key === 'Home') next = tabs[0];
+                    else if (e.key === 'End') next = tabs[tabs.length - 1];
+                    if (next) {
+                        e.preventDefault();
+                        select(next, true);
+                    }
+                });
+            });
+        });
+    }
+
     /* -----------------------------------------------------
-       Demo clips
+       Clips
 
-       The seven demos total roughly 29 MB, so nothing is
-       fetched until it is close to the viewport. Exactly one
-       clip runs at a time — the one occupying the most
-       screen — and the others hold their last frame under a
-       blur until the reader comes back to them.
+       Nothing is fetched until a clip is the one on screen:
+       the still in front of it is the exact frame it is
+       cropped to, so there is never an empty box to cover.
+       One clip runs at a time, the one taking up the most of
+       the window, and it pauses when it scrolls away.
 
-       Data Saver and reduced motion opt out of autoplay and
-       get the browser's own controls instead.
+       Under reduced motion or Data Saver nothing plays by
+       itself. The still stays up and the clip plays when it
+       is clicked. Every clip can be paused by clicking it.
        ----------------------------------------------------- */
     function initMedia() {
-        var figures = Array.prototype.slice.call(document.querySelectorAll('.media[data-media]'));
-        if (!figures.length) return;
+        var frames = Array.prototype.slice.call(document.querySelectorAll('[data-clip]'));
+        if (!frames.length) return;
 
-        var conn     = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         var saveData = !!(conn && conn.saveData);
-
-        // Clips load and play on their own everywhere. The only two opt-outs
-        // are explicit visitor settings: Data Saver, and reduced motion (a
-        // looping clip is motion the visitor asked not to be given).
         var autoplay = !saveData && !reducedMotion;
-
-        // A browser that never gets confident enough to fire canplaythrough
-        // would leave a clip sitting behind the overlay forever. Once it has
-        // enough to play the next frames, start it anyway after this long.
-        var READY_TIMEOUT = 7000;
-
-        // One clip fetches at a time, and it keeps the line until it has this
-        // many seconds buffered ahead of the playhead. See queueLoads().
-        var MAX_CONCURRENT_LOADS = 1;
-        var SAFE_LEAD = 6;
-
-        // How many times a clip may be re-fetched after a failed load, and how
-        // long a clip that used them all sits before scrolling back to it is
-        // allowed to start over.
-        var MAX_RETRIES   = 3;
-        var RECOVER_AFTER = 8000;
-
-        var playing = null;
-
-        // Per-video bookkeeping, keyed off the element itself so that
-        // selectActive() can reach it without another lookup table.
-        function stateOf(video) {
-            return video._media || (video._media = { ready: false, wanted: false, timer: null });
-        }
+        var MAX_RETRIES = 3;
 
         function load(video) {
             if (video.dataset.src) {
@@ -306,350 +343,163 @@
             }
         }
 
-        function start(figure, video) {
-            if (playing && playing !== video) playing.pause();
-            playing = video;
+        function visibleArea(el) {
+            var r = el.getBoundingClientRect();
+            var vh = window.innerHeight || document.documentElement.clientHeight;
+            var vw = window.innerWidth || document.documentElement.clientWidth;
+            var h = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+            var w = Math.min(r.right, vw) - Math.max(r.left, 0);
+            return h > 0 && w > 0 ? h * w : 0;
+        }
+
+        function play(frame) {
+            var video = frame._video;
+            load(video);
             var attempt = video.play();
             if (attempt && attempt.catch) {
                 attempt.catch(function () {
-                    // Autoplay refused outright — hand over native controls
-                    // rather than leaving a dead frame on the page.
-                    video.controls = true;
-                    video.loop = false;
-                    figure.classList.remove('is-paused');
+                    // Refused (no gesture, or a stalled load). The still stays
+                    // up, and a click is a fresh chance.
+                    frame._state.refused = true;
                 });
             }
         }
 
-        figures.forEach(function (figure) {
-            var video = figure.querySelector('video');
+        frames.forEach(function (frame) {
+            var video = frame.querySelector('video');
+            var button = frame.querySelector('.media__toggle');
+            var name = frame.getAttribute('data-clip') || 'clip';
+            if (!video || !button) return;
 
-            if (!video) return; // still image demo — plain <img>, nothing to drive
+            var state = { userPaused: false, userPlaying: false, failed: false, attempts: 0, refused: false };
+            var source = video.dataset.src || '';
+            frame._video = video;
+            frame._state = state;
 
-            var label = figure.querySelector('.media__label');
-            var title = label ? label.textContent.replace(/^Loading\s+/i, '') : 'demo';
-            var state = stateOf(video);
-
-            // How much of the clip is buffered from the start, 0 → 1. Only a
-            // range beginning at zero counts: a chunk grabbed from the middle
-            // does not get playback going any sooner.
-            function bufferedRatio() {
-                var duration = video.duration;
-                if (!duration || !isFinite(duration)) return 0;
-                var ranges = video.buffered, end = 0;
-                for (var i = 0; i < ranges.length; i++) {
-                    if (ranges.start(i) <= 0.05) end = Math.max(end, ranges.end(i));
-                }
-                return Math.min(1, end / duration);
+            function label() {
+                button.setAttribute('aria-label', (video.paused ? 'Play the ' : 'Pause the ') + name + ' clip');
             }
 
-            // Thins the shade over the first frame as the clip arrives.
-            function reportProgress() {
-                if (state.ready) return;
-                var p = video.readyState >= 4 ? 1 : bufferedRatio();
-                // There is nothing to reveal until a first frame exists to be
-                // revealed. On a fast line the buffer outruns the decoder, and
-                // without this the shade thins over a blank box.
-                if (video.readyState < 2) p = Math.min(p, 0.12);
-                figure.style.setProperty('--load', p.toFixed(3));
-            }
+            label();
+            button.hidden = false;
 
-            function markReady() {
-                if (state.ready) return;
-                state.ready = true;
-                clearInterval(state.timer);
-                state.timer = null;
-                figure.style.setProperty('--load', '1');
-                figure.classList.remove('is-stalled');
-                // The overlay fades out over half a second while the clip
-                // starts underneath it, so the two changes read as one.
-                figure.classList.add('is-ready');
-                if (state.wanted) start(figure, video);
-                // Finished arriving while off to the side: settle straight
-                // into the blurred first frame rather than waiting for the
-                // next scroll to notice.
-                else if (autoplay) figure.classList.add('is-paused');
-                // This clip has stopped competing for the line, so the queue
-                // can release the next one. Nothing else would trigger that
-                // for a reader who has stopped scrolling.
-                schedule();
-            }
-            state.markReady = markReady;
-
-            ['progress', 'loadeddata', 'durationchange', 'canplay', 'timeupdate']
-                .forEach(function (type) { video.addEventListener(type, reportProgress); });
-
-            // The buffer fills and the playhead advances without anybody
-            // scrolling, so let those drive the download queue too — nothing
-            // else would ever release the next clip on a still page.
-            video.addEventListener('progress', schedule);
-            video.addEventListener('timeupdate', schedule);
-
-            video.addEventListener('canplaythrough', markReady);
             video.addEventListener('playing', function () {
-                markReady();
-                figure.classList.remove('is-stalled');
-                // Put the label back, so a later stall does not inherit the
-                // wording of the previous one.
-                if (label) label.textContent = 'Loading ' + title;
+                frame.classList.add('is-playing');
+                label();
             });
-
-            // Ran dry mid-clip on a slow line: bring the spinner back rather
-            // than sitting on a frozen frame with no explanation. Only while
-            // this clip is the one meant to be running — a deliberate pause
-            // is not a stall.
-            video.addEventListener('waiting', function () {
-                if (!state.wanted) return;
-                figure.classList.add('is-stalled');
-                if (label) label.textContent = 'Buffering ' + title;
-            });
-
-            // A dropped request on a slow line used to kill a clip outright:
-            // one error event and it read "unavailable" for the rest of the
-            // visit, with nothing that could ever bring it back. Which clip
-            // died was pure chance, so reloads moved it around. Give up only
-            // after the network has actually been given a few chances.
-            var source   = video.dataset.src || video.getAttribute('src') || '';
-            var attempts = 0;
-            var failedAt = 0;
-
-            function retry() {
-                attempts++;
-                failedAt = 0;
-                state.ready = false;
-                figure.classList.remove('is-failed');
-                figure.style.setProperty('--load', '0');
-                video.style.display = '';
-                if (label) label.textContent = 'Loading ' + title;
-                // A part-finished load can leave a broken entry in the HTTP
-                // cache — exactly what happens when a file changes at the same
-                // URL between deploys. Ask for a clean copy rather than the one
-                // that just failed.
-                video.src = source + (source.indexOf('?') === -1 ? '?' : '&') +
-                            'retry=' + attempts;
-                video.load();
-            }
+            video.addEventListener('pause', label);
 
             video.addEventListener('error', function () {
-                clearInterval(state.timer);
-                state.timer = null;
-                state.ready = false;
-                figure.classList.remove('is-ready', 'is-stalled', 'is-paused');
-
-                if (source && attempts < MAX_RETRIES) {
-                    // Back off a little further each time, in case the line is
-                    // briefly saturated rather than actually broken.
-                    setTimeout(retry, 1200 * (attempts + 1));
+                // A dropped request on a slow line is not a missing file. Try
+                // again a few times with a clean URL before giving up, and keep
+                // the still up meanwhile.
+                frame.classList.remove('is-playing');
+                if (source && state.attempts < MAX_RETRIES) {
+                    state.attempts++;
+                    setTimeout(function () {
+                        video.src = source + (source.indexOf('?') === -1 ? '?' : '&') + 'retry=' + state.attempts;
+                        video.load();
+                        if (state.userPlaying || (autoplay && !state.userPaused)) play(frame);
+                    }, 1200 * state.attempts);
                     return;
                 }
-
-                // Out of attempts: say so plainly instead of spinning forever.
-                failedAt = Date.now();
-                video.style.display = 'none';
-                figure.classList.add('is-failed');
-                if (label) label.textContent = title + ' unavailable';
+                state.failed = true;
+                label();
             });
 
-            // Scrolling back to a clip that gave up is a fresh chance: the
-            // network may well have recovered since. Rate-limited so a clip
-            // that is genuinely gone does not retry on every scroll frame.
-            state.recover = function () {
-                if (!failedAt || Date.now() - failedAt < RECOVER_AFTER) return;
-                attempts = 0;
-                retry();
-            };
-
-            if (!autoplay) {
-                // Data Saver or reduced motion: fetch the first frame only and
-                // hand over the browser's own controls. Clearing the overlay on
-                // metadata keeps it from spinning against a clip that will
-                // never start by itself.
-                video.controls = true;
-                video.loop = false;
-                video.preload = 'metadata';
-                video.src = video.dataset.src;
-                delete video.dataset.src;
-                video.addEventListener('loadedmetadata', markReady);
-            }
+            button.addEventListener('click', function () {
+                if (!video.paused) {
+                    state.userPaused = true;
+                    state.userPlaying = false;
+                    video.pause();
+                } else {
+                    state.userPaused = false;
+                    state.userPlaying = true;
+                    state.failed = false;
+                    frames.forEach(function (other) {
+                        if (other !== frame && other._video && !other._video.paused) {
+                            other._state.userPlaying = false;
+                            other._video.pause();
+                        }
+                    });
+                    play(frame);
+                }
+            });
         });
 
-        // Start fetching this far outside the viewport, so a clip has a head
-        // start on a slow line and is usually running by the time it is read.
-        var PRELOAD_MARGIN = 800;
+        function select() {
+            var best = null, bestArea = 0, held = null;
 
-        // How many pixels of this element are actually on screen.
-        function visibleArea(el) {
-            var r  = el.getBoundingClientRect();
-            var vh = window.innerHeight || document.documentElement.clientHeight;
-            var vw = window.innerWidth  || document.documentElement.clientWidth;
-            var h  = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-            var w  = Math.min(r.right, vw) - Math.max(r.left, 0);
-            if (h <= 0 || w <= 0) return 0;
-            return h * w;
-        }
-
-        function nearViewport(el) {
-            var r  = el.getBoundingClientRect();
-            var vh = window.innerHeight || document.documentElement.clientHeight;
-            return r.bottom > -PRELOAD_MARGIN && r.top < vh + PRELOAD_MARGIN;
-        }
-
-        // Seconds of video buffered ahead of the playhead. readyState alone
-        // is too optimistic to gate on: the browser reports HAVE_ENOUGH_DATA
-        // from a download-rate estimate that a second stream immediately
-        // invalidates, which is how four clips came to be fetched at once.
-        function hasSafeLead(video) {
-            var ranges = video.buffered, t = video.currentTime;
-            for (var i = 0; i < ranges.length; i++) {
-                if (ranges.start(i) <= t + 0.1 && ranges.end(i) >= t) {
-                    var lead = ranges.end(i) - t;
-                    // Either a comfortable cushion, or simply all of it.
-                    return lead >= SAFE_LEAD ||
-                           (isFinite(video.duration) && ranges.end(i) >= video.duration - 0.5);
-                }
-            }
-            return false;
-        }
-
-        // Fetching every clip within reach at once splits the line between
-        // clips nobody is looking at: measured on a real connection, four
-        // streams ran together and the one on screen stalled for 15 s while
-        // its neighbors sat at under 2%. So the visible clip gets the pipe
-        // to itself, and exactly one neighbor is allowed to start once that
-        // clip can play through.
-        function queueLoads(best) {
-            if (best) load(best.querySelector('video'));
-
-            // Counted off data-src rather than currentSrc: resource selection
-            // is async, so a clip started on this very tick would otherwise
-            // not be counted and a second one would start alongside it. A
-            // clip that failed is not still fetching, so it must not wedge
-            // the queue shut either.
-            var inFlight = 0;
-            figures.forEach(function (figure) {
-                var video = figure.querySelector('video');
-                if (!video || video.dataset.src || video.error) return;
-                // NETWORK_IDLE means the browser has stopped pulling bytes, so
-                // the clip is not competing for anything. Without this test a
-                // backgrounded clip that paused with a short buffer holds the
-                // queue slot for good and nothing else ever starts.
-                if (video.networkState === video.NETWORK_IDLE) return;
-                if (!hasSafeLead(video)) inFlight++;
-            });
-            if (inFlight >= MAX_CONCURRENT_LOADS) return;
-
-            // Nearest clip not yet started, so the next scroll has a head start.
-            var next = null, nearest = Infinity;
-            figures.forEach(function (figure) {
-                var video = figure.querySelector('video');
-                if (!video || !video.dataset.src || !nearViewport(figure)) return;
-                var distance = Math.abs(figure.getBoundingClientRect().top);
-                if (distance < nearest) { nearest = distance; next = video; }
-            });
-            if (next) load(next);
-        }
-
-        // Exactly one clip runs at a time: the one occupying the most screen.
-        // Comparing visible area rather than each element's own intersection
-        // ratio is what stops a short neighbor from winning over the clip
-        // the reader is actually looking at.
-        function selectActive() {
-            var best = null, bestArea = 0;
-
-            figures.forEach(function (figure) {
-                var area = visibleArea(figure);
-                if (area > bestArea) { bestArea = area; best = figure; }
-            });
-
-            // Ignore a winner that is only just peeking into view.
-            if (best) {
-                var rect = best.getBoundingClientRect();
-                var full = rect.width * rect.height;
-                if (full > 0 && bestArea / full < 0.35) best = null;
-            }
-
-            figures.forEach(function (figure) {
-                var video = figure.querySelector('video');
-                if (!video) return;
-
-                var state = stateOf(video);
-
-                if (figure === best) {
-                    if (!autoplay) return;
-
-                    state.wanted = true;
-                    figure.classList.remove('is-paused');
-                    load(video);
-                    if (state.recover) state.recover();
-
-                    if (state.ready) {
-                        // Resumes from the frame it was paused on.
-                        if (video.paused) start(figure, video);
-                    } else if (!state.timer) {
-                        // Some browsers hold canplaythrough back indefinitely
-                        // on a long file. Once there is enough buffered to
-                        // show the next frames, get going regardless. Keeps
-                        // re-arming, because a reader who has stopped
-                        // scrolling produces no further chance to try.
-                        state.timer = setInterval(function () {
-                            if (!state.wanted || state.ready) {
-                                clearInterval(state.timer);
-                                state.timer = null;
-                                return;
-                            }
-                            if (video.readyState >= 3) state.markReady();
-                        }, READY_TIMEOUT);
+            frames.forEach(function (frame) {
+                if (!frame._state) return;
+                var area = visibleArea(frame);
+                if (frame._state.userPlaying) {
+                    if (area > 0) held = frame;
+                    else {
+                        frame._state.userPlaying = false;
+                        frame._video.pause();
                     }
+                }
+                if (area > bestArea) { bestArea = area; best = frame; }
+            });
+
+            // A clip only just peeking in does not count as being looked at.
+            if (best) {
+                var r = best.getBoundingClientRect();
+                if (bestArea / (r.width * r.height) < 0.35) best = null;
+            }
+            if (held) best = held;
+
+            frames.forEach(function (frame) {
+                var state = frame._state;
+                if (!state) return;
+                var video = frame._video;
+                if (frame === best) {
+                    if (state.userPlaying) return;
+                    if (autoplay && !state.userPaused && !state.failed && video.paused) play(frame);
                     return;
                 }
-
-                state.wanted = false;
-                clearInterval(state.timer);
-                state.timer = null;
-
-                // A clip the reader started by hand keeps running until it
-                // leaves the viewport outright.
-                if (video.controls && visibleArea(figure) > 0) return;
-
-                video.pause();
-                if (playing === video) playing = null;
-                figure.classList.remove('is-stalled');
-
-                // Only a clip that already has frames to show gets the blur.
-                // One that is still arriving keeps its loading overlay, which
-                // carries on filling in while it sits off to the side.
-                if (autoplay && state.ready) figure.classList.add('is-paused');
+                if (!video.paused) video.pause();
             });
-
-            if (autoplay) queueLoads(best);
         }
 
-        var frame = null;
+        var frameRequest = null;
         function schedule() {
-            if (frame) return;
-            frame = requestAnimationFrame(function () {
-                frame = null;
-                selectActive();
+            if (frameRequest) return;
+            frameRequest = requestAnimationFrame(function () {
+                frameRequest = null;
+                select();
             });
         }
 
         window.addEventListener('scroll', schedule, { passive: true });
         window.addEventListener('resize', schedule);
-        selectActive();
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                frames.forEach(function (frame) { if (frame._video) frame._video.pause(); });
+            } else {
+                schedule();
+            }
+        });
+        select();
     }
 
     /* -----------------------------------------------------
        Guide search
 
-       Indexes the two guide pages. The page you are on comes
-       from the live DOM; the other one is fetched once, the
-       first time you touch the box, and parsed with DOMParser.
+       Indexes every page of the guides this box searches:
+       the User Guide and the Full Guide from theirs, the API
+       Guide from its own. The page you are on comes from the
+       live DOM. The rest are fetched once, the first time you
+       touch the box, and parsed with DOMParser.
 
-       Nothing is hand-maintained: there is no build step here,
-       and an index file listing sections by hand would go stale
-       the first time a heading was renamed. If the fetch fails
-       (opened over file://, say) it quietly indexes this page
-       alone rather than showing an error.
+       Nothing is hand-maintained: there is no build step
+       here, and a list of pages kept by hand would go stale
+       the first time one was added. The page list is read
+       from each guide's own sidebar instead, so a new page
+       is searchable the moment it is linked there. If a
+       fetch fails (opened over file://, say), whatever was
+       indexed still searches.
        ----------------------------------------------------- */
     function initSearch() {
         var root = document.querySelector('[data-search]');
@@ -659,38 +509,41 @@
         var panel = root.querySelector('.search__panel');
         if (!input || !panel) return;
 
-        var GUIDES = [
-            { file: 'user-guide.html', label: 'User Guide' },
-            { file: 'full-guide.html', label: 'Full Guide' }
-        ];
+        var SCOPES = {
+            player: [
+                { file: 'user-guide.html', label: 'User Guide' },
+                { file: 'full-guide.html', label: 'Full Guide' }
+            ],
+            api: [
+                { file: 'api-guide.html', label: 'API Guide' }
+            ]
+        };
+        var entries = SCOPES[root.getAttribute('data-search')] || SCOPES.player;
         var MAX_HITS = 8;
+        var CONCURRENT = 4;
 
-        var here = location.pathname.split('/').pop() || 'index.html';
         var records = [];
-        var indexed = {};
-        var fetched = false;
+        var seen = {};      // file -> true once queued
+        var queue = [];
+        var inFlight = 0;
+        var started = false;
         var active = -1;
         var hits = [];
 
-        /* The box is useless without JS, so the markup ships hidden. */
         root.removeAttribute('hidden');
 
         function norm(s) {
             return (s || '').replace(/\s+/g, ' ').trim();
         }
 
-        /* textContent runs adjacent cells together — "Full config code" and
-           "Keystrokes code" come out as one word — so block boundaries get a
-           space first. innerText would do it, but it needs a rendered tree and
-           the other guide is parsed detached. */
-        var BLOCKS = 'p, li, dt, dd, td, th, tr, div, h1, h2, h3, h4';
-        function textOf(el, dropHeading) {
+        /* textContent runs adjacent cells together, so block boundaries get
+           a space first. innerText would do it, but it needs a rendered tree
+           and the other pages are parsed detached. */
+        var BLOCKS = 'p, li, dt, dd, td, th, tr, div, h1, h2, h3, h4, figcaption';
+        function textOf(el, drop) {
             var clone = el.cloneNode(true);
-            if (dropHeading) {
-                /* The section number and its title are already the result's
-                   own heading; leaving them in opens every snippet with
-                   "18 Share codes Share codes…". */
-                var lead = clone.querySelectorAll(':scope > .eyebrow, :scope > h2');
+            if (drop) {
+                var lead = clone.querySelectorAll(drop);
                 for (var j = 0; j < lead.length; j++) lead[j].remove();
             }
             var blocks = clone.querySelectorAll(BLOCKS);
@@ -704,45 +557,60 @@
         function textAfter(heading) {
             var out = '';
             var node = heading.nextElementSibling;
-            while (node && !/^H[234]$/.test(node.tagName)) {
+            while (node && !/^H[23]$/.test(node.tagName)) {
                 out += textOf(node) + ' ';
                 node = node.nextElementSibling;
             }
             return norm(out);
         }
 
-        function indexDoc(doc, guide) {
-            if (indexed[guide.file]) return;
-            indexed[guide.file] = true;
+        function guideFor(file, doc) {
+            var label = doc.querySelector('[data-guide-label]');
+            if (label) return label.getAttribute('data-guide-label');
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].file === file) return entries[i].label;
+            }
+            return '';
+        }
 
-            var sections = doc.querySelectorAll('.docs__main .doc-section[id]');
-            Array.prototype.forEach.call(sections, function (section) {
-                var h2 = section.querySelector('h2');
-                var title = h2 ? norm(h2.textContent) : section.id;
-                var keywords = section.getAttribute('data-keywords') || '';
+        function indexDoc(doc, file) {
+            var main = doc.querySelector('.guide__main');
+            if (!main) return;
+            var guide = guideFor(file, doc);
+            var h1 = main.querySelector('h1');
+            var pageTitle = h1 ? norm(h1.textContent) : file;
+            var single = main.hasAttribute('data-single');
 
+            if (!single) {
                 records.push({
-                    file: guide.file,
-                    page: guide.label,
-                    hash: section.id,
-                    title: title,
-                    crumb: '',
-                    keywords: keywords,
-                    text: textOf(section, true),
+                    file: file, guide: guide, hash: '', title: pageTitle, crumb: '',
+                    keywords: main.getAttribute('data-keywords') || '',
+                    text: textOf(main, 'h1, .page-eyebrow, .pager'),
                     top: true
+                });
+            }
+
+            var sections = main.querySelectorAll('.doc-section');
+            Array.prototype.forEach.call(sections, function (section) {
+                var h2 = section.querySelector('h2[id]');
+                if (!h2) return;
+                var title = norm(h2.textContent);
+                records.push({
+                    file: file, guide: guide, hash: h2.id, title: title,
+                    crumb: single ? '' : pageTitle,
+                    keywords: section.getAttribute('data-keywords') || '',
+                    text: textOf(section, 'h2, .step-label'),
+                    top: single
                 });
 
                 /* Sub-headings carry no keywords of their own: inheriting the
-                   section's would score all five of them identically and bury
+                   section's would score all of them identically and bury
                    everything else. They match on their own title and text. */
-                var subs = section.querySelectorAll('h3[id], h4[id]');
+                var subs = section.querySelectorAll('h3[id]');
                 Array.prototype.forEach.call(subs, function (sub) {
                     records.push({
-                        file: guide.file,
-                        page: guide.label,
-                        hash: sub.id,
-                        title: norm(sub.textContent),
-                        crumb: title,
+                        file: file, guide: guide, hash: sub.id, title: norm(sub.textContent),
+                        crumb: single ? title : pageTitle,
                         keywords: '',
                         text: textAfter(sub),
                         top: false
@@ -751,32 +619,60 @@
             });
         }
 
-        function indexOthers() {
-            if (fetched) return;
-            fetched = true;
-
-            GUIDES.forEach(function (guide) {
-                if (indexed[guide.file]) return;
-                fetch(guide.file)
-                    .then(function (res) {
-                        if (!res.ok) throw new Error(res.status);
-                        return res.text();
-                    })
-                    .then(function (html) {
-                        indexDoc(new DOMParser().parseFromString(html, 'text/html'), guide);
-                        if (input.value) render(input.value);
-                    })
-                    .catch(function () {
-                        /* Whatever we already have still searches. */
-                    });
+        function pagesListedIn(doc) {
+            var out = [];
+            doc.querySelectorAll('[data-page]').forEach(function (a) {
+                out.push(a.getAttribute('href').split('#')[0]);
             });
+            return out;
+        }
+
+        function enqueue(file) {
+            if (!file || seen[file]) return;
+            seen[file] = true;
+            queue.push(file);
+        }
+
+        function pump() {
+            while (inFlight < CONCURRENT && queue.length) {
+                fetchPage(queue.shift());
+            }
+        }
+
+        function fetchPage(file) {
+            inFlight++;
+            fetch(file)
+                .then(function (res) {
+                    if (!res.ok) throw new Error(res.status);
+                    return res.text();
+                })
+                .then(function (html) {
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    indexDoc(doc, file);
+                    pagesListedIn(doc).forEach(enqueue);
+                    if (input.value) render(input.value);
+                })
+                .catch(function () {
+                    /* Whatever we already have still searches. */
+                })
+                .then(function () {
+                    inFlight--;
+                    pump();
+                });
+        }
+
+        function start() {
+            if (started) return;
+            started = true;
+            entries.forEach(function (entry) { enqueue(entry.file); });
+            pump();
         }
 
         var WORDCHAR = /[a-z0-9]/;
 
-        /* A whole word beats a substring, or searching "board" ranks "Mouse and
-           keyboard" above the Board setting. Returns 2 for a word hit, 1 for a
-           substring, 0 for nothing. */
+        /* A whole word beats a substring, or searching "board" ranks "Mouse
+           and keyboard" above the Board setting. Returns 2 for a word hit, 1
+           for a substring, 0 for nothing. */
         function match(hay, w) {
             var i = hay.indexOf(w);
             if (i < 0) return 0;
@@ -815,10 +711,9 @@
                 if (!inTitle && !inKeys && !inText) return 0;
             }
 
-            /* The query as one contiguous phrase. In data-keywords that means
-               the author wrote down this exact search, which is the strongest
-               signal there is — it is what puts "full HUD config export" on
-               Share codes rather than on every section that says "HUD". */
+            /* The query as one phrase. In data-keywords that means the author
+               wrote down this exact search, which is the strongest signal
+               there is. */
             var titlePhrase = match(title, whole);
             var keysPhrase = match(keys, whole);
 
@@ -838,7 +733,11 @@
             if (!words.length) return [];
 
             var scored = [];
+            var dedupe = {};
             records.forEach(function (record) {
+                var key = record.file + '#' + record.hash;
+                if (dedupe[key]) return;
+                dedupe[key] = true;
                 var s = score(record, words, whole);
                 if (s > 0) scored.push({ record: record, score: s, word: words[0] });
             });
@@ -851,21 +750,18 @@
            innerHTML. */
         function snippet(record, word) {
             var text = record.text;
-            /* When the title already carries the match, hunting for the word in
-               the body drops you into the middle of a sentence for no gain. The
-               opening line says what the section is, which is what you want. */
             var at = record.title.toLowerCase().indexOf(word) > -1
                 ? -1
                 : text.toLowerCase().indexOf(word);
             var frag = document.createDocumentFragment();
 
             if (at < 0) {
-                frag.appendChild(document.createTextNode(text.slice(0, 150) + (text.length > 150 ? '…' : '')));
+                frag.appendChild(document.createTextNode(text.slice(0, 140) + (text.length > 140 ? '…' : '')));
                 return frag;
             }
 
-            var from = Math.max(0, at - 70);
-            var to = Math.min(text.length, at + word.length + 90);
+            var from = Math.max(0, at - 60);
+            var to = Math.min(text.length, at + word.length + 80);
             var lead = (from > 0 ? '…' : '') + text.slice(from, at);
             var tail = text.slice(at + word.length, to) + (to < text.length ? '…' : '');
 
@@ -885,9 +781,10 @@
             a.id = 'search-hit-' + i;
             a.setAttribute('role', 'option');
             a.setAttribute('aria-selected', 'false');
-            a.href = (record.file === here ? '' : record.file) + '#' + record.hash;
+            a.href = (record.file === here ? '' : record.file) + (record.hash ? '#' + record.hash : '');
+            if (!a.getAttribute('href')) a.href = record.file;
 
-            var top = document.createElement('div');
+            var top = document.createElement('span');
             top.className = 'search__hit-top';
 
             var title = document.createElement('span');
@@ -895,25 +792,34 @@
             title.textContent = record.title;
             top.appendChild(title);
 
-            if (record.crumb) {
-                var crumb = document.createElement('span');
-                crumb.className = 'search__hit-crumb';
-                crumb.textContent = 'in ' + record.crumb;
-                top.appendChild(crumb);
-            }
+            var where = document.createElement('span');
+            where.className = 'search__hit-where';
+            where.textContent = record.crumb ? record.crumb + ', ' + record.guide : record.guide;
+            top.appendChild(where);
 
-            var page = document.createElement('span');
-            page.className = 'search__hit-page';
-            page.textContent = record.page;
-            top.appendChild(page);
-
-            var body = document.createElement('p');
+            var body = document.createElement('span');
             body.className = 'search__hit-snippet';
             body.appendChild(snippet(record, result.word));
 
             a.appendChild(top);
             a.appendChild(body);
             return a;
+        }
+
+        /* The results hang off a sticky, scrolling sidebar that would clip
+           them, so they are placed against the window instead. */
+        function place() {
+            if (panel.hidden) return;
+            var r = input.getBoundingClientRect();
+            var vw = document.documentElement.clientWidth;
+            var gap = 16;
+            var width = Math.min(440, vw - 2 * gap);
+            var left = Math.min(r.left, vw - gap - width);
+            panel.style.position = 'fixed';
+            panel.style.left = Math.max(gap, left) + 'px';
+            panel.style.top = (r.bottom + 6) + 'px';
+            panel.style.width = width + 'px';
+            panel.style.maxHeight = Math.max(160, window.innerHeight - r.bottom - 24) + 'px';
         }
 
         function setActive(i) {
@@ -935,7 +841,6 @@
         function close() {
             panel.hidden = true;
             panel.textContent = '';
-            panel.classList.remove('is-keying');
             input.setAttribute('aria-expanded', 'false');
             input.removeAttribute('aria-activedescendant');
             hits = [];
@@ -943,16 +848,16 @@
         }
 
         function render(query) {
+            if (!query.trim()) {
+                close();
+                return;
+            }
+
             var results = search(query);
             panel.textContent = '';
             hits = [];
             active = -1;
             input.removeAttribute('aria-activedescendant');
-
-            if (!query.trim()) {
-                close();
-                return;
-            }
 
             if (!results.length) {
                 var empty = document.createElement('p');
@@ -969,16 +874,16 @@
 
             panel.hidden = false;
             input.setAttribute('aria-expanded', 'true');
+            place();
         }
 
         /* Three triggers for one lazy fetch, because a focus event is not
-           guaranteed to arrive: pointerdown starts it as the pointer lands on
-           the box, and input is the backstop for keyboard and paste. Whichever
-           fires first wins; indexOthers() runs once. */
-        root.addEventListener('pointerdown', indexOthers);
-        input.addEventListener('focus', indexOthers);
+           guaranteed to arrive: pointerdown starts it as the pointer lands
+           on the box, and input is the backstop for keyboard and paste. */
+        root.addEventListener('pointerdown', start);
+        input.addEventListener('focus', start);
         input.addEventListener('input', function () {
-            indexOthers();
+            start();
             render(input.value);
         });
 
@@ -986,7 +891,6 @@
             if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
                 if (!hits.length) return;
                 e.preventDefault();
-                panel.classList.add('is-keying');
                 var next = active + (e.key === 'ArrowDown' ? 1 : -1);
                 if (next < 0) next = hits.length - 1;
                 if (next >= hits.length) next = 0;
@@ -995,18 +899,19 @@
                 if (hits[active]) {
                     e.preventDefault();
                     hits[active].click();
+                } else if (hits.length) {
+                    e.preventDefault();
+                    hits[0].click();
                 }
             } else if (e.key === 'Escape') {
-                if (!panel.hidden) {
-                    close();
-                } else if (input.value) {
-                    input.value = '';
-                }
+                if (!panel.hidden) close();
+                else if (input.value) input.value = '';
             }
         });
 
-        panel.addEventListener('mousemove', function () {
-            panel.classList.remove('is-keying');
+        /* Tabbing out of the box leaves the results behind. */
+        root.addEventListener('focusout', function (e) {
+            if (!root.contains(e.relatedTarget)) close();
         });
 
         /* Following a hit on this page leaves the panel hanging over the
@@ -1017,8 +922,12 @@
             if (!root.contains(e.target)) close();
         });
 
-        /* "/" focuses the box from anywhere on the page — the only way to
-           reach it once you have scrolled past the hero. */
+        window.addEventListener('scroll', place, { passive: true });
+        window.addEventListener('resize', place);
+        var side = root.closest('.guide__sticky');
+        if (side) side.addEventListener('scroll', place, { passive: true });
+
+        /* "/" focuses the box from anywhere in a guide. */
         document.addEventListener('keydown', function (e) {
             if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
             var el = document.activeElement;
@@ -1027,20 +936,26 @@
             e.preventDefault();
             input.focus();
             input.select();
-            /* scroll-padding-top keeps it clear of the sticky header. */
-            input.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'auto' : 'smooth' });
+            var r = input.getBoundingClientRect();
+            if (r.top < 0 || r.bottom > window.innerHeight) {
+                input.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'auto' : 'smooth' });
+            }
         });
 
-        GUIDES.forEach(function (guide) {
-            if (guide.file === here) indexDoc(document, guide);
-        });
+        /* This page is indexed now, and so is every page its sidebar lists
+           as queued for when the box is first touched. */
+        seen[here] = true;
+        indexDoc(document, here);
+        pagesListedIn(document).forEach(enqueue);
     }
 
     function boot() {
-        initNav();
-        initToc();
-        initHighlight();
+        followMovedAnchor();
+        window.addEventListener('hashchange', followMovedAnchor);
+        initSideToggle();
+        initSpy();
         initCopy();
+        initTabs();
         initMedia();
         initSearch();
     }

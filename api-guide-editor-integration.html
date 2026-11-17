@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor integration, API Guide</title>
+<meta name="description" content="Override the setters and players can move, scale and reset your module in the HUD editor. Save every value to your own mod&#x27;s config, never to SimpleCPSConfig.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-editor-integration.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Editor integration, API Guide">
+<meta property="og:description" content="Override the setters and players can move, scale and reset your module in the HUD editor. Save every value to your own mod&#x27;s config, never to SimpleCPSConfig.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-editor-integration.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Editor integration, API Guide">
+<meta name="twitter:description" content="Override the setters and players can move, scale and reset your module in the HUD editor. Save every value to your own mod&#x27;s config, never to SimpleCPSConfig.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Editor integration</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page aria-current="page">Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="hud editor drag drop move scale reset position setpositiontype setxoffset setyoffset setscale getscale resettodefaults onpositionupdated grid snapping">
+<p class="page-eyebrow">Modules</p>
+<h1 class="page-title">Editor integration</h1>
+<p class="page-lede">Override the setters and players can move, scale and reset your module in the HUD editor. Save every value to your own mod's config, never to <code>SimpleCPSConfig</code>.</p>
+<section class="doc-section" aria-labelledby="setters">
+<h2 id="setters">The setters</h2>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyCustomModule.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyCustomModule.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="c">// Inside your MyCustomModule class:</span>
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> setPositionType(SimpleCPSConfig.Position pos) {
+    MyAddonConfig.anchor = pos; <span class="c">// save to YOUR config</span>
+}
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> setXOffset(<span class="k">int</span> x) { MyAddonConfig.xOffset = x; }
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> setYOffset(<span class="k">int</span> y) { MyAddonConfig.yOffset = y; }
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> setScale(<span class="k">int</span> scale) { MyAddonConfig.scale = scale; }
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">int</span> getScale() { <span class="k">return</span> MyAddonConfig.scale; }
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> resetToDefaults() {
+    <span class="c">// Called by Reset Position in the context menu</span>
+    MyAddonConfig.anchor  = SimpleCPSConfig.Position.TOP_LEFT;
+    MyAddonConfig.xOffset = <span class="n">0</span>;
+    MyAddonConfig.yOffset = <span class="n">0</span>;
+    MyAddonConfig.scale   = <span class="n">100</span>;
+}</code></pre></div>
+</figure>
+<div class="note" role="note"><p><strong>They are optional.</strong> Skip these overrides and your module still renders correctly, but players cannot move or scale it in the editor.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="saving">
+<h2 id="saving">Saving when a move ends</h2>
+<p>When the editor finishes moving your module it calls <code>onPositionUpdated()</code>. Override it to write the new position to your own config.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyCustomModule.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyCustomModule.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> onPositionUpdated() {
+    <span class="c">// Called after a drag is released, after an arrow-key nudge,</span>
+    <span class="c">// and after the align and distribute tools move the module</span>
+    MyAddonConfig.save();
+}</code></pre></div>
+</figure>
+<p class="small">The default saves <code>simplecps.json</code>, which holds nothing of yours unless you use <a href="api-guide-plugin-state.html">plugin state</a>.</p>
+<div class="note" role="note"><p><strong>Grid and smooth snapping need nothing from you.</strong> Both are applied by the editor before it calls your setters. <code>setXOffset()</code> and <code>setYOffset()</code> are called once per frame with the position the module should be at right now, including while a snap animation plays, so write them straight through and let <code>onPositionUpdated()</code> decide when to persist.</p></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-sub-elements.html"><span class="pager__label">Previous</span><span class="pager__title">Sub-elements</span></a>
+<a class="pager__next" href="api-guide-context-menu.html"><span class="pager__label">Next</span><span class="pager__title">Context menu</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#setters">The setters</a></li>
+<li><a href="#saving">Saving a move</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

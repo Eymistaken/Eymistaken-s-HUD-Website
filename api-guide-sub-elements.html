@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sub-elements, API Guide</title>
+<meta name="description" content="A module made of several independently draggable parts, the way the Armor HUD is, can hand those parts to the editor one at a time.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-sub-elements.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Sub-elements, API Guide">
+<meta property="og:description" content="A module made of several independently draggable parts, the way the Armor HUD is, can hand those parts to the editor one at a time.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-sub-elements.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sub-elements, API Guide">
+<meta name="twitter:description" content="A module made of several independently draggable parts, the way the Armor HUD is, can hand those parts to the editor one at a time.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Sub-elements</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page aria-current="page">Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="sub elements subelements ihudelement getsubelements parts draggable armor slots complex module">
+<p class="page-eyebrow">Modules</p>
+<h1 class="page-title">Sub-elements</h1>
+<p class="page-lede">A module made of several independently draggable parts, the way the Armor HUD is, can hand those parts to the editor one at a time.</p>
+<section class="doc-section" aria-labelledby="override">
+<h2 id="override">Returning the parts</h2>
+<p>Override <code>getSubElements()</code> and return a list of objects that implement <code>IHudElement</code>. The editor then treats each part as its own draggable element instead of moving the whole module. An empty list, the default, keeps the module as one element.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyCustomModule.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyCustomModule.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="a">@Override</span>
+<span class="k">public</span> List&lt;IHudElement&gt; getSubElements() {
+    <span class="c">// Independent parts, such as Helmet and Chestplate.</span>
+    <span class="c">// Empty means the whole module is dragged as one.</span>
+    <span class="k">return</span> mySubElementsList;
+}</code></pre></div>
+</figure>
+<div class="note" role="note"><p><strong>Parts share their module's page.</strong> Right-clicking one of your parts lands on your module's page in the settings screen: parts do not get pages of their own.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="contract">
+<h2 id="contract">What a part implements</h2>
+<p><code>IHudElement</code> is the interface <code>HudModule</code> itself implements, so a part answers the same questions a module does. Everything below a part's size and position has a default.</p>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">int getX()<br>int getY()</code><span class="member__since">since 1.2.0</span></div><p>Where the part is drawn this frame.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getWidth()<br>int getHeight()</code><span class="member__since">since 1.2.0</span></div><p>Its size, for hit-testing and snapping.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getXOffset()<br>int getYOffset()</code><span class="member__since">since 1.2.0</span></div><p>Its offset, which the editor reads as you drag.</p></div><div class="member"><div class="member__head"><code class="member__sig">void setXOffset(int x)<br>void setYOffset(int y)</code><span class="member__since">since 1.2.0</span></div><p>Called by the editor as the part moves. Store the value in your own config.</p></div><div class="member"><div class="member__head"><code class="member__sig">String getName()</code><span class="member__since">since 1.2.0</span></div><p>A unique key for the part.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getLayoutWidth()<br>int getLayoutHeight()</code><span class="member__since">since 1.2.0</span></div><p>The room the layout reserves. Defaults to <code>getWidth()</code> and <code>getHeight()</code>.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getScale()<br>void setScale(int scale)</code><span class="member__since">since 1.2.0</span></div><p>Return 100 and do nothing by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">void resetToDefaults()</code><span class="member__since">since 1.2.0</span></div><p>What Reset Position does to the part. A no-op by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">List&lt;HudModuleSetting&gt; getContextMenuSettings()</code><span class="member__since">since 1.2.0</span></div><p>Rows for the part's own right-click menu. Empty by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">void onPositionUpdated()</code><span class="member__since">since 1.2.0</span></div><p>Called when a drag or a nudge of the part finishes. A no-op by default.</p></div></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-creating-a-module.html"><span class="pager__label">Previous</span><span class="pager__title">Creating a module</span></a>
+<a class="pager__next" href="api-guide-editor-integration.html"><span class="pager__label">Next</span><span class="pager__title">Editor integration</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#override">Returning the parts</a></li>
+<li><a href="#contract">IHudElement</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

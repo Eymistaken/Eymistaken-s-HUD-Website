@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combo, Full Guide</title>
+<meta name="description" content="Counts consecutive hits. A hit counts once the server confirms it landed, and a combo someone lands on you is counted too, shown as a negative number on a line of its own. This is the module with the most to tune, because what counts as a combo genuinely differs between servers.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-combo.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Combo, Full Guide">
+<meta property="og:description" content="Counts consecutive hits. A hit counts once the server confirms it landed, and a combo someone lands on you is counted too, shown as a negative number on a line of its own. This is the module with the most to tune, because what counts as a combo genuinely differs between servers.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/full-guide-combo.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Combo, Full Guide">
+<meta name="twitter:description" content="Counts consecutive hits. A hit counts once the server confirms it landed, and a combo someone lands on you is counted too, shown as a negative number on a line of its own. This is the module with the most to tune, because what counts as a combo genuinely differs between servers.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html" aria-current="true">Full Guide</a>
+<a href="api-guide.html">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Combo</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html" aria-current="true"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="player" hidden>
+<label class="visually-hidden" for="guide-search">Search the guides</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="guide-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search every setting" role="combobox" aria-expanded="false" aria-controls="guide-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="guide-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="Full Guide pages">
+<p class="side-group">Basics</p>
+<ul class="side-list">
+<li><a href="full-guide.html" data-page>Where your settings live</a></li>
+<li><a href="full-guide-surfaces.html" data-page>The four surfaces</a></li>
+<li><a href="full-guide-placement.html" data-page>Placement and layout</a></li>
+<li><a href="full-guide-editor.html" data-page>The HUD editor</a></li>
+<li><a href="full-guide-settings-screen.html" data-page>The settings screen</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="full-guide-cps.html" data-page>CPS</a></li>
+<li><a href="full-guide-ping.html" data-page>Ping</a></li>
+<li><a href="full-guide-fps.html" data-page>FPS</a></li>
+<li><a href="full-guide-combo.html" data-page aria-current="page">Combo</a></li>
+<li><a href="full-guide-reach.html" data-page>Reach</a></li>
+<li><a href="full-guide-armor.html" data-page>Armor HUD</a></li>
+<li><a href="full-guide-keystrokes.html" data-page>Keystrokes</a></li>
+</ul>
+<p class="side-group">Keystrokes in depth</p>
+<ul class="side-list">
+<li><a href="full-guide-designs.html" data-page>The design catalog</a></li>
+<li><a href="full-guide-animation.html" data-page>The animation system</a></li>
+<li><a href="full-guide-designer.html" data-page>The Keystrokes Designer</a></li>
+</ul>
+<p class="side-group">Layouts</p>
+<ul class="side-list">
+<li><a href="full-guide-appearance.html" data-page>Outline and menu scale</a></li>
+<li><a href="full-guide-presets.html" data-page>Presets and server configs</a></li>
+<li><a href="full-guide-share-codes.html" data-page>Share codes</a></li>
+</ul>
+<p class="side-group">When something is off</p>
+<ul class="side-list">
+<li><a href="full-guide-resets.html" data-page>What each reset resets</a></li>
+<li><a href="full-guide-gotchas.html" data-page>Gotchas</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="Full Guide" data-keywords="combo counter hits streak heatmap shake timeout combat mode classic modern cooldown decay target switch server confirmed hit detection client break on any damage min display best record reset best new best received landed on you negative divider hitstop freeze impact shake jolt animation line timeout bar hits strip sprint critical color mode static rainbow heatmap custom tiers mid color top color format placeholder big style label linger preview demo">
+<p class="page-eyebrow">Modules</p>
+<h1 class="page-title">Combo</h1>
+<p class="page-lede">Counts consecutive hits. A hit counts once the server confirms it landed, and a combo someone lands on you is counted too, shown as a negative number on a line of its own. This is the module with the most to tune, because what counts as a combo genuinely differs between servers.</p>
+<p class="page-meta">Off by default. Four tabs: Behavior, Style, Animation, Background. In the editor's right-click menu: Reset Settings, Enable Combo, Always Show, Color Mode, Style, Text Color, Format.</p>
+<figure class="media page-media">
+<div class="media__frame media__frame--4x3 clip--combo" data-clip="combo">
+<img class="media__still" src="assets/combo-still.jpg" alt="A duel with the combo counter reading 1 Combo beneath the opponent." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/combo-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the combo clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:12</span></span>
+</div>
+<figcaption>A duel in an arena, the count under the opponent climbing with each hit the server confirms.</figcaption>
+</figure>
+<section class="doc-section" aria-labelledby="behavior">
+<h2 id="behavior">Behavior</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Hit Detection</th><td class="v">Server</td><td class="r">Server, Client</td><td class="d">Server counts a hit once the server confirms it landed. Client counts every attack you send, the way the counter used to.</td></tr><tr><th scope="row">Combat Mode</th><td class="v">Modern</td><td class="r">Classic, Modern</td><td class="d">Classic counts every hit, the way 1.8 PvP works. Modern only counts a hit when your attack cooldown has recharged to 90% or more, so spam-clicking does not inflate the count.</td></tr><tr><th scope="row">Break on Any Damage</th><td class="v">On</td><td class="r"></td><td class="d">On: any damage breaks the combo, falls and lava included. Off: only hits from someone you are fighting do. Thorns never breaks it.</td></tr><tr><th scope="row">Only Players</th><td class="v">On</td><td class="r"></td><td class="d">Only hits landed on players count. Turned off, hits on mobs count as well, and so does a combo a mob lands on you.</td></tr><tr><th scope="row">Continue On Target Switch</th><td class="v">On</td><td class="r"></td><td class="d">Keeps the combo alive when you start hitting someone else. Turn it off if a combo should mean one opponent.</td></tr><tr><th scope="row">Timeout</th><td class="v">3 s</td><td class="r">1–10 s</td><td class="d">Seconds without a counted hit before the combo ends, or starts draining with Decay.</td></tr><tr><th scope="row">Hide When Inactive</th><td class="v">Off</td><td class="r"></td><td class="d">Hides the display while there is no combo to show.</td></tr><tr><th scope="row">Min Display</th><td class="v">2</td><td class="r">1–5</td><td class="d">The smallest count worth showing, for your combo and for one landed on you. With Hide When Inactive off, yours stays on screen anyway.</td></tr><tr><th scope="row">Reset Best</th><td class="v">button</td><td class="r"></td><td class="d">Forgets your best combo, after asking you to confirm.</td></tr><tr><th scope="row">Decay</th><td class="v">Off</td><td class="r"></td><td class="d">A broken or timed-out combo drains one hit per second instead of ending. Landing a counted hit stops the drain.</td></tr></tbody></table></div>
+</section>
+<section class="doc-section" aria-labelledby="style">
+<h2 id="style">Style</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Format</th><td class="v">{combo} Combo</td><td class="r">64 chars</td><td class="d">What your count reads. <code>{combo}</code> is the count, negative for a combo landed on you, and <code>{best}</code> is your best. Without <code>{combo}</code>, the count goes in front.</td></tr><tr><th scope="row">Style</th><td class="v">Text</td><td class="r">Text, Big</td><td class="d">Big draws the count twice as large, with the rest of the format under it.</td></tr><tr><th scope="row">Line</th><td class="v">Timeout</td><td class="r">Timeout, Hits, Both, Off</td><td class="d">The thin line under your count. See <a href="#line">the line under the count</a>.</td></tr><tr><th scope="row">Color Mode</th><td class="v">Static</td><td class="r">Static, Rainbow, Heatmap</td><td class="d">Heatmap turns the count from the text color to the mid color and on to the top color as it climbs the tiers.</td></tr><tr><th scope="row">Text Color</th><td class="v">White</td><td class="r"></td><td class="d">Heatmap keeps it up to tier 1 and blends from it; only Rainbow ignores it.</td></tr><tr><th scope="row">Heatmap Difficulty</th><td class="v">Medium</td><td class="r">Easy, Medium, Hard, Custom</td><td class="d">Hits per tier: where colors change, where your count starts to shake, and how fast a combo landed on you darkens. Changing it resets the running combo.</td></tr><tr><th scope="row">Custom Tier 1</th><td class="v">5</td><td class="r">1–98</td><td class="d">Where your count starts turning toward the mid color.</td></tr><tr><th scope="row">Custom Tier 2</th><td class="v">8</td><td class="r">2–99</td><td class="d">Where it reaches the mid color, and from which a new best flashes.</td></tr><tr><th scope="row">Custom Tier 3</th><td class="v">12</td><td class="r">3–100</td><td class="d">Where it reaches the top color and starts to shake.</td></tr><tr><th scope="row">Heatmap Mid Color</th><td class="v"><span class="swatch swatch--FF0000" aria-hidden="true"></span>#FF0000</td><td class="r"></td><td class="d">The heatmap color at the second tier.</td></tr><tr><th scope="row">Heatmap Top Color</th><td class="v"><span class="swatch swatch--550000" aria-hidden="true"></span>#550000</td><td class="r"></td><td class="d">The color at the top tier. The count's edge warms to a dim red as it darkens, so even black stays readable.</td></tr></tbody></table></div>
+<h3 id="tiers">Heatmap tiers</h3>
+<div class="table-scroll"><table class="t t--mid"><thead><tr><th scope="col">Difficulty</th><th scope="col">Tier 1</th><th scope="col">Tier 2, best can flash</th><th scope="col">Tier 3, shakes</th></tr></thead><tbody><tr><th scope="row" class="plain">Easy</th><td class="v">3</td><td class="v">5</td><td class="v">7</td></tr><tr><th scope="row" class="plain">Medium <span class="note-inline">(default)</span></th><td class="v">5</td><td class="v">8</td><td class="v">12</td></tr><tr><th scope="row" class="plain">Hard</th><td class="v">10</td><td class="v">40</td><td class="v">60</td></tr><tr><th scope="row" class="plain">Custom</th><td class="v">Tier 1</td><td class="v">Tier 2</td><td class="v">Tier 3</td></tr></tbody></table></div>
+<p class="small">Custom tiers always stay in order, each at least 1 above the one before. Raising Tier 1 past Tier 2 pushes Tier 2 up, and Tier 3 too if it has to; lowering Tier 3 pulls the others down.</p>
+</section>
+<section class="doc-section" aria-labelledby="animation">
+<h2 id="animation">Animation</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Impact %</th><td class="v">100</td><td class="r">0–200</td><td class="d">How far each hit punches the count up, and how long it freezes on a new tier, a new best, a kill or a broken combo. 0 turns both off.</td></tr><tr><th scope="row">Shake %</th><td class="v">100</td><td class="r">0–200</td><td class="d">How hard your count shakes past the top tier, and a combo landed on you as it grows. 0 keeps both still.</td></tr><tr><th scope="row">Hit Jolt %</th><td class="v">100</td><td class="r">0–200</td><td class="d">How far a combo landed on you jolts with each hit you take. 0 turns it off.</td></tr></tbody></table></div>
+</section>
+<section class="doc-section" aria-labelledby="background">
+<h2 id="background">Background</h2>
+<div class="table-scroll"><table class="t t--settings"><thead><tr><th scope="col" class="w-setting">Setting</th><th scope="col" class="w-default">Default</th><th scope="col" class="w-range">Range</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row">Show Background</th><td class="v">Off</td><td class="r"></td><td class="d">Draws a box behind the text.</td></tr><tr><th scope="row">Background Color</th><td class="v">Black</td><td class="r"></td><td class="d">Color of the box.</td></tr><tr><th scope="row">Background Opacity</th><td class="v">128</td><td class="r">0–255</td><td class="d">0 is invisible, 255 is solid.</td></tr></tbody></table></div>
+</section>
+<section class="doc-section doc-section--split" aria-labelledby="counts">
+<h2 id="counts">What counts as a hit</h2>
+<p>Hit Detection decides when a hit is counted, Combat Mode whether it was strong enough, and Only Players what it has to land on.</p>
+<table class="t"><tbody><tr><th scope="row" class="w-term">Server</th><td class="d">The default. Attacking records a pending hit, which counts when the server sends the damage event for that target. The mod waits roughly 200 ms plus your ping, never longer than a second. Hits into invulnerability frames, hits blocked by a shield, arrows and sweep damage do not add to the combo.</td></tr><tr><th scope="row">Client</th><td class="d">The old behavior: every attack you send counts.</td></tr><tr><th scope="row">Combat Mode</th><td class="d">Applies under either detection mode. Modern counts only hits made with the cooldown at least 90% recharged; Classic counts every hit.</td></tr><tr><th scope="row">Only Players</th><td class="d">On by default, so only hits on players count. Off, mobs count too.</td></tr></tbody></table>
+<div class="note" role="note"><p><strong>Servers that do not report attackers.</strong> Some servers never say who dealt the damage, older versions joined through a protocol translator for instance. On those, the hit you just sent is taken as the cause, and damage you take is attributed to whatever last swung within 6 blocks. As soon as the server reports an attacker once, that guesswork switches off.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="ends">
+<h2 id="ends">When a combo ends</h2>
+<table class="t"><tbody><tr><th scope="row" class="w-term">Timeout</th><td class="d">No counted hit for as long as the Timeout, and the combo ends, or starts draining if Decay is on.</td></tr><tr><th scope="row">Distance</th><td class="d">A target more than 20 blocks away counts as a timeout. This check always applies.</td></tr><tr><th scope="row">Target switch</th><td class="d">With Continue On Target Switch off, hitting a different target ends the combo and starts a new one.</td></tr><tr><th scope="row">Finisher</th><td class="d">A target that dies within a second of your last hit plays the finisher moment. With Continue On Target Switch off the combo ends there; with it on, it carries on.</td></tr><tr><th scope="row">Damage</th><td class="d">With Break on Any Damage on, any damage you take breaks the combo. Off, only damage from someone you have landed a counted hit on within the Timeout does. Thorns never breaks it.</td></tr><tr><th scope="row">World change</th><td class="d">Changing world or dimension resets the tracking.</td></tr></tbody></table>
+<p class="small">A combo that ends on a timeout, the distance check or a finisher, at Min Display or above, lingers with its final count for 1.2 seconds: full brightness for 0.3 seconds, then down to 45% opacity over 0.25. A new combo, yours or one landed on you, takes over right away.</p>
+</section>
+<section class="doc-section" aria-labelledby="against">
+<h2 id="against">A combo landed on you</h2>
+<p>Hits the same attacker lands on you in a row are counted and shown as a negative number: the default format reads <code>-5 Combo</code>.</p>
+<table class="t"><tbody><tr><th scope="row" class="w-term">What counts</th><td class="d">Hits from players, and from mobs too if Only Players is off. Melee and projectiles both count, arrows included. Thorns and environmental damage do not.</td></tr><tr><th scope="row">New attacker</th><td class="d">A hit from a different attacker starts the count again from 1.</td></tr><tr><th scope="row">When it ends</th><td class="d">When you land a counted hit on that attacker, when the attacker dies, or when the Timeout passes after their last hit.</td></tr></tbody></table>
+<p class="small">With a combo of your own at the same time, the two stack: yours on top, a 1 px divider, the negative line under it. Stacking needs Decay on or Break on Any Damage off. Its space is reserved up front, so modules on the same edge do not jump when you are hit. Its color deepens from yellow through orange and red to nearly black, whatever the Color Mode.</p>
+</section>
+<section class="doc-section" aria-labelledby="land">
+<h2 id="land">How hits land</h2>
+<p>Every counted hit punches the number up and lets it settle with a slight bounce. On the big moments the counter also freezes for an instant, like hitstop in a fighting game. No freeze lasts longer than 160 ms. Figures are at Impact 100%.</p>
+<div class="table-scroll"><table class="t t--wide"><thead><tr><th scope="col">Moment</th><th scope="col">Punch</th><th scope="col">Freeze</th></tr></thead><tbody><tr><th scope="row" class="plain">A normal hit</th><td class="r">8%, settles in 140 ms</td><td class="r">none</td></tr><tr><th scope="row" class="plain">A new tier</th><td class="r">18%</td><td class="r">60 ms</td></tr><tr><th scope="row" class="plain">Each hit past tier 3</th><td class="r">10%, rising to 16%</td><td class="r">30 ms + 3 ms per hit, up to 90 ms</td></tr><tr><th scope="row" class="plain">A new best</th><td class="r">22%</td><td class="r">90 ms</td></tr><tr><th scope="row" class="plain">A finisher</th><td class="r">20% + 1% per hit, up to 40%</td><td class="r">70 ms + 4 ms per hit, up to 160 ms</td></tr><tr><th scope="row" class="plain">A broken combo, tier 1 or higher, Decay off</th><td class="r">none</td><td class="r">50 ms + 3 ms per hit, up to 120 ms</td></tr></tbody></table></div>
+<p class="small">Your count starts to shake at tier 3, by 1 px, and builds to 3 px over as many hits as separate tier 2 from tier 3, four on Medium.</p>
+</section>
+<section class="doc-section" aria-labelledby="best">
+<h2 id="best">Your best combo</h2>
+<p>Kept between sessions in <code>simplecps_stats.json</code>, beside <code>simplecps.json</code> in your <code>config</code> folder, as <code>{"bestCombo": N}</code>. It is not part of the config, so presets, server configs and share codes do not carry it, and neither Reset Settings nor Reset All Settings clears it.</p>
+<p>A new best plays once per combo, when it passes the record and reaches at least tier 2. The number turns gold (<code>#FFB800</code>) for the freeze, and a small gold BEST label appears beside it for 1.6 seconds, on the side away from the anchor.</p>
+</section>
+<section class="doc-section" aria-labelledby="line">
+<h2 id="line">The line under the count</h2>
+<table class="t"><tbody><tr><th scope="row" class="w-term">Timeout</th><td class="d">The default. A bar in the count's color at 75% opacity that shortens with the time the combo has left and refills on every counted hit.</td></tr><tr><th scope="row">Hits</th><td class="d">Your last 8 counted hits, one segment each: gray for a normal hit, white for a sprint hit, gold for a critical one. The newest sits at the right end.</td></tr><tr><th scope="row">Both</th><td class="d">The timeout bar on top, the hit strip 1 px below it.</td></tr><tr><th scope="row">Off</th><td class="d">No line.</td></tr></tbody></table>
+<div class="note" role="note"><p><strong>Room is reserved.</strong> The line takes 2 px, or 4 px with Both, reserved up front so modules on the same edge do not jump as it comes and goes. Because the line is on by default, those modules move down 2 px once after updating.</p></div>
+</section>
+<section class="doc-section" aria-labelledby="format">
+<h2 id="format">Format and Style</h2>
+<p>You write the whole readout, up to 64 characters, with two placeholders. Leave <code>{combo}</code> out and the count is added at the front, so editing the format can never lose the number.</p>
+<div class="table-scroll"><table class="t t--narrow"><thead><tr><th scope="col">Format</th><th scope="col">Reads</th></tr></thead><tbody><tr><td class="v">{combo} Combo</td><td class="v">12 Combo</td></tr><tr><td class="v">x{combo}</td><td class="v">x12</td></tr><tr><td class="v">{combo} hits (best {best})</td><td class="v">12 hits (best 30)</td></tr><tr><td class="v">Hits</td><td class="v">12 Hits</td></tr></tbody></table></div>
+<p class="small">Big draws the count twice as large with the rest of the format under it: <code>{combo} Combo</code> becomes a big <code>12</code> over <code>Combo</code>. Show Background with a Line gives a badge look, and <code>x{combo}</code> a minimal one.</p>
+</section>
+<section class="doc-section" aria-labelledby="preview">
+<h2 id="preview">The preview and the editor</h2>
+<p>On the Combo page, the settings screen's preview plays a looping demo fight: the count climbs through the tiers, goes three hits past tier 3 and ends on a finisher, with sprint and critical hits along the way. Every slider can be tried without joining a world.</p>
+<p>The <kbd>Right Shift</kbd> editor shows a still sample instead: <code>8 Combo</code> on Medium, with <code>-5 Combo</code> under it when stacking is possible.</p>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="full-guide-fps.html"><span class="pager__label">Previous</span><span class="pager__title">FPS</span></a>
+<a class="pager__next" href="full-guide-reach.html"><span class="pager__label">Next</span><span class="pager__title">Reach</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#behavior">Behavior</a></li>
+<li><a href="#style">Style</a></li>
+<li><a href="#tiers" class="rail-sub">Heatmap tiers</a></li>
+<li><a href="#animation">Animation</a></li>
+<li><a href="#background">Background</a></li>
+<li><a href="#counts">What counts as a hit</a></li>
+<li><a href="#ends">When a combo ends</a></li>
+<li><a href="#against">A combo landed on you</a></li>
+<li><a href="#land">How hits land</a></li>
+<li><a href="#best">Your best combo</a></li>
+<li><a href="#line">The line under the count</a></li>
+<li><a href="#format">Format and Style</a></li>
+<li><a href="#preview">Preview and editor</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

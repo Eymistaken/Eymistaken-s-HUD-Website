@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HudModule, API Guide</title>
+<meta name="description" content="Every member of HudModule, the base class of an Eymistaken&#x27;s HUD module: what it does, its default, and the release that added it.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-hudmodule.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="HudModule, API Guide">
+<meta property="og:description" content="Every member of HudModule, the base class of an Eymistaken&#x27;s HUD module: what it does, its default, and the release that added it.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-hudmodule.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HudModule, API Guide">
+<meta name="twitter:description" content="Every member of HudModule, the base class of an Eymistaken&#x27;s HUD module: what it does, its default, and the release that added it.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">HudModule</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page>Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page aria-current="page">HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="hudmodule reference members methods abstract getname getpositiontype getxoffset getyoffset isenabled getwidth getheight extractrenderstate tick setpositiontype setxoffset setscale getscale resettodefaults resetvisualdefaults getcontextmenusettings getsettingsscreensettings getsettingstabs getpreview ispreviewing drawtext textwidth col supportsfade getrainbowcolor savestate loadstate onpositionupdated getsubelements getlayoutwidth">
+<p class="page-eyebrow">Reference</p>
+<h1 class="page-title"><code>HudModule</code></h1>
+<p class="page-lede">The base class every module extends. Eight methods are abstract; everything else has a default, so an addon built against an older release keeps running on a newer one.</p>
+<p class="page-meta"><code>public abstract class HudModule implements IHudElement</code>, in <code>com.eymistaken.simplecps.api</code>.</p>
+<section class="doc-section" aria-labelledby="abstract">
+<h2 id="abstract">Abstract methods</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">String getName()</code><span class="member__since">since 1.1.0</span></div><p>Unique key for your layout flags and saved state. Prefix it with your mod id.</p></div><div class="member"><div class="member__head"><code class="member__sig">SimpleCPSConfig.Position getPositionType()</code><span class="member__since">since 1.1.0</span></div><p>The anchor: one of the four corners, which stack automatically, or <code>CENTER</code>, which is centered rather than stacked.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getXOffset()<br>int getYOffset()</code><span class="member__since">since 1.1.0</span></div><p>Offset from the anchor in pixels. Any non-zero offset takes the module out of auto-stacking.</p></div><div class="member"><div class="member__head"><code class="member__sig">boolean isEnabled()</code><span class="member__since">since 1.1.0</span></div><p>Whether the module renders at all. Tie it to your own config.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getWidth()<br>int getHeight()</code><span class="member__since">since 1.1.0</span></div><p>The size of what you draw, with scale applied. Used by stacking, the editor and the preview card. Returning <code>0</code> takes the module out of the layout.</p></div><div class="member"><div class="member__head"><code class="member__sig">void extractRenderState(GuiGraphicsExtractor context, float tickDelta)</code><span class="member__since">since 1.1.0</span></div><p>Draw here. Translate to <code>this.x</code> and <code>this.y</code>, then draw from the local origin.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="fields">
+<h2 id="fields">Fields</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">protected final Minecraft client</code><span class="member__since">since 1.1.0</span></div><p><code>Minecraft.getInstance()</code>, set in the constructor.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected int x<br>protected int y</code><span class="member__since">since 1.1.0</span></div><p>Where the layout engine placed the module this frame. Translate to them before drawing.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected float renderAlpha</code><span class="member__since">since 1.2.0</span></div><p>The opacity to draw with, from 0 to 1, set every frame while the module fades. Read it through <code>col()</code> rather than directly.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="editor">
+<h2 id="editor">Placement and the editor</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">void setPositionType(SimpleCPSConfig.Position pos)</code><span class="member__since">since 1.1.0</span></div><p>Called when the player picks an anchor. A no-op by default; store the value in your own config.</p></div><div class="member"><div class="member__head"><code class="member__sig">void setXOffset(int x)<br>void setYOffset(int y)</code><span class="member__since">since 1.1.0</span></div><p>Called as the editor moves the module, once a frame during a drag or a snap. No-ops by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getScale()<br>void setScale(int scale)</code><span class="member__since">since 1.1.0</span></div><p>The scale in percent. <code>getScale()</code> returns 100 and <code>setScale()</code> does nothing by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">void resetToDefaults()</code><span class="member__since">since 1.1.0</span></div><p>What Reset Position does: put back the anchor, the offsets and the scale. A no-op by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">void onPositionUpdated()</code><span class="member__since">since 1.2.0</span></div><p>Called after a drag is released, after an arrow-key nudge, and after the align and distribute tools move the module. The default saves <code>simplecps.json</code>.</p></div><div class="member"><div class="member__head"><code class="member__sig">List&lt;IHudElement&gt; getSubElements()</code><span class="member__since">since 1.2.0</span></div><p>Parts the editor drags on their own. Empty by default, which keeps the module one element. See <a href="api-guide-sub-elements.html">Sub-elements</a>.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getLayoutWidth()<br>int getLayoutHeight()</code><span class="member__since">since 1.2.0</span></div><p>The room the layout reserves when stacking. Defaults to <code>getWidth()</code> and <code>getHeight()</code>; return more to keep space while the module shows less, so its neighbors do not jump. Reach reserves room for "3.00 blocks" this way.</p></div><div class="member"><div class="member__head"><code class="member__sig">int getX()<br>int getY()</code><span class="member__since">since 1.2.0</span></div><p>The render position, <code>x</code> and <code>y</code>, as the editor reads it.</p></div><div class="member"><div class="member__head"><code class="member__sig">void setRenderPosition(int x, int y)</code><span class="member__since">since 1.1.0</span></div><p>Sets <code>x</code> and <code>y</code>. Called by the layout engine; modules rarely need it.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="settings">
+<h2 id="settings">Settings</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">List&lt;HudModuleSetting&gt; getContextMenuSettings()</code><span class="member__since">since 1.1.0</span></div><p>Rows for the editor's right-click menu, also shown on the settings page. By default a single Reset Settings action that calls <code>resetVisualDefaults()</code> and saves.</p></div><div class="member"><div class="member__head"><code class="member__sig">void resetVisualDefaults()</code><span class="member__since">since 1.1.0</span></div><p>What Reset Settings does. Reset colors and behavior; leave the enabled state and the offsets alone. A no-op by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">List&lt;HudModuleSetting&gt; getSettingsScreenSettings()</code><span class="member__since">since 1.2.0</span></div><p>Rows shown only on the settings page, after the context-menu rows. Empty by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">List&lt;SettingsTab&gt; getSettingsTabs()</code><span class="member__since">since 1.2.0</span></div><p>Tabs for the settings page. Empty by default, which gives one flat SETTINGS tab. See <a href="api-guide-settings-screen.html#tabs">Your own tabs</a>.</p></div><div class="member"><div class="member__head"><code class="member__sig">HudPreview getPreview()</code><span class="member__since">since 1.2.0</span></div><p>A live sample of the module for the settings screen's PREVIEW card. Returns <code>null</code> by default, which means no card at all.</p></div><div class="member"><div class="member__head"><code class="member__sig">final boolean isPreviewing()</code><span class="member__since">since 1.2.0</span></div><p>True while the module is drawn or measured as a preview rather than on the real HUD, measurement included.</p></div><div class="member"><div class="member__head"><code class="member__sig">final void setPreviewing(boolean previewing)</code><span class="member__since">since 1.2.0</span></div><p>Marks a preview pass. The settings screen calls it; modules only read the flag.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="drawing">
+<h2 id="drawing">Drawing and ticking</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">void tick(Minecraft client)</code><span class="member__since">since 1.1.0</span></div><p>Called every client tick. A no-op by default.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected void drawText(GuiGraphicsExtractor context, String text, int x, int y, int color)</code><span class="member__since">since 1.2.0</span></div><p>Draws text in Minecraft's font, honoring the Text Outline setting and the current fade alpha. Since 1.2.5 it always uses the vanilla font.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected int textWidth(String text)</code><span class="member__since">since 1.2.0</span></div><p>The width of <code>text</code> as <code>drawText</code> draws it.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected int col(int argb)</code><span class="member__since">since 1.2.0</span></div><p>Applies the current fade alpha to a color.</p></div><div class="member"><div class="member__head"><code class="member__sig">boolean supportsFade()</code><span class="member__since">since 1.2.0</span></div><p>Whether the module fades in and out. <code>false</code> by default, which pops it in and out; return <code>true</code> only if every color goes through <code>col()</code> or <code>drawText()</code>.</p></div><div class="member"><div class="member__head"><code class="member__sig">void setRenderAlpha(float alpha)</code><span class="member__since">since 1.2.0</span></div><p>Sets <code>renderAlpha</code>. Called by <code>HudModuleManager</code> every frame.</p></div><div class="member"><div class="member__head"><code class="member__sig">protected int getRainbowColor()</code><span class="member__since">since 1.1.0</span></div><p>The next rainbow color as ARGB, advancing half a degree of hue per call. Previews keep a phase of their own, so the live rainbow does not speed up while the menu is open.</p></div></div>
+</section>
+<section class="doc-section" aria-labelledby="state">
+<h2 id="state">Saved state</h2>
+<div class="members"><div class="member"><div class="member__head"><code class="member__sig">JsonElement saveState()</code><span class="member__since">since 1.2.0</span></div><p>Your settings, serialized, so they travel with presets, share codes and server configs. Returns <code>null</code> by default, which stores nothing. See <a href="api-guide-plugin-state.html">Plugin state</a>.</p></div><div class="member"><div class="member__head"><code class="member__sig">void loadState(JsonElement state)</code><span class="member__since">since 1.2.0</span></div><p>Restores what <code>saveState()</code> produced. Never called with <code>null</code>. A no-op by default.</p></div></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-events.html"><span class="pager__label">Previous</span><span class="pager__title">Events</span></a>
+<a class="pager__next" href="api-guide-hudmodulesetting.html"><span class="pager__label">Next</span><span class="pager__title">HudModuleSetting</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#abstract">Abstract methods</a></li>
+<li><a href="#fields">Fields</a></li>
+<li><a href="#editor">Placement</a></li>
+<li><a href="#settings">Settings</a></li>
+<li><a href="#drawing">Drawing</a></li>
+<li><a href="#state">Saved state</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>

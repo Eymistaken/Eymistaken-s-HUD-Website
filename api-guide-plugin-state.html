@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plugin state, API Guide</title>
+<meta name="description" content="Your settings live in your own config file, and that keeps working. What it cannot do on its own is travel: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken&#x27;s HUD config moves, and your module&#x27;s settings stay behind.">
+<link rel="canonical" href="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-plugin-state.html">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eymistaken's HUD">
+<meta property="og:title" content="Plugin state, API Guide">
+<meta property="og:description" content="Your settings live in your own config file, and that keeps working. What it cannot do on its own is travel: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken&#x27;s HUD config moves, and your module&#x27;s settings stay behind.">
+<meta property="og:url" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/api-guide-plugin-state.html">
+<meta property="og:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plugin state, API Guide">
+<meta name="twitter:description" content="Your settings live in your own config file, and that keeps working. What it cannot do on its own is travel: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken&#x27;s HUD config moves, and your module&#x27;s settings stay behind.">
+<meta name="twitter:image" content="https://eymistaken.github.io/Eymistaken-s-HUD-Website/assets/hero.jpg">
+<link rel="icon" href="assets/icon-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body class="page-guide">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="site-header__inner">
+<a class="wordmark" href="index.html"><img src="assets/icon-96.png" alt="" width="26" height="26"><span>Eymistaken's HUD</span></a>
+<nav class="nav" aria-label="Primary">
+<a href="user-guide.html">User Guide</a>
+<a href="full-guide.html">Full Guide</a>
+<a href="api-guide.html" aria-current="true">API Guide</a>
+</nav>
+<a class="header-download" href="downloads.html">Download</a>
+</div>
+</header>
+
+<div class="guide">
+<aside class="guide__side" aria-label="Guide contents">
+<div class="guide__sticky">
+<button class="side-toggle" type="button" data-side-toggle aria-expanded="false" aria-controls="side-panel"><span>Contents</span><span class="side-toggle__current">Plugin state</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+<div class="side-panel" id="side-panel">
+<nav class="guide-switch" aria-label="Guides">
+<a href="user-guide.html"><span class="guide-switch__name">User Guide</span><span class="guide-switch__desc">Start here, for players</span></a>
+<a href="full-guide.html"><span class="guide-switch__name">Full Guide</span><span class="guide-switch__desc">Every setting, default and range</span></a>
+<a href="api-guide.html" aria-current="true"><span class="guide-switch__name">API Guide</span><span class="guide-switch__desc">For addon developers</span></a>
+</nav>
+<div class="search" data-search="api" hidden>
+<label class="visually-hidden" for="api-search">Search the API guide</label>
+<div class="search__field">
+<svg class="search__icon" aria-hidden="true" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#67676D" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3.5 3.5"/></svg>
+<input id="api-search" class="search__input" type="search" autocomplete="off" spellcheck="false" placeholder="Search classes and methods" role="combobox" aria-expanded="false" aria-controls="api-search-results" aria-autocomplete="list">
+<kbd class="search__kbd" aria-hidden="true">/</kbd>
+</div>
+<div class="search__panel" id="api-search-results" role="listbox" aria-label="Search results" hidden></div>
+</div>
+<nav aria-label="API Guide pages">
+<p class="side-group">Start here</p>
+<ul class="side-list">
+<li><a href="api-guide.html" data-page>Quick start</a></li>
+<li><a href="api-guide-architecture.html" data-page>How the HUD is built</a></li>
+</ul>
+<p class="side-group">Modules</p>
+<ul class="side-list">
+<li><a href="api-guide-creating-a-module.html" data-page>Creating a module</a></li>
+<li><a href="api-guide-sub-elements.html" data-page>Sub-elements</a></li>
+<li><a href="api-guide-editor-integration.html" data-page>Editor integration</a></li>
+</ul>
+<p class="side-group">Settings</p>
+<ul class="side-list">
+<li><a href="api-guide-context-menu.html" data-page>Context menu</a></li>
+<li><a href="api-guide-settings-screen.html" data-page>The settings screen</a></li>
+<li><a href="api-guide-live-preview.html" data-page>Live preview</a></li>
+</ul>
+<p class="side-group">Data and events</p>
+<ul class="side-list">
+<li><a href="api-guide-plugin-state.html" data-page aria-current="page">Plugin state</a></li>
+<li><a href="api-guide-events.html" data-page>Events</a></li>
+</ul>
+<p class="side-group">Reference</p>
+<ul class="side-list side-list--mono">
+<li><a href="api-guide-hudmodule.html" data-page>HudModule</a></li>
+<li><a href="api-guide-hudmodulesetting.html" data-page>HudModuleSetting</a></li>
+<li><a href="api-guide-hudpreview.html" data-page>HudPreview</a></li>
+<li><a href="api-guide-settingstab.html" data-page>SettingsTab</a></li>
+<li><a href="api-guide-eventbus.html" data-page>EymistakenHudEventBus</a></li>
+<li><a href="api-guide-combostreakevent.html" data-page>ComboStreakEvent</a></li>
+</ul>
+<ul class="side-list">
+<li><a href="api-guide-changes.html" data-page>API changes by version</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</aside>
+<main class="guide__main" id="main" data-guide-label="API Guide" data-keywords="plugin state savestate loadstate presets share codes server configs json persistence travel gson blob">
+<p class="page-eyebrow">Data and events</p>
+<h1 class="page-title">Plugin state</h1>
+<p class="page-lede">Your settings live in your own config file, and that keeps working. What it cannot do on its own is travel: when a player saves a preset, copies a share code or lets a server config load, only Eymistaken's HUD config moves, and your module's settings stay behind.</p>
+<section class="doc-section" aria-labelledby="opt-in">
+<h2 id="opt-in">Opting in</h2>
+<p>Override <code>saveState()</code> and <code>loadState()</code>. Whatever you return is stored under your <code>getName()</code> and carried through all four persistence paths: <code>simplecps.json</code>, named presets, <code>EYMHUD1-</code> share codes and per-server configs.</p>
+<figure class="code">
+<div class="code__head"><figcaption class="code__name">MyCustomModule.java</figcaption><button class="code__copy" type="button" aria-label="Copy MyCustomModule.java"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M2.5 9.5h-1v-8h8v1"/></svg><span class="code__copy-label" aria-hidden="true">Copy</span></button></div>
+<div class="code__body"><pre><code><span class="k">import</span> com.google.gson.JsonElement;
+<span class="k">import</span> com.google.gson.JsonObject;
+
+<span class="c">// Inside your MyCustomModule class:</span>
+
+<span class="a">@Override</span>
+<span class="k">public</span> JsonElement saveState() {
+    JsonObject state = <span class="k">new</span> JsonObject();
+    state.addProperty(<span class="s">"enabled"</span>,   MyAddonConfig.enabled);
+    state.addProperty(<span class="s">"anchor"</span>,    MyAddonConfig.anchor.name());
+    state.addProperty(<span class="s">"xOffset"</span>,   MyAddonConfig.xOffset);
+    state.addProperty(<span class="s">"yOffset"</span>,   MyAddonConfig.yOffset);
+    state.addProperty(<span class="s">"scale"</span>,     MyAddonConfig.scale);
+    state.addProperty(<span class="s">"textColor"</span>, MyAddonConfig.textColor);
+    <span class="k">return</span> state;
+}
+
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> loadState(JsonElement state) {
+    <span class="k">if</span> (!state.isJsonObject()) <span class="k">return</span>;
+    JsonObject obj = state.getAsJsonObject();
+
+    <span class="c">// Check has() on every key: the blob may come from an older or newer</span>
+    <span class="c">// build of your addon, or from a player who never touched this setting.</span>
+    <span class="k">if</span> (obj.has(<span class="s">"enabled"</span>))   MyAddonConfig.enabled   = obj.get(<span class="s">"enabled"</span>).getAsBoolean();
+    <span class="k">if</span> (obj.has(<span class="s">"xOffset"</span>))   MyAddonConfig.xOffset   = obj.get(<span class="s">"xOffset"</span>).getAsInt();
+    <span class="k">if</span> (obj.has(<span class="s">"yOffset"</span>))   MyAddonConfig.yOffset   = obj.get(<span class="s">"yOffset"</span>).getAsInt();
+    <span class="k">if</span> (obj.has(<span class="s">"scale"</span>))     MyAddonConfig.scale     = obj.get(<span class="s">"scale"</span>).getAsInt();
+    <span class="k">if</span> (obj.has(<span class="s">"textColor"</span>)) MyAddonConfig.textColor = obj.get(<span class="s">"textColor"</span>).getAsInt();
+
+    MyAddonConfig.save();
+}</code></pre></div>
+</figure>
+<p>Both default to a no-op, so plugins written before this existed keep compiling and running unchanged.</p>
+</section>
+<section class="doc-section" aria-labelledby="rules">
+<h2 id="rules">Rules of the round trip</h2>
+<ul><li>Return <code>null</code> from <code>saveState()</code> to store nothing. That is what every built-in module does, since their settings are already fields on <code>SimpleCPSConfig</code>.</li><li><code>loadState()</code> is never called with <code>null</code>. When no blob is stored for your module the call is skipped, so a config written by someone without your addon leaves your settings untouched instead of resetting them.</li><li>It runs once at registration and again on every preset, share code or server config that is applied, so it can fire at any point after startup, not just during init.</li><li>Do not put JSON nulls anywhere in the tree you return. The serializer drops them at every depth, so they will not survive a round trip; omit the key instead.</li><li><code>saveState()</code> runs on every config save, so keep it cheap.</li></ul>
+<div class="note" role="note"><p><strong>Your blob survives players who do not have your addon.</strong> Export a preset with your module in it, hand it to a player who has not installed your addon, and the state rides along inert until the day they do. The reverse holds too: importing a config from a player without your module does not wipe your settings.</p></div>
+<div class="note note--warn" role="note"><p><strong>Failures are contained, not handled.</strong> Both methods are wrapped in a try and catch by <code>HudModuleManager</code>. A throw is logged and skipped, and your module keeps its current settings rather than taking down the save or the import. Do not rely on that as error handling, but you do not have to defend against every malformed value either.</p></div>
+</section>
+<nav class="pager" aria-label="Pages">
+<a class="pager__prev" href="api-guide-live-preview.html"><span class="pager__label">Previous</span><span class="pager__title">Live preview</span></a>
+<a class="pager__next" href="api-guide-events.html"><span class="pager__label">Next</span><span class="pager__title">Events</span></a>
+</nav>
+</main>
+<nav class="guide__rail" aria-label="On this page">
+<div class="guide__sticky">
+<p class="rail-label">On this page</p>
+<ul class="rail-list" data-spy>
+<li><a href="#opt-in">Opting in</a></li>
+<li><a href="#rules">The rules</a></li>
+</ul>
+<p class="rail-label">Source</p>
+<ul class="rail-list rail-list--plain">
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD">Repository on GitHub</a></li>
+<li><a href="https://github.com/Eymistaken/Eymistaken-s-HUD/issues">Report an API issue</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<p class="visually-hidden" id="live-status" aria-live="polite"></p>
+<script src="js/scripts.js?v=2"></script>
+</body>
+</html>
