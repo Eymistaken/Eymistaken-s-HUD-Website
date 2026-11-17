@@ -278,8 +278,8 @@
             <h3 class="h4" id="designer-howto" style="margin:44px 0 0">How to use it</h3>
             <ol class="steps">
                 <li><span>01</span><span>Right-click <strong>Keystrokes</strong> in the HUD Editor and choose <strong>Open Designer</strong>. You can also reach it from the settings menu under <strong>Keystrokes → Designer</strong>.</span></li>
-                <li><span>02</span><span><strong>Drag and drop:</strong> left-click and drag any key panel to reposition it. Keys snap to their neighbors' edges — and to an even gap between them — then settle smoothly into place.</span></li>
-                <li><span>03</span><span><strong>Pick a design:</strong> <strong>DESIGN</strong> in the toolbar opens a gallery of eleven — Baseline, Frame, Bar, Soft Block, Segment, Neon, Wedge, Timeline, Hex, Pixel Bevel and Slot. The cards animate themselves, because a design cannot be judged at rest. Choosing one brings the palette and animation it was drawn with, and Wedge and Hex bring their arrangement too — all of it still editable afterwards.</span></li>
+                <li><span>02</span><span><strong>Drag and drop:</strong> left-click and drag any key panel to reposition it. Keys snap to their neighbors' edges — and to an even gap between them — then settle smoothly into place. If a design is hard to see against the canvas, the <strong>BG</strong> switch above it cycles the ground between gray, light and dark.</span></li>
+                <li><span>03</span><span><strong>Pick a design:</strong> <strong>DESIGN</strong> in the toolbar opens a gallery of eleven — Baseline, Frame, Bar, Soft Block, Segment, Neon, Wedge, Timeline, Hex, Pixel Bevel and Slot — all on screen at once. Each card shows the stock keys in miniature and animates itself, because a design cannot be judged at rest, and the one you are using is marked <strong>IN USE</strong>. Choosing one brings the palette and animation it was drawn with, and Wedge and Hex bring their arrangement too — all of it still editable afterwards.</span></li>
                 <li><span>04</span><span><strong>Animate it:</strong> <strong>ANIM</strong> opens the animation drawer. Motions move the key (Squish, Kick, Sink, Nudge) and fills paint it (Ripple, Sweep, Cascade, Hold Ring, Edge Run, Glow); these are checkboxes, not a choice, so several run at once. One direction is shared by every fill, and the release trail has its own switch because it fires on release rather than on press.</span></li>
                 <li><span>05</span><span><strong>Context menu:</strong> right-click a key to rename it, set its keybind, change colors, toggle bold / italic / underline, duplicate or delete it — and to give that one key its own design or animation, overriding the module's. Right-click empty space to add new keys or reset the layout.</span></li>
                 <li><span>06</span><span><strong>Edit labels:</strong> right-click and drag a key to move its label inside the button — it snaps to the center. Arrow keys nudge the selection pixel by pixel.</span></li>
@@ -424,46 +424,20 @@
         </section>
 
         <!-- ── 09 Appearance ────────────────────────────────── -->
-        <section class="doc-section" id="appearance" data-keywords="appearance hud font inter rubik jetbrains bebas enchant text outline shadow restore font" style="border-bottom:1px solid var(--line)">
+        <section class="doc-section" id="appearance" data-keywords="appearance font vanilla text outline shadow" style="border-bottom:1px solid var(--line)">
             <p class="eyebrow eyebrow--brass">09</p>
             <h2 class="h3">Appearance</h2>
-            <p class="body prose" style="margin:0 0 26px">Found under <strong>Settings → General</strong>. Both options apply to every module at once.</p>
-
-            <h3 class="h4" id="hud-font" style="font-size:20px">HUD font</h3>
-            <p class="body prose" style="margin:0 0 18px">Five bundled fonts alongside the default:</p>
-            <ul class="list prose">
-                <li><strong>Vanilla</strong> — Minecraft's own font</li>
-                <li><strong>Inter</strong> — clean and neutral</li>
-                <li><strong>Rubik</strong> — rounded, friendly</li>
-                <li><strong>JetBrains Mono</strong> — monospaced, numbers never shift width</li>
-                <li><strong>Bebas Neue</strong> — tall and condensed</li>
-                <li><strong>Enchanting Table</strong> — for fun</li>
-            </ul>
-
-            <div class="chips" style="margin:22px 0 38px">
-                <span class="chip">Inter</span>
-                <span class="chip">Rubik</span>
-                <span class="chip">JetBrains Mono</span>
-                <span class="chip">Bebas Neue</span>
-                <span class="chip">Enchanting table</span>
-            </div>
+            <p class="body prose" style="margin:0 0 26px">Found under <strong>Settings → General</strong>. It applies to every module at once.</p>
 
             <h3 class="h4" id="text-outline" style="font-size:20px">Text outline</h3>
             <p class="body prose" style="margin:0 0 26px">Draws a thin black outline on every side of your HUD text instead of the vanilla drop shadow. Much easier to read against bright terrain like snow or sand.</p>
 
             <div class="callout">
                 <div class="callout__label">Note</div>
-                <p><strong>Only the HUD.</strong> Your font choice never touches chat, inventories or any other Minecraft menu — just the HUD modules and this mod's own screens.</p>
+                <p><strong>Always the vanilla font.</strong> The HUD and the mod's own screens draw in Minecraft's own font. The bundled fonts were removed in 1.2.5 because they rendered blurry at HUD sizes; a config that had one selected simply loads in vanilla.</p>
             </div>
 
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Stuck on the Enchanting Table font?</strong> It is unreadable by design, so the HUD Editor shows a <strong>Restore Font</strong> button in the bottom-right corner whenever it is active. One click puts you back on Vanilla.</p>
-            </div>
-
-            <p class="note" style="margin-top:26px">Still improving fonts. They are not perfect yet. Sorry.</p>
-
-            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#appearance">Fonts, outline and menu scale</a> in the Full Guide.</p>
+            <p class="note" style="margin-top:30px">Full reference: <a class="link-rule" href="full-guide.html#appearance">Outline and menu scale</a> in the Full Guide.</p>
         </section>
 
         <footer class="site-footer" style="border-top:0">

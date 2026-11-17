@@ -81,7 +81,7 @@
                 <a href="#animation">The animation system</a>
                 <a href="#designer">The Designer</a>
                 <span class="toc__group" aria-hidden="true">Configs &amp; sharing</span>
-                <a href="#appearance">Fonts &amp; appearance</a>
+                <a href="#appearance">Outline &amp; menu scale</a>
                 <a href="#presets">Presets &amp; server configs</a>
                 <a href="#share-codes">Share codes</a>
                 <a href="#resets">What each reset resets</a>
@@ -175,7 +175,7 @@
                 </div>
                 <div>
                     <h3 class="h4">Only in the in-world editor</h3>
-                    <p class="body-sm" style="margin:0">The twelve per-armor-slot offsets, Group / Ungroup, the align and distribute toolbar, cycling the grid size, managing per-server configs, and the Restore Font escape hatch.</p>
+                    <p class="body-sm" style="margin:0">The twelve per-armor-slot offsets, Group / Ungroup, the align and distribute toolbar, cycling the grid size, and managing per-server configs.</p>
                 </div>
                 <div>
                     <h3 class="h4">Only in the settings screen</h3>
@@ -783,7 +783,7 @@
                 <div><dt>Reset Layout</dt><dd>Restores the stock nine keys <strong>and</strong> the shipping design, animation, palette and per-key overrides. Putting back only the positions would leave the previous design painted over a default grid, which does not read as a reset.</dd></div>
                 <div><dt>Import</dt><dd>Paste a keystrokes share code with Ctrl+V.</dd></div>
                 <div><dt>Export</dt><dd>Copies your whole keystrokes look to the clipboard.</dd></div>
-                <div><dt>Design</dt><dd>The gallery — eleven cards whose previews animate themselves, because a design cannot be judged from its resting state alone. Cards that will move your keys are badged <em>Arranges keys</em>.</dd></div>
+                <div><dt>Design</dt><dd>The gallery — all eleven designs on screen at once, each card previewing the stock keys in miniature over a backdrop that stands in for the world behind the HUD, and animating itself, because a design cannot be judged from its resting state alone. The footer names the design, says in a line what it is — ending in <em>Own layout</em> if it will move your keys — and tags the press animation it ships with. The design in use is marked <em>In use</em>.</dd></div>
                 <div><dt>Anim</dt><dd>The animation drawer. The only place motions and fills are ticked.</dd></div>
             </dl>
 
@@ -794,9 +794,10 @@
                 <div><dt>Presets</dt><dd><strong>WASD</strong> is the stock nine keys. <strong>Full</strong> adds Q/E and both mouse buttons. <strong>Mouse</strong> is the two mouse buttons on their own.</dd></div>
             </dl>
             <p class="note" style="margin-top:24px">The canvas shows a safe area of 400 &times; 300 pixels — anything laid out inside it will fit on screen at any sensible scale.</p>
+            <p class="note" style="margin-top:12px">The canvas ground is a mid gray by default, so the stock translucent-black keys and the gaps between them stay visible. The <strong>BG</strong> switch above the canvas cycles gray, light and dark for designs that are themselves very light or very dark. A selected key is tinted blue with a one-pixel edge on its own outline, which leaves the gaps to its neighbors in view.</p>
 
             <h3 class="h4" id="designer-inspector" style="font-size:20px;margin-top:44px">The inspector — per-key settings</h3>
-            <p class="body prose" style="margin:0 0 22px;max-width:58ch">Select a key and every one of these becomes available. None of them exist on any other screen.</p>
+            <p class="body prose" style="margin:0 0 22px;max-width:58ch">Select a key and every one of these becomes available, grouped under Key, Box, Label, Color, Design and Behavior. None of them exist on any other screen.</p>
             <div class="table-wrap" style="max-width:none">
                 <table class="table">
                     <thead><tr><th scope="col">Setting</th><th scope="col">Default</th><th scope="col">Range</th><th scope="col">What it does</th></tr></thead>
@@ -805,12 +806,12 @@
                         <tr><td>Label</td><td></td><td>64 chars</td><td>The text drawn on the key.</td></tr>
                         <tr><td>Position X / Y</td><td></td><td>&plusmn;10000</td><td>Where the key sits in the cluster.</td></tr>
                         <tr><td>Size W / H</td><td></td><td>1 to 1024</td><td></td></tr>
-                        <tr><td>Placement</td><td>Centered</td><td></td><td>Where the label sits inside the key. Centered until you drag it; the Center button puts it back.</td></tr>
                         <tr><td>Content</td><td>Text</td><td>Text, Line</td><td><strong>Line</strong> draws a solid bar instead of the label — what a space bar actually wants.</td></tr>
-                        <tr><td>Text size / Line weight</td><td>100%</td><td>50 to 400</td><td>Label size, or the thickness of the bar in line mode.</td></tr>
-                        <tr><td>Line width</td><td>100%</td><td>10 to 100</td><td>Bar length as a share of the key's inner width. Only shown in line mode.</td></tr>
+                        <tr><td>Placement</td><td>Centered</td><td></td><td>Where the label sits inside the key. Centered until you drag it; the Center button puts it back.</td></tr>
+                        <tr><td>Text size / Thickness</td><td>100%</td><td>50 to 400</td><td>Label size, or the thickness of the bar in line mode.</td></tr>
+                        <tr><td>Length</td><td>100%</td><td>10 to 100</td><td>Bar length as a share of the key's inner width. Only shown in line mode.</td></tr>
                         <tr><td>Style</td><td>Shadow on</td><td>B I U S</td><td>Bold, italic, underline, shadow. In line mode only the shadow applies.</td></tr>
-                        <tr><td>Text color</td><td>Global</td><td></td><td>Overrides the module color for this key. <strong>Use Global</strong> puts it back.</td></tr>
+                        <tr><td>Normal color</td><td>Global</td><td></td><td>Overrides the module color for this key. <strong>Use Global</strong> puts it back.</td></tr>
                         <tr><td>Pressed color</td><td>Global</td><td></td><td>Same, for the held state.</td></tr>
                         <tr><td>Design</td><td>Global</td><td>10 designs</td><td>Give this one key a different look. Timeline is not offered — it is global only.</td></tr>
                         <tr><td>Motion / Fill</td><td>Global</td><td></td><td>One animation for this key, replacing the module's whole set.</td></tr>
@@ -844,27 +845,14 @@
             <p class="note" style="margin-top:26px">The footer tells you whether there is anything unsaved. Closing the Designer saves automatically; Cancel puts back what you started with.</p>
         </section>
 
-        <!-- ── 16 Fonts & appearance ────────────────────────── -->
-        <section class="doc-section" id="appearance" data-keywords="font hud font inter rubik jetbrains mono bebas neue enchant vanilla text outline shadow menu scale gui scale restore font">
+        <!-- ── 16 Appearance ───────────────────────────────── -->
+        <section class="doc-section" id="appearance" data-keywords="font vanilla text outline shadow menu scale gui scale">
             <p class="eyebrow eyebrow--brass">16</p>
-            <h2 class="h3">Fonts, outline and menu scale</h2>
+            <h2 class="h3">Outline and menu scale</h2>
             <p class="body prose" style="margin:0 0 30px">On the <strong>General</strong> page. These apply to every module at once.</p>
 
-            <h3 class="h4" id="hud-font" style="font-size:20px">HUD font</h3>
-            <div class="chips" style="margin:22px 0 24px">
-                <span class="chip">Vanilla</span>
-                <span class="chip">Inter</span>
-                <span class="chip">Rubik</span>
-                <span class="chip">JetBrains Mono</span>
-                <span class="chip">Bebas Neue</span>
-                <span class="chip">Enchant</span>
-            </div>
-            <p class="body prose" style="margin:0 0 24px">The font applies to HUD modules and to this mod's own screens — the editor, the settings screen and the Designer. It never touches chat, the vanilla menus or anything another mod draws.</p>
-
-            <div class="callout callout--warn">
-                <div class="callout__label">Warning</div>
-                <p><strong>Stuck on the Enchanting Table font?</strong> It is unreadable on purpose, which includes the menu you would use to change it back. Open the in-world editor with <strong>Right Shift</strong> — a <strong>Restore Font</strong> button appears in the bottom-right corner whenever that font is active.</p>
-            </div>
+            <h3 class="h4" id="hud-font" style="font-size:20px">Font</h3>
+            <p class="body prose" style="margin:0 0 24px">The HUD and this mod's own screens always draw in Minecraft's own font. Up to 1.2.4 a <strong>HUD Font</strong> setting offered Inter, Rubik, JetBrains Mono, Bebas Neue and the enchanting-table font, but they rendered blurry and broken at HUD sizes, so 1.2.5 removed the setting and the fonts with it. A config that had one selected loads unchanged and draws in vanilla; the <strong>Restore Font</strong> button went with them, since there is nothing left to restore.</p>
 
             <h3 class="h4" id="text-outline" style="font-size:20px;margin-top:44px">Text outline</h3>
             <p class="body prose" style="margin:0 0 24px">Off by default, which gives you Minecraft's usual drop shadow. Turning it on draws a thin black outline on every side instead — noticeably more readable over bright terrain and snow.</p>
@@ -986,7 +974,6 @@
                 <div><dt>Scaling in the editor saved without asking</dt><dd>Scroll-to-scale writes immediately, because there is no drag to release. Use undo in the Designer, or a preset, if you want a way back.</dd></div>
                 <div><dt>I cannot find the armor slot offsets</dt><dd>They exist only after <strong>Ungroup</strong>, and only in the in-world editor. Dragging is the interface — there are no rows for them.</dd></div>
                 <div><dt>I cannot find the animation checkboxes</dt><dd>They are in the Designer's <strong>Anim</strong> drawer, and nowhere else. Motions and fills are sets, and no other screen has a control that can express a set.</dd></div>
-                <div><dt>Every menu is unreadable</dt><dd>The Enchant font. Press Right Shift and use <strong>Restore Font</strong> in the bottom-right of the editor.</dd></div>
             </dl>
 
             <div class="callout" style="margin-top:34px">

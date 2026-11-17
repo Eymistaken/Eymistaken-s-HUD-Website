@@ -177,8 +177,8 @@ public class MyCustomModule extends HudModule {
         context.pose().scale(currentScale, currentScale);
 
         // After translating, drawing should be done relative to 0,0 (the local origin).
-        // drawText() applies the player's chosen HUD font, the Text Outline setting
-        // and the current fade alpha for you.
+        // drawText() applies the player's Text Outline setting and the current
+        // fade alpha for you.
         drawText(context, "Hello World", 0, 0, 0xFFFFFFFF);
 
         context.pose().popMatrix();
@@ -209,8 +209,8 @@ public class MyCustomModule extends HudModule {
 
             <p class="body" style="margin:0 0 18px">Three inherited helpers make your module respect the player's global appearance settings. Use them instead of drawing text directly:</p>
             <ul class="list">
-                <li><code>drawText(context, text, x, y, color)</code> — draws in the active HUD font, honours the <strong>Text Outline</strong> setting and the current fade alpha</li>
-                <li><code>textWidth(text)</code> — measures a string in the active HUD font (raw font widths are wrong once a custom font is selected)</li>
+                <li><code>drawText(context, text, x, y, color)</code> — draws in Minecraft's font, honoring the <strong>Text Outline</strong> setting and the current fade alpha</li>
+                <li><code>textWidth(text)</code> — measures a string exactly as <code>drawText</code> draws it</li>
                 <li><code>col(argb)</code> — applies the current fade alpha to any color, for anything you draw yourself</li>
             </ul>
 
@@ -327,7 +327,7 @@ public void onPositionUpdated() {
                 <li><code>ColorSetting</code> — color swatch that opens the Color Picker on click</li>
                 <li><code>TextSetting</code> — shows current value, opens an inline text input on click</li>
                 <li><code>CycleSetting</code> — cycles through a predefined list of string options on click</li>
-                <li><code>ActionSetting</code> — plain clickable button with no value display</li>
+                <li><code>ActionSetting</code> — plain clickable button with no value display. <code>new ActionSetting(label, color, action)</code> tints its label with an ARGB color (since 1.2.5), to mark a row that opens something rather than changing a value; <code>0</code>, or the two-argument constructor, keeps the default</li>
                 <li><code>SliderSetting</code> — draggable integer slider with a live value label and Reset button; takes <code>min</code>, <code>max</code>, and <code>defaultValue</code></li>
             </ul>
 
