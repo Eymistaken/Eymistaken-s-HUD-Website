@@ -57,75 +57,15 @@
 <main id="main">
 
 <!-- ── Hero ─────────────────────────────────────────────── -->
-<section class="split hero">
-    <div class="hero__copy-cell">
-        <div class="hero__copy">
-            <p class="eyebrow">Fabric · Minecraft 26.3 · client-side</p>
-            <h1 class="display">A competitive HUD you place yourself.</h1>
-            <p class="lede" style="max-width:44ch">Seven modules, a live drag-and-drop editor, and a plugin API. Everything is drawn client-side and stored in one config file you can share as a line of text.</p>
-            <div class="chips" style="gap:12px">
-                <a class="btn btn--brass" href="downloads.html">Download</a>
-                <a class="btn btn--ghost" href="api-guide.html">API Guide</a>
-            </div>
+<section class="hero">
+    <h1 class="display hero__title">A competitive HUD you place yourself.</h1>
+    <div class="hero__foot">
+        <p class="lede">A modular, client-side HUD for Minecraft 26.3 on Fabric. Seven modules, a live drag-and-drop editor and a plugin API, all stored in one config file you can share as a line of text.</p>
+        <div class="hero__actions">
+            <a class="btn btn--brass" href="downloads.html">Download</a>
+            <a class="btn btn--ghost" href="user-guide.html">User Guide</a>
         </div>
     </div>
-
-    <div class="hero__demo raised">
-        <div style="width:100%;max-width:520px">
-            <div class="hud" id="hud-preview" tabindex="0" role="group" aria-label="Interactive HUD preview. Click, or press W A S D and space while focused, to drive the readouts.">
-                <div class="hud__head">
-                    <span>Live preview</span>
-                    <span>click · WASD · space</span>
-                </div>
-
-                <div class="hud__grid">
-                    <div class="hud__stats">
-                        <div class="hud__stat"><span>CPS</span><span data-cps style="color:var(--brass)">0 | 0</span></div>
-                        <div class="hud__stat"><span>FPS</span><span>244</span></div>
-                        <div class="hud__stat"><span>Ping</span><span>18 ms</span></div>
-                        <div class="hud__stat"><span>Reach</span><span>3.14 blocks</span></div>
-                        <div class="hud__stat"><span>Combo</span><span data-combo>0 Combo</span></div>
-                    </div>
-
-                    <div class="hud__keys" aria-hidden="true">
-                        <div class="hud__keyrow"><div class="hud__key" data-key="W">W</div></div>
-                        <div class="hud__keyrow">
-                            <div class="hud__key" data-key="A">A</div>
-                            <div class="hud__key" data-key="S">S</div>
-                            <div class="hud__key" data-key="D">D</div>
-                        </div>
-                        <div class="hud__keyrow" style="margin-top:3px">
-                            <div class="hud__key hud__key--wide" data-key="LMB">LMB</div>
-                            <div class="hud__key hud__key--wide" data-key="RMB">RMB</div>
-                        </div>
-                        <div class="hud__keyrow"><div class="hud__key hud__key--space" data-key="SPACE"></div></div>
-                    </div>
-                </div>
-
-                <div class="hud__touch">
-                    <p class="hud__touch-label">Tap to try it</p>
-                    <div class="hud__touch-keys">
-                        <button type="button" data-touch-key="LMB">LMB</button>
-                        <button type="button" data-touch-key="RMB">RMB</button>
-                        <button type="button" data-touch-key="W">W</button>
-                        <button type="button" data-touch-key="A">A</button>
-                        <button type="button" data-touch-key="S">S</button>
-                        <button type="button" data-touch-key="D">D</button>
-                        <button type="button" data-touch-key="SPACE">Space</button>
-                    </div>
-                </div>
-            </div>
-            <p class="caption">Not a screenshot — the real thing behaves like this in game.</p>
-        </div>
-    </div>
-</section>
-
-<!-- ── Spec strip ───────────────────────────────────────── -->
-<section class="strip" aria-label="At a glance">
-    <div class="spec"><div class="spec__label">Modules</div><div class="spec__value">7 built-in</div></div>
-    <div class="spec"><div class="spec__label">Runtime</div><div class="spec__value">Java 25</div></div>
-    <div class="spec"><div class="spec__label">Dependencies</div><div class="spec__value">Fabric API only</div></div>
-    <div class="spec"><div class="spec__label">License</div><div class="spec__value">MIT</div></div>
 </section>
 
 <!-- ── Modules ──────────────────────────────────────────── -->
@@ -141,8 +81,7 @@
                 <span class="module__num">01</span>
                 <h3 class="module__name">CPS</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Left and right click counters with a configurable separator and free-text prefixes and suffixes, so you can render <code>12 | 4</code>, <code>CPS: 12</code>, or anything else you like.</p>
-            <p class="module__meta">Left · Right · Separator · Prefix / suffix</p>
+            <p class="body" style="max-width:48ch;margin:0">Left and right click counters with a configurable separator and free-text prefixes and suffixes, so you can render <code>12 | 4</code>, <code>CPS: 12</code>, or anything else you like.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -161,8 +100,7 @@
                 <span class="module__num">02</span>
                 <h3 class="module__name">Keystrokes</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Not a fixed WASD block. The bundled designer lets you draw your own layout: add any key or mouse button, resize it, drag its label independently, recolor individual keys, and dress the whole thing in one of eleven designs — Neon, Wedge, Hex, Pixel Bevel and the rest. Any key can carry its own CPS counter.</p>
-            <p class="module__meta">11 designs · Per-key color · Stackable animations</p>
+            <p class="body" style="max-width:48ch;margin:0">Not a fixed WASD block. The bundled designer lets you draw your own layout: add any key or mouse button, resize it, drag its label independently, recolor individual keys, and dress the whole thing in one of eleven designs — Neon, Wedge, Hex, Pixel Bevel and the rest. Any key can carry its own CPS counter.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -184,8 +122,7 @@
 
     <article class="split module-row rise">
         <div class="module__copy">
-            <p class="body" style="max-width:48ch;margin:0 0 20px">A visual editor for the keystrokes layout with pixel-perfect snapping, context menus, drag-and-drop, per-key colors and unlimited undo and redo. Browse the eleven designs in a gallery whose cards animate themselves, then stack motions and fills on top — and let any single key override any of it. Not a module of its own — it is where the Keystrokes layout above is drawn.</p>
-            <p class="module__meta">Design gallery · Snapping · Undo / redo</p>
+            <p class="body" style="max-width:48ch;margin:0">A visual editor for the keystrokes layout with pixel-perfect snapping, context menus, drag-and-drop, per-key colors and unlimited undo and redo. Browse the eleven designs in a gallery whose cards animate themselves, then stack motions and fills on top — and let any single key override any of it. Not a module of its own — it is where the Keystrokes layout above is drawn.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -208,8 +145,7 @@
                 <span class="module__num">03</span>
                 <h3 class="module__name">Combo</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">A hit-streak counter with a heatmap. It waits for the server to confirm each hit, shows a combo landed on you as a negative line, freezes for an instant on a kill or a new tier, and saves your best combo — beat it and the counter flashes BEST.</p>
-            <p class="module__meta">Easy 3/5/7 · Medium 5/8/12 · Hard 10/40/60 · Custom</p>
+            <p class="body" style="max-width:48ch;margin:0">A hit-streak counter with a heatmap. It waits for the server to confirm each hit, shows a combo landed on you as a negative line, freezes for an instant on a kill or a new tier, and saves your best combo — beat it and the counter flashes BEST.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -228,8 +164,7 @@
                 <span class="module__num">04</span>
                 <h3 class="module__name">Reach</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">The exact distance of your last hit, to 2 decimal places. Optionally filters to players only, and can stay on screen with a custom no-hit-yet label instead of disappearing.</p>
-            <p class="module__meta">Players only · Persistent label</p>
+            <p class="body" style="max-width:48ch;margin:0">The exact distance of your last hit, to 2 decimal places. Optionally filters to players only, and can stay on screen with a custom no-hit-yet label instead of disappearing.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -248,8 +183,7 @@
                 <span class="module__num">05</span>
                 <h3 class="module__name">Armor</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Your armor, main hand and off hand as item icons with durability bars. Vertical or horizontal, hotbar-style slot backgrounds and exact durability numbers. Items react when they take a hit and warn you before they break, and every slot is independently placeable — even with nothing equipped.</p>
-            <p class="module__meta">Sub-elements · Durability · Hit and wear effects</p>
+            <p class="body" style="max-width:48ch;margin:0">Your armor, main hand and off hand as item icons with durability bars. Vertical or horizontal, hotbar-style slot backgrounds and exact durability numbers. Items react when they take a hit and warn you before they break, and every slot is independently placeable — even with nothing equipped.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -268,8 +202,7 @@
                 <span class="module__num">06</span>
                 <h3 class="module__name">FPS</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Frames per second, updated every tick, with custom suffix text, color, scale, rainbow mode and a background — for when you want the number without opening F3.</p>
-            <p class="module__meta">Suffix · Color · Scale · Rainbow</p>
+            <p class="body" style="max-width:48ch;margin:0">Frames per second, updated every tick, with custom suffix text, color, scale, rainbow mode and a background — for when you want the number without opening F3.</p>
         </div>
         <div class="media-frame">
             <figure class="media" data-media>
@@ -288,8 +221,7 @@
                 <span class="module__num">07</span>
                 <h3 class="module__name">Ping</h3>
             </div>
-            <p class="body" style="max-width:48ch;margin:0 0 20px">Server latency in milliseconds, taken from your own player-list entry and refreshed whenever the server sends a latency update. Custom color, scale and background.</p>
-            <p class="module__meta">Color · Scale · Background</p>
+            <p class="body" style="max-width:48ch;margin:0">Server latency in milliseconds, taken from your own player-list entry and refreshed whenever the server sends a latency update. Custom color, scale and background.</p>
         </div>
         <div class="media-frame">
             <figure class="media media--still">
@@ -380,22 +312,6 @@
 </section>
 
 </main>
-
-<footer class="site-footer">
-    <div>
-        <div class="wordmark" style="margin-bottom:14px">
-            <img src="assets/icon-96.png" alt="" width="20" height="20" style="width:20px;height:20px">
-            <span>Eymistaken's HUD</span>
-        </div>
-        <p>© 2026 Eymistaken · Licensed MIT · Minecraft 26.3</p>
-    </div>
-    <div>
-        <a href="https://github.com/Eymistaken/Eymistaken-s-HUD" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://modrinth.com/mod/eymistakenshud" target="_blank" rel="noopener">Modrinth</a>
-        <a href="https://www.curseforge.com/minecraft/mc-mods/eymistakenshud" target="_blank" rel="noopener">CurseForge</a>
-        <a href="https://linktr.ee/Eymistaken" target="_blank" rel="noopener">Linktree</a>
-    </div>
-</footer>
 
 <script src="js/scripts.js"></script>
 </body>
