@@ -1194,6 +1194,41 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
     .guide__rail { display: none; }
 }
 
+/* From 900 px the guides take the whole window: the contents sit
+   against its left edge, "On this page" against its right, and the
+   text is centered between them. The two outer columns are the same
+   width, which is what puts the middle one at the center of the
+   window; the User Guide keeps its right column empty for the same
+   reason. The header spans the window too, so its wordmark lines up
+   with the contents below it. */
+@media (min-width: 900px) {
+    .guide {
+        --side-w: clamp(220px, 17vw, 280px);
+        max-width: none;
+        display: grid;
+        grid-template-columns: var(--side-w) minmax(0, 1fr) var(--side-w);
+        column-gap: clamp(32px, 3vw, 56px);
+    }
+
+    .guide__side { grid-column: 1; }
+
+    .guide__main {
+        grid-column: 2;
+        justify-self: center;
+        width: 100%;
+    }
+
+    .guide__rail { grid-column: 3; }
+
+    .page-guide .site-header__inner,
+    .page-user-guide .site-header__inner { max-width: none; }
+}
+
+/* Too narrow for a right column: the text centers in what is left. */
+@media (min-width: 900px) and (max-width: 1147px) {
+    .guide { grid-template-columns: var(--side-w) minmax(0, 1fr); }
+}
+
 @media (max-width: 899px) {
     .guide,
     .guide--single {
