@@ -602,7 +602,29 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
     background: var(--media);
 }
 
-.readout__thumb.ping-still { overflow: hidden; }
+.readout__thumb.ping-still {
+    display: flex;
+    overflow: hidden;
+    background: var(--ping-ground);
+}
+
+/* 68% of the 200 px thumbnail is 136 px: four screen pixels to
+   every game pixel, so the readout is as sharp as it is in game. */
+.readout__thumb.ping-still img { width: 68%; }
+
+/* The thumbnail is wider than the 4:3 stills, so the still loses a
+   strip at the top and bottom, and the clip is scaled to lose the
+   same strip. */
+.readout__thumb.clip--cps   .media__video { transform: scale(1.58); transform-origin: 51.1% 43.5%; }
+.readout__thumb.clip--reach .media__video { transform: scale(1.58); transform-origin: 51.6% 35.6%; }
+
+.readout__thumb .media__badge {
+    left: 8px;
+    bottom: 8px;
+    gap: 5px;
+    padding: 4px 6px;
+    font-size: 11px;
+}
 
 .readout__text {
     flex: 1 1 320px;

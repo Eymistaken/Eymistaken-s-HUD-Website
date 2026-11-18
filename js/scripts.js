@@ -316,11 +316,11 @@
     /* -----------------------------------------------------
        Clips
 
-       Nothing is fetched until a clip is the one on screen:
-       the still in front of it is the exact frame it is
-       cropped to, so there is never an empty box to cover.
-       One clip runs at a time, the one taking up the most of
-       the window, and it pauses when it scrolls away.
+       Nothing is fetched until a clip is on screen: the
+       still in front of it is the exact frame it is cropped
+       to, so there is never an empty box to cover. Every clip
+       with at least a third of itself in the window plays,
+       and it pauses when it scrolls away.
 
        Under reduced motion or Data Saver nothing plays by
        itself. The still stays up and the clip plays when it
@@ -416,50 +416,31 @@
                     state.userPaused = false;
                     state.userPlaying = true;
                     state.failed = false;
-                    frames.forEach(function (other) {
-                        if (other !== frame && other._video && !other._video.paused) {
-                            other._state.userPlaying = false;
-                            other._video.pause();
-                        }
-                    });
                     play(frame);
                 }
             });
         });
 
         function select() {
-            var best = null, bestArea = 0, held = null;
-
-            frames.forEach(function (frame) {
-                if (!frame._state) return;
-                var area = visibleArea(frame);
-                if (frame._state.userPlaying) {
-                    if (area > 0) held = frame;
-                    else {
-                        frame._state.userPlaying = false;
-                        frame._video.pause();
-                    }
-                }
-                if (area > bestArea) { bestArea = area; best = frame; }
-            });
-
-            // A clip only just peeking in does not count as being looked at.
-            if (best) {
-                var r = best.getBoundingClientRect();
-                if (bestArea / (r.width * r.height) < 0.35) best = null;
-            }
-            if (held) best = held;
-
             frames.forEach(function (frame) {
                 var state = frame._state;
                 if (!state) return;
                 var video = frame._video;
-                if (frame === best) {
-                    if (state.userPlaying) return;
-                    if (autoplay && !state.userPaused && !state.failed && video.paused) play(frame);
-                    return;
+                var area = visibleArea(frame);
+                var r = frame.getBoundingClientRect();
+                // A clip only just peeking in does not count as being looked at.
+                var seen = area > 0 && area / (r.width * r.height) >= 0.35;
+
+                // A clip started by hand keeps going until it leaves the window.
+                if (state.userPlaying) {
+                    if (area > 0) return;
+                    state.userPlaying = false;
                 }
-                if (!video.paused) video.pause();
+                if (seen) {
+                    if (autoplay && !state.userPaused && !state.failed && video.paused) play(frame);
+                } else if (!video.paused) {
+                    video.pause();
+                }
             });
         }
 

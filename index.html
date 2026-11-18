@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;600&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap">
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=3">
 <script>document.documentElement.className += ' js';</script>
 </head>
 <body class="page-home">
@@ -127,28 +127,43 @@
 <div class="readouts">
 <h3 class="readouts__title">The readouts</h3>
 <article class="readout" aria-labelledby="m-cps">
-<img class="readout__thumb" src="assets/cps-still.jpg" alt="A player in a forest with the CPS counter reading 5 | 0." width="960" height="720" loading="lazy" decoding="async">
+<div class="readout__thumb media__frame clip--cps" data-clip="cps">
+<img class="media__still" src="assets/cps-still.jpg" alt="A player in a forest with the CPS counter reading 5 | 0." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/cps-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the cps clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:16</span></span>
+</div>
 <div class="readout__text">
 <h4 id="m-cps">CPS</h4>
 <p>Left and right clicks over the last second. Write it as <code>12 | 4</code>, <code>CPS: 12</code> or anything else.</p>
 </div>
 </article>
 <article class="readout" aria-labelledby="m-reach">
-<img class="readout__thumb" src="assets/reach-still.jpg" alt="An opponent in diamond armor with the reach readout showing 2,05 blocks." width="960" height="720" loading="lazy" decoding="async">
+<div class="readout__thumb media__frame clip--reach" data-clip="reach">
+<img class="media__still" src="assets/reach-still.jpg" alt="An opponent in diamond armor with the reach readout showing 2,05 blocks." width="960" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/reach-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the reach clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:13</span></span>
+</div>
 <div class="readout__text">
 <h4 id="m-reach">Reach</h4>
 <p>The distance of your last hit in blocks, to 2 decimal places. It can count players only, and show a label of your own before the first hit.</p>
 </div>
 </article>
 <article class="readout" aria-labelledby="m-fps">
-<img class="readout__thumb" src="assets/fps-still.jpg" alt="A river valley with the FPS readout showing 165 FPS." width="1280" height="720" loading="lazy" decoding="async">
+<div class="readout__thumb media__frame" data-clip="fps">
+<img class="media__still" src="assets/fps-still.jpg" alt="A river valley with the FPS readout showing 165 FPS." width="1280" height="720" loading="lazy" decoding="async">
+<video class="media__video" data-src="assets/fps-demo.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+<button class="media__toggle" type="button" hidden aria-label="Play the fps clip"></button>
+<span class="media__badge" aria-hidden="true"><svg aria-hidden="true" width="9" height="10" viewBox="0 0 9 10" fill="currentColor"><path d="M0 0v10l9-5z"/></svg><span>0:23</span></span>
+</div>
 <div class="readout__text">
 <h4 id="m-fps">FPS</h4>
 <p>Frames per second, updated every tick, for when you want the number without opening F3.</p>
 </div>
 </article>
 <article class="readout" aria-labelledby="m-ping">
-<div class="readout__thumb ping-still"><img src="assets/ping-demo.png" alt="The ping module reading 143 ms." width="164" height="69" loading="lazy"></div>
+<div class="readout__thumb ping-still"><img src="assets/ping-readout.png" alt="The ping module reading 143 ms." width="136" height="32" loading="lazy" decoding="async"></div>
 <div class="readout__text">
 <h4 id="m-ping">Ping</h4>
 <p>Your latency in milliseconds: the same value the tab list shows, refreshed with every server update.</p>
@@ -261,6 +276,6 @@
 </main>
 
 <p class="visually-hidden" id="live-status" aria-live="polite"></p>
-<script src="js/scripts.js?v=2"></script>
+<script src="js/scripts.js?v=3"></script>
 </body>
 </html>
