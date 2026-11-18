@@ -113,6 +113,87 @@
     }
 
     /* -----------------------------------------------------
+       Header
+
+       On a desktop the header stays pinned to the top of the
+       window, and CSS does all of it. Below 900 px it is too
+       tall to keep on screen, so it slides away while you
+       read down the page and comes back the moment you
+       scroll up. Moves smaller than a few pixels are ignored,
+       so a resting thumb does not make it flicker. A jump to
+       a section counts as reading on: it hides the header
+       rather than landing the section under it.
+       ----------------------------------------------------- */
+    function initHeader() {
+        var header = document.querySelector('.site-header');
+        if (!header) return;
+        var narrow = window.matchMedia('(max-width: 899px)');
+        var TOLERANCE = 6;
+        var lastY = window.scrollY;
+        var jumpUntil = 0;
+        var frame = null;
+
+        function setHidden(hidden) {
+            header.classList.toggle('is-hidden', hidden);
+        }
+
+        function update() {
+            frame = null;
+            // Rubber-band scrolling past either end is not a direction.
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            var y = Math.max(0, Math.min(window.scrollY, max));
+            var delta = y - lastY;
+            if (!narrow.matches || y <= header.offsetHeight) {
+                setHidden(false);
+            } else if (Date.now() < jumpUntil) {
+                setHidden(true);
+            } else if (Math.abs(delta) < TOLERANCE) {
+                return;
+            } else {
+                setHidden(delta > 0 && !header.contains(document.activeElement));
+            }
+            lastY = y;
+        }
+
+        function schedule() {
+            if (!frame) frame = requestAnimationFrame(update);
+        }
+
+        function jumped() {
+            jumpUntil = Date.now() + 400;
+            schedule();
+        }
+
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        if (narrow.addEventListener) narrow.addEventListener('change', schedule);
+        else if (narrow.addListener) narrow.addListener(schedule);
+
+        // Tabbing into the header brings it back, at once rather than
+        // sliding: focus scrolls an element it cannot see into view, and
+        // halfway through the slide the header is still out of sight, so
+        // the page would jump to its top.
+        header.addEventListener('focusin', function () {
+            if (!header.classList.contains('is-hidden')) return;
+            header.classList.add('is-instant');
+            setHidden(false);
+            void header.offsetHeight;
+            header.classList.remove('is-instant');
+        });
+
+        // Links to a section of this page: the click runs before the
+        // browser scrolls, so the jump that follows is caught.
+        document.addEventListener('click', function (e) {
+            var a = e.target.closest && e.target.closest('a[href*="#"]');
+            if (a && a.hash && a.origin === location.origin && a.pathname === location.pathname) jumped();
+        });
+        window.addEventListener('hashchange', jumped);
+
+        // Arriving on a section from another page.
+        if (location.hash) jumped();
+    }
+
+    /* -----------------------------------------------------
        Guide contents on a phone
 
        Below 900 px the sidebar folds behind one button. The
@@ -933,6 +1014,7 @@
     function boot() {
         followMovedAnchor();
         window.addEventListener('hashchange', followMovedAnchor);
+        initHeader();
         initSideToggle();
         initSpy();
         initCopy();

@@ -48,6 +48,9 @@
 
     /* Content width; padding is added on top, as in the reference pages. */
     --page: 1200px;
+    /* The pinned header: 14 px padding either side of a 44.8 px row,
+       and its 1 px rule. Anything that sticks sits below it. */
+    --header-h: 74px;
 }
 
 .page-user-guide { --page: 1240px; }
@@ -62,7 +65,7 @@
 html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    scroll-padding-top: 24px;
+    scroll-padding-top: calc(var(--header-h) + 24px);
 }
 
 body {
@@ -170,7 +173,7 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
     position: absolute;
     left: var(--pad-x);
     top: 8px;
-    z-index: 10;
+    z-index: 30;
     padding: 10px 16px;
     background: var(--panel);
     border: 1px solid var(--rule-strong);
@@ -186,7 +189,35 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
    Header
    --------------------------------------------------------- */
 
-.site-header { border-bottom: 1px solid var(--rule); }
+/* Pinned to the top of the window on a desktop, like a news site's
+   masthead. Below 900 px it is too tall to keep there, so it slides
+   away while you read down the page and returns as soon as you scroll
+   up (scripts.js, initHeader). */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--ground);
+    border-bottom: 1px solid var(--rule);
+}
+
+/* The header is on screen whenever it holds focus, so tabbing into it
+   must not scroll the page to clear the scroll padding meant for the
+   sections below it. */
+.site-header a { scroll-margin-top: calc(-1 * (var(--header-h) + 24px)); }
+
+@media (max-width: 899px) {
+    /* A jump to a section hides the header, so it needs no room. */
+    html { scroll-padding-top: 24px; }
+
+    /* Hidden, the header sits its own height (up to 129 px on a phone)
+       above the window; the margin has to cover that and the padding. */
+    .site-header a { scroll-margin-top: -160px; }
+
+    .site-header { transition: transform 0.2s ease; }
+    .site-header.is-hidden { transform: translateY(-100%); }
+    .site-header.is-instant { transition: none; }
+}
 
 .site-header__inner {
     max-width: calc(var(--page) + 2 * var(--pad-x));
@@ -1138,8 +1169,8 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
    it is what sticks, and what scrolls once it is taller than the window. */
 .guide__sticky {
     position: sticky;
-    top: 24px;
-    max-height: calc(100vh - 48px);
+    top: calc(var(--header-h) + 24px);
+    max-height: calc(100vh - var(--header-h) - 48px);
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -1982,5 +2013,6 @@ input::placeholder { color: var(--placeholder); opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
     .media__still,
+    .site-header,
     .side-toggle svg { transition: none; }
 }
