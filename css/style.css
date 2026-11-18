@@ -25,11 +25,11 @@
     --warn-rule: #EBD3BA;
     --media: #26262B;
 
-    --code-keyword: #94420A;
+    --code-keyword: #086272;
     --code-string: #2D6A47;
     --code-comment: #67676D;
     --code-annotation: #7A5410;
-    --code-number: #245E8C;
+    --code-number: #94420A;
 
     /* The few in-between values the reference pages use. */
     --link-rule: #B9B9B2;     /* resting underline of a link */
